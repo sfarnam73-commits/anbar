@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>انبار سینا</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Vazirmatn', Tahoma, sans-serif;
+  direction: rtl;
+  background: #0f172a;
+  color: #e2e8f0;
+  min-height: 100vh;
+}
+.header {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border-bottom: 1px solid #334155;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.header-title { font-weight: 700; font-size: 16px; color: #f1f5f9; }
+.header-sub { font-size: 11px; color: #64748b; margin-top: 2px; }
+.tab-btn {
+  background: transparent;
+  border: 1px solid #334155;
+  color: #e2e8f0;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: 'Vazirmatn', Tahoma, sans-serif;
+  transition: all 0.2s;
+}
+.tab-btn.active { background: #3b82f6; border-color: #3b82f6; }
+.container { padding: 16px; max-width: 600px; margin: 0 auto; }
+.voice-card {
+  background: #1e293b;
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 16px;
+  border: 1px solid #334155;
+}
+.mic-wrap { text-align: center; margin-bottom: 16px; }
+.mic-btn {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  border: none; cursor: pointer; font-size: 32px;
+  box-shadow: 0 4px 20px rgba(59,130,246,0.4);
+  transition: all 0.3s;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.mic-btn.listening {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  box-shadow: 0 0 0 8px rgba(220,38,38,0.2);
+  animation: pulse 1s infinite;
+}
+.mic-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 8px rgba(220,38,38,0.2); }
+  50% { box-shadow: 0 0 0 16px rgba(220,38,38,0.05); }
+}
+.mic-label { margin-top: 10px; font-size: 13px; color: #94a3b8; }
+.transcript-box {
+  background: #0f172a; border-radius: 10px; padding: 10px 14px;
+  margin-bottom: 10px; font-size: 13px; color: #cbd5e1;
+  border: 1px solid #334155; display: none;
+}
+.transcript-box.show { display: block; }
+.transcript-label { color: #64748b; font-size: 11px; }
+.ai-response {
+  background: #0f172a; border-radius: 10px; padding: 10px 14px;
+  font-size: 13px; color: #86efac;
+  border: 1px solid #166534; white-space: pre-line; display: none;
+}
+.ai-response.show { display: block; }
+.manual-row { margin-top: 14px; display: flex; gap: 8px; }
+.manual-input {
+  flex: 1; background: #0f172a; border: 1px solid #334155;
+  border-radius: 10px; padding: 10px 12px; color: #e2e8f0;
+  font-size: 13px; direction: rtl; outline: none;
+  font-family: 'Vazirmatn', Tahoma, sans-serif;
+}
+.manual-input:focus { border-color: #3b82f6; }
+.submit-btn {
+  background: #3b82f6; border: none; border-radius: 10px;
+  padding: 10px 16px; color: #fff; cursor: pointer; font-size: 13px;
+  font-family: 'Vazirmatn', Tahoma, sans-serif;
+}
+.submit-btn:disabled { opacity: 0.5; }
+.search-input {
+  width: 100%; background: #1e293b; border: 1px solid #334155;
+  border-radius: 10px; padding: 10px 12px; color: #e2e8f0;
+  font-size: 13px; direction: rtl; outline: none; margin-bottom: 12px;
+  font-family: 'Vazirmatn', Tahoma, sans-serif;
+}
+.search-input:focus { border-color: #3b82f6; }
+.cats { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 16px; padding-bottom: 4px; }
+.cats::-webkit-scrollbar { height: 2px; }
+.cat-btn {
+  background: #1e293b; border: 1px solid #334155; color: #e2e8f0;
+  border-radius: 20px; padding: 6px 14px; font-size: 12px;
+  cursor: pointer; white-space: nowrap;
+  font-family: 'Vazirmatn', Tahoma, sans-serif;
+}
+.cat-btn.active { background: #3b82f6; border-color: #3b82f6; }
+.empty {
+  text-align: center; padding: 40px; color: #475569;
+  background: #1e293b; border-radius: 16px; border: 1px dashed #334155;
+}
+.empty-icon { font-size: 40px; margin-bottom: 8px; }
+.products { display: flex; flex-direction: column; gap: 8px; }
+.product-card {
+  background: #1e293b; border-radius: 14px; padding: 14px 16px;
+  border: 1px solid #334155; display: flex; align-items: center;
+  justify-content: space-between; gap: 10px;
+}
+.product-card.low { border-color: rgba(245,158,11,0.3); }
+.product-info { flex: 1; min-width: 0; }
+.product-name { font-weight: 600; font-size: 14px; color: #f1f5f9; }
+.product-model { color: #94a3b8; font-weight: 400; }
+.product-cat {
+  font-size: 11px; color: #64748b; background: #0f172a;
+  display: inline-block; padding: 2px 8px; border-radius: 10px; margin-top: 4px;
+}
+.qty-controls { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.qty-btn {
+  background: #334155; border: none; border-radius: 8px;
+  width: 30px; height: 30px; color: #e2e8f0; cursor: pointer; font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+}
+.qty-num {
+  font-size: 18px; font-weight: 700; min-width: 32px; text-align: center;
+  color: #86efac;
+}
+.qty-num.low { color: #f87171; }
+.del-btn {
+  background: transparent; border: none; color: #ef4444;
+  cursor: pointer; font-size: 16px; padding: 0 4px;
+}
+.dashboard { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.stat-card {
+  background: #1e293b; border-radius: 16px; padding: 16px;
+}
+.stat-icon { font-size: 24px; }
+.stat-val { font-size: 28px; font-weight: 700; margin-top: 4px; }
+.stat-label { font-size: 12px; color: #64748b; }
+.low-list {
+  grid-column: 1/-1; background: #1e293b; border-radius: 16px;
+  padding: 16px; border: 1px solid rgba(245,158,11,0.2);
+}
+.low-title { font-size: 13px; color: #f59e0b; margin-bottom: 8px; }
+.low-item {
+  display: flex; justify-content: space-between;
+  padding: 6px 0; border-bottom: 1px solid #334155; font-size: 13px;
+}
+.low-item:last-child { border-bottom: none; }
+.toast {
+  position: fixed; top: 80px; left: 50%; transform: translateX(-50%);
+  background: #16a34a; color: #fff; padding: 10px 20px;
+  border-radius: 12px; z-index: 999; font-size: 13px;
+  max-width: 90vw; text-align: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  display: none; font-family: 'Vazirmatn', Tahoma, sans-serif;
+}
+.toast.error { background: #dc2626; }
+.toast.show { display: block; }
+#view-inventory { display: block; }
+#view-dashboard { display: none; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <span style="font-size:22px">📦</span>
+      <div>
+        <div class="header-title">انبار سینا</div>
+        <div class="header-sub" id="header-stats">۰ آیتم در ۰ محصول</div>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;gap:6px">
+    <button class="tab-btn active" id="tab-inv" onclick="switchView('inventory')">انبار</button>
+    <button class="tab-btn" id="tab-dash" onclick="switchView('dashboard')">داشبورد</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="container">
+  <!-- Voice Card -->
+  <div class="voice-card">
+    <div class="mic-wrap">
+      <button class="mic-btn" id="micBtn" onclick="toggleMic()">🎤</button>
+      <div class="mic-label" id="micLabel">ضربه بزن و حرف بزن</div>
+    </div>
+    <div class="transcript-box" id="transcriptBox">
+      <span class="transcript-label">گفتی: </span>
+      <span id="transcriptText"></span>
+    </div>
+    <div class="ai-response" id="aiResponse"></div>
+    <div class="manual-row">
+      <input class="manual-input" id="manualInput" placeholder="یا اینجا تایپ کن..." onkeydown="if(event.key==='Enter')submitManual()">
+      <button class="submit-btn" id="submitBtn" onclick="submitManual()">ثبت</button>
+    </div>
+  </div>
+
+  <!-- Inventory View -->
+  <div id="view-inventory">
+    <input class="search-input" id="searchInput" placeholder="🔍 جستجو..." oninput="renderProducts()">
+    <div class="cats" id="catsBar"></div>
+    <div id="productList"></div>
+  </div>
+
+  <!-- Dashboard View -->
+  <div id="view-dashboard">
+    <div class="dashboard" id="dashContent"></div>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY = 'sina-inventory-v1';
+let products = [];
+let currentCat = 'همه';
+let recognition = null;
+let isListening = false;
+let isLoading = false;
+
+// Load from localStorage
+try {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) products = JSON.parse(saved);
+} catch(e) {}
+
+function save() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(products)); } catch(e) {}
+}
+
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (type === 'error' ? ' error' : '');
+  setTimeout(() => t.className = 'toast', 3000);
+}
+
+function switchView(v) {
+  document.getElementById('view-inventory').style.display = v === 'inventory' ? 'block' : 'none';
+  document.getElementById('view-dashboard').style.display = v === 'dashboard' ? 'block' : 'none';
+  document.getElementById('tab-inv').className = 'tab-btn' + (v === 'inventory' ? ' active' : '');
+  document.getElementById('tab-dash').className = 'tab-btn' + (v === 'dashboard' ? ' active' : '');
+  if (v === 'dashboard') renderDashboard();
+}
+
+function getCategories() {
+  return ['همه', ...Array.from(new Set(products.map(p => p.category).filter(Boolean)))];
+}
+
+function renderCats() {
+  const bar = document.getElementById('catsBar');
+  const cats = getCategories();
+  bar.innerHTML = cats.map(c =>
+    `<button class="cat-btn${c === currentCat ? ' active' : ''}" onclick="setCat('${c}')">${c}</button>`
+  ).join('');
+}
+
+function setCat(c) {
+  currentCat = c;
+  renderProducts();
+}
+
+function renderProducts() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const list = document.getElementById('productList');
+  const filtered = products.filter(p => {
+    const ms = p.name.toLowerCase().includes(search) || (p.model||'').toLowerCase().includes(search);
+    const mc = currentCat === 'همه' || p.category === currentCat;
+    return ms && mc;
+  });
+
+  renderCats();
+  updateHeaderStats();
+
+  if (filtered.length === 0) {
+    list.innerHTML = `<div class="empty"><div class="empty-icon">${products.length === 0 ? '📭' : '🔍'}</div><div>${products.length === 0 ? 'انبار خالیه، با صدا یا تایپ اضافه کن!' : 'چیزی پیدا نشد'}</div></div>`;
+    return;
+  }
+
+  list.innerHTML = `<div class="products">${filtered.map(p => `
+    <div class="product-card${p.qty <= 2 ? ' low' : ''}">
+      <div class="product-info">
+        <div class="product-name">${p.name}${p.model ? ` <span class="product-model">${p.model}</span>` : ''}</div>
+        <div class="product-cat">${p.category || 'متفرقه'}</div>
+      </div>
+      <div class="qty-controls">
+        <button class="qty-btn" onclick="changeQty(${p.id}, -1)">−</button>
+        <span class="qty-num${p.qty <= 2 ? ' low' : ''}">${p.qty}</span>
+        <button class="qty-btn" onclick="changeQty(${p.id}, 1)">+</button>
+        <button class="del-btn" onclick="deleteProduct(${p.id})">🗑️</button>
+      </div>
+    </div>
+  `).join('')}</div>`;
+}
+
+function changeQty(id, delta) {
+  products = products.map(p => p.id === id ? {...p, qty: Math.max(0, p.qty + delta)} : p);
+  save(); renderProducts();
+}
+
+function deleteProduct(id) {
+  const p = products.find(x => x.id === id);
+  if (confirm(`«${p?.name}» حذف بشه؟`)) {
+    products = products.filter(x => x.id !== id);
+    save(); renderProducts();
+  }
+}
+
+function updateHeaderStats() {
+  const total = products.reduce((s, p) => s + p.qty, 0);
+  document.getElementById('header-stats').textContent = `${total} آیتم در ${products.length} محصول`;
+}
+
+function renderDashboard() {
+  const total = products.reduce((s, p) => s + p.qty, 0);
+  const low = products.filter(p => p.qty <= 2);
+  const cats = getCategories().length - 1;
+  const d = document.getElementById('dashContent');
+  d.innerHTML = `
+    <div class="stat-card" style="border:1px solid rgba(59,130,246,0.15)">
+      <div class="stat-icon">📦</div>
+      <div class="stat-val" style="color:#3b82f6">${products.length}</div>
+      <div class="stat-label">کل محصولات</div>
+    </div>
+    <div class="stat-card" style="border:1px solid rgba(139,92,246,0.15)">
+      <div class="stat-icon">🔢</div>
+      <div class="stat-val" style="color:#8b5cf6">${total}</div>
+      <div class="stat-label">کل آیتم‌ها</div>
+    </div>
+    <div class="stat-card" style="border:1px solid rgba(245,158,11,0.15)">
+      <div class="stat-icon">⚠️</div>
+      <div class="stat-val" style="color:#f59e0b">${low.length}</div>
+      <div class="stat-label">موجودی کم</div>
+    </div>
+    <div class="stat-card" style="border:1px solid rgba(16,185,129,0.15)">
+      <div class="stat-icon">🗂️</div>
+      <div class="stat-val" style="color:#10b981">${cats}</div>
+      <div class="stat-label">دسته‌بندی</div>
+    </div>
+    ${low.length > 0 ? `
+    <div class="low-list">
+      <div class="low-title">⚠️ موجودی کم</div>
+      ${low.map(p => `<div class="low-item"><span>${p.name} ${p.model||''}</span><span style="color:#f87171">${p.qty} عدد</span></div>`).join('')}
+    </div>` : ''}
+  `;
+}
+
+// AI Processing
+async function processWithAI(text) {
+  if (!text.trim()) return;
+  isLoading = true;
+  setLoading(true);
+
+  const productList = products.map(p => `- ${p.name} ${p.model||''} (${p.category||'متفرقه'}): ${p.qty} عدد`).join('\n') || 'انبار خالی است';
+
+  const aiRes = document.getElementById('aiResponse');
+
+  const GEMINI_KEY = 'AQ.Ab8RN6In7l-IlRMKiC2ABx3DmT63C9IApYmOfCD2kWgyOU_uag';
+  const prompt = `تو یک دستیار مدیریت انبار هستی. کاربر به فارسی دستور می‌دهد و تو باید دقیقاً یک JSON برگردانی بدون هیچ توضیح اضافه.
+
+موجودی فعلی انبار:
+${productList}
+
+فرمت JSON:
+{
+  "type": "add" | "remove" | "set" | "query" | "list",
+  "product": "نام محصول",
+  "model": "مدل (اختیاری)",
+  "category": "دسته‌بندی پیشنهادی (اختیاری)",
+  "qty": عدد
+}
+
+قوانین:
+- "اضافه کن", "داریم", "خریدیم", "آمد", "گرفتیم" → type: add
+- "کم کن", "فروختیم", "رفت", "بردن", "فروش رفت" → type: remove
+- "موجودی ... چقدره", "چند تا داریم" → type: query
+- "لیست بده", "چی داریم", "نشون بده" → type: list
+- اگر عدد نگفت qty را 1 بگذار
+- اعداد فارسی را به انگلیسی تبدیل کن
+- فقط JSON خالص برگردان، بدون backtick یا توضیح
+
+دستور کاربر: ${text}`;
+
+  try {
+    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': GEMINI_KEY },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }]
+      })
+    });
+
+    const data = await res.json();
+    const raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+
+    let action;
+    try {
+      action = JSON.parse(raw.replace(/```json|```/g, '').trim());
+    } catch {
+      aiRes.textContent = '❌ نتونستم دستور رو بفهمم، دوباره بگو';
+      aiRes.className = 'ai-response show';
+      setLoading(false); isLoading = false; return;
+    }
+
+    const { msg } = applyAction(action);
+    aiRes.textContent = msg;
+    aiRes.className = 'ai-response show';
+    showToast(msg.split('\n')[0]);
+    save(); renderProducts();
+
+  } catch(e) {
+    aiRes.textContent = '❌ خطا در اتصال به AI';
+    aiRes.className = 'ai-response show';
+  }
+  setLoading(false); isLoading = false;
+}
+
+function applyAction(action) {
+  let msg = '';
+  if (action.type === 'add' || action.type === 'set') {
+    const idx = products.findIndex(p =>
+      p.name.includes(action.product) || action.product.includes(p.name) ||
+      (p.model && action.model && (p.model.includes(action.model) || action.model.includes(p.model)))
+    );
+    if (idx >= 0) {
+      const prev = products[idx].qty;
+      products[idx].qty = action.type === 'set' ? action.qty : products[idx].qty + action.qty;
+      msg = `✅ ${products[idx].name} ${action.model||''}: ${prev} → ${products[idx].qty} عدد`;
+    } else {
+      products.push({ id: Date.now(), name: action.product, model: action.model||'', category: action.category||'متفرقه', qty: action.qty });
+      msg = `✅ محصول جدید: ${action.product} ${action.model||''} — ${action.qty} عدد`;
+    }
+  } else if (action.type === 'remove') {
+    const idx = products.findIndex(p => p.name.includes(action.product) || action.product.includes(p.name));
+    if (idx >= 0) {
+      const prev = products[idx].qty;
+      products[idx].qty = Math.max(0, products[idx].qty - action.qty);
+      msg = `✅ ${products[idx].name}: ${prev} → ${products[idx].qty} عدد`;
+    } else { msg = `⚠️ محصول «${action.product}» پیدا نشد`; }
+  } else if (action.type === 'query') {
+    const found = products.filter(p => p.name.includes(action.product) || action.product.includes(p.name));
+    msg = found.length > 0 ? found.map(p => `📦 ${p.name} ${p.model||''}: ${p.qty} عدد`).join('\n') : `⚠️ «${action.product}» پیدا نشد`;
+  } else if (action.type === 'list') {
+    msg = products.length > 0 ? `📋 ${products.length} محصول در انبار` : '📋 انبار خالیه';
+  }
+  return { msg };
+}
+
+function setLoading(on) {
+  const btn = document.getElementById('micBtn');
+  const lbl = document.getElementById('micLabel');
+  const sub = document.getElementById('submitBtn');
+  if (on) {
+    btn.textContent = '⏳'; btn.disabled = true;
+    lbl.textContent = 'در حال پردازش...';
+    sub.disabled = true;
+  } else {
+    btn.textContent = isListening ? '⏹️' : '🎤'; btn.disabled = false;
+    lbl.textContent = isListening ? 'گوش می‌دم... بگو!' : 'ضربه بزن و حرف بزن';
+    sub.disabled = false;
+  }
+}
+
+// Voice
+function toggleMic() {
+  if (isLoading) return;
+  if (isListening) { stopMic(); return; }
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) { showToast('مرورگرت صدا پشتیبانی نمی‌کنه — از Chrome استفاده کن', 'error'); return; }
+
+  recognition = new SR();
+  recognition.lang = 'fa-IR';
+  recognition.interimResults = true;
+  recognition.continuous = false;
+
+  recognition.onstart = () => {
+    isListening = true;
+    document.getElementById('micBtn').className = 'mic-btn listening';
+    document.getElementById('micBtn').textContent = '⏹️';
+    document.getElementById('micLabel').textContent = 'گوش می‌دم... بگو!';
+  };
+  recognition.onend = () => {
+    isListening = false;
+    document.getElementById('micBtn').className = 'mic-btn';
+    document.getElementById('micBtn').textContent = '🎤';
+    document.getElementById('micLabel').textContent = 'ضربه بزن و حرف بزن';
+  };
+  recognition.onerror = (e) => {
+    isListening = false;
+    document.getElementById('micBtn').className = 'mic-btn';
+    document.getElementById('micBtn').textContent = '🎤';
+    if (e.error === 'not-allowed') showToast('دسترسی به میکروفون رد شد — از تنظیمات Chrome اجازه بده', 'error');
+    else if (e.error === 'no-speech') showToast('صدایی شنیده نشد، دوباره امتحان کن', 'error');
+  };
+  recognition.onresult = (e) => {
+    const t = Array.from(e.results).map(r => r[0].transcript).join('');
+    document.getElementById('transcriptText').textContent = t;
+    document.getElementById('transcriptBox').className = 'transcript-box show';
+    if (e.results[e.results.length - 1].isFinal) processWithAI(t);
+  };
+
+  recognition.start();
+}
+
+function stopMic() {
+  recognition?.stop();
+  isListening = false;
+}
+
+function submitManual() {
+  const inp = document.getElementById('manualInput');
+  const text = inp.value.trim();
+  if (!text || isLoading) return;
+  document.getElementById('transcriptText').textContent = text;
+  document.getElementById('transcriptBox').className = 'transcript-box show';
+  inp.value = '';
+  processWithAI(text);
+}
+
+// Init
+renderProducts();
+</script>
+</body>
+</html>
