@@ -2,536 +2,1291 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>انبار سینا</title>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>طیور نیوز | پایگاه خبری صنعت طیور ایران</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --bg: #0a0f1e;
-  --card: #111827;
-  --card2: #1a2235;
-  --border: #1e2d45;
-  --accent: #6366f1;
-  --accent2: #8b5cf6;
-  --green: #10b981;
-  --red: #ef4444;
-  --yellow: #f59e0b;
-  --text: #e2e8f0;
-  --muted: #64748b;
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#1a7a3a;
+  --primary-dark:#145e2d;
+  --primary-light:#2ecc71;
+  --secondary:#f39c12;
+  --secondary-dark:#e67e22;
+  --accent:#e74c3c;
+  --bg:#f5f6fa;
+  --white:#fff;
+  --card:#fff;
+  --text:#2c3e50;
+  --text-light:#7f8c8d;
+  --text-muted:#95a5a6;
+  --border:#ecf0f1;
+  --border-dark:#dfe6e9;
+  --shadow:0 2px 12px rgba(0,0,0,0.08);
+  --shadow-lg:0 8px 32px rgba(0,0,0,0.12);
+  --radius:12px;
+  --radius-sm:8px;
+  --radius-lg:16px;
+  --green-up:#27ae60;
+  --red-down:#e74c3c;
+  --gold:#f1c40f;
 }
-body { font-family: 'Vazirmatn', Tahoma, sans-serif; direction: rtl; background: var(--bg); color: var(--text); min-height: 100vh; }
+html{scroll-behavior:smooth}
+body{font-family:'Vazirmatn',Tahoma,sans-serif;direction:rtl;background:var(--bg);color:var(--text);line-height:1.8;font-size:14px}
+a{text-decoration:none;color:inherit;transition:color .2s}
+ul{list-style:none}
+img{max-width:100%;display:block}
+.container{max-width:1280px;margin:0 auto;padding:0 20px}
+.section-title{font-size:20px;font-weight:800;color:var(--text);margin-bottom:20px;display:flex;align-items:center;gap:10px;padding-bottom:12px;border-bottom:3px solid var(--primary)}
+.section-title .icon{width:36px;height:36px;background:var(--primary);color:#fff;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:18px}
+.section-title a{color:var(--primary);font-size:13px;font-weight:500;margin-right:auto}
+.section-title a:hover{color:var(--primary-dark)}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 24px;border-radius:var(--radius-sm);border:none;cursor:pointer;font-family:inherit;font-weight:600;font-size:13px;transition:all .2s}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-dark);transform:translateY(-1px)}
+.btn-secondary{background:var(--secondary);color:#fff}
+.btn-secondary:hover{background:var(--secondary-dark)}
+.btn-outline{background:transparent;border:2px solid var(--primary);color:var(--primary)}
+.btn-outline:hover{background:var(--primary);color:#fff}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.badge-red{background:#fde8e8;color:var(--accent)}
+.badge-green{background:#e8f8f0;color:var(--green-up)}
+.badge-orange{background:#fef5e7;color:var(--secondary)}
+.badge-blue{background:#ebf5fb;color:#2980b9}
 
-/* Header */
-.header {
-  background: linear-gradient(135deg, #111827 0%, #0a0f1e 100%);
-  border-bottom: 1px solid var(--border);
-  padding: 12px 16px;
-  display: flex; align-items: center; justify-content: space-between;
-  position: sticky; top: 0; z-index: 100;
-  backdrop-filter: blur(10px);
-}
-.logo { display: flex; align-items: center; gap: 10px; }
-.logo-icon {
-  width: 36px; height: 36px; border-radius: 10px;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  display: flex; align-items: center; justify-content: center; font-size: 18px;
-  box-shadow: 0 4px 12px rgba(99,102,241,0.3);
-}
-.logo-text { font-weight: 800; font-size: 16px; color: #f1f5f9; }
-.logo-sub { font-size: 10px; color: var(--muted); }
-.tabs { display: flex; gap: 4px; background: var(--card2); border-radius: 10px; padding: 3px; }
-.tab-btn {
-  background: transparent; border: none; color: var(--muted);
-  border-radius: 8px; padding: 6px 14px; font-size: 12px; cursor: pointer;
-  font-family: 'Vazirmatn', Tahoma, sans-serif; transition: all 0.2s; font-weight: 600;
-}
-.tab-btn.active { background: var(--accent); color: #fff; box-shadow: 0 2px 8px rgba(99,102,241,0.4); }
+/* ===== TOP BAR ===== */
+.top-bar{background:#1a1a2e;color:#fff;font-size:12px;padding:8px 0}
+.top-bar .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.top-bar-right{display:flex;align-items:center;gap:16px}
+.top-bar-left{display:flex;align-items:center;gap:16px}
+.top-bar a{color:#ccc;transition:color .2s}
+.top-bar a:hover{color:var(--secondary)}
+.top-bar .separator{width:1px;height:14px;background:#444}
 
-/* Stats bar */
-.stats-bar {
-  display: flex; gap: 8px; padding: 12px 16px; overflow-x: auto;
-  background: var(--card); border-bottom: 1px solid var(--border);
-}
-.stat-item { flex-shrink: 0; text-align: center; }
-.stat-val { font-size: 18px; font-weight: 800; }
-.stat-lbl { font-size: 10px; color: var(--muted); }
-.stat-sep { width: 1px; background: var(--border); flex-shrink: 0; }
+/* ===== HEADER ===== */
+.main-header{background:#fff;border-bottom:3px solid var(--primary);position:sticky;top:0;z-index:1000;box-shadow:0 2px 20px rgba(0,0,0,0.08)}
+.header-inner{display:flex;align-items:center;justify-content:space-between;padding:12px 0;gap:20px}
+.logo-wrap{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.logo-icon{width:56px;height:56px;background:linear-gradient(135deg,var(--primary),var(--primary-light));border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 4px 15px rgba(26,122,58,0.3)}
+.logo-text h1{font-size:22px;font-weight:900;color:var(--primary);line-height:1.3}
+.logo-text span{font-size:11px;color:var(--text-light);font-weight:500}
+.header-search{flex:1;max-width:400px;position:relative}
+.header-search input{width:100%;padding:12px 44px 12px 16px;border:2px solid var(--border);border-radius:50px;font-family:inherit;font-size:13px;background:var(--bg);transition:border .2s;outline:none}
+.header-search input:focus{border-color:var(--primary)}
+.header-search .search-icon{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--text-muted)}
+.header-actions{display:flex;gap:8px;flex-shrink:0}
+.header-btn{width:42px;height:42px;border-radius:50%;border:2px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;transition:all .2s}
+.header-btn:hover{border-color:var(--primary);background:var(--primary);color:#fff}
 
-/* Container */
-.container { padding: 16px; max-width: 600px; margin: 0 auto; }
+/* ===== NAVIGATION ===== */
+.main-nav{background:var(--primary);position:relative;z-index:900}
+.nav-list{display:flex;align-items:center;gap:0}
+.nav-item{position:relative}
+.nav-item>a{display:flex;align-items:center;gap:6px;padding:14px 18px;color:#fff;font-weight:600;font-size:13px;transition:background .2s;white-space:nowrap}
+.nav-item>a:hover,.nav-item.active>a{background:rgba(255,255,255,0.15)}
+.nav-item .dropdown{position:absolute;top:100%;right:0;background:#fff;min-width:220px;border-radius:0 0 var(--radius) var(--radius);box-shadow:var(--shadow-lg);opacity:0;visibility:hidden;transform:translateY(8px);transition:all .25s;z-index:100}
+.nav-item:hover .dropdown{opacity:1;visibility:visible;transform:translateY(0)}
+.dropdown a{display:flex;align-items:center;gap:8px;padding:12px 18px;color:var(--text);font-size:13px;font-weight:500;border-bottom:1px solid var(--border);transition:all .2s}
+.dropdown a:last-child{border-bottom:none}
+.dropdown a:hover{background:var(--bg);color:var(--primary);padding-right:24px}
+.dropdown a .drop-icon{font-size:16px}
+.nav-highlight{background:var(--secondary)!important;border-radius:var(--radius-sm);margin:6px 4px}
+.nav-highlight:hover{background:var(--secondary-dark)!important}
+.hamburger{display:none;background:none;border:none;color:#fff;font-size:24px;cursor:pointer;padding:14px 18px}
 
-/* Voice card */
-.voice-card {
-  background: linear-gradient(135deg, #111827 0%, #1a2235 100%);
-  border-radius: 24px; padding: 24px 20px; margin-bottom: 16px;
-  border: 1px solid var(--border);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-  position: relative; overflow: hidden;
-}
-.voice-card::before {
-  content: ''; position: absolute; top: -50%; right: -30%;
-  width: 200px; height: 200px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(99,102,241,0.1) 0%, transparent 70%);
-  pointer-events: none;
-}
-.mic-wrap { text-align: center; margin-bottom: 20px; }
-.mic-outer {
-  display: inline-block; padding: 6px; border-radius: 50%;
-  background: rgba(99,102,241,0.1); margin-bottom: 12px;
-  transition: all 0.3s;
-}
-.mic-outer.listening { background: rgba(220,38,38,0.15); animation: outerPulse 1.5s infinite; }
-@keyframes outerPulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.1);opacity:0.8} }
-.mic-btn {
-  width: 72px; height: 72px; border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  border: none; cursor: pointer; font-size: 28px;
-  box-shadow: 0 6px 20px rgba(99,102,241,0.5);
-  transition: all 0.3s; display: flex; align-items: center; justify-content: center;
-}
-.mic-btn.listening {
-  background: linear-gradient(135deg, #dc2626, #b91c1c);
-  box-shadow: 0 6px 20px rgba(220,38,38,0.5);
-  animation: micPulse 1s infinite;
-}
-@keyframes micPulse { 0%,100%{box-shadow:0 6px 20px rgba(220,38,38,0.5)} 50%{box-shadow:0 6px 30px rgba(220,38,38,0.8)} }
-.mic-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-.mic-label { font-size: 13px; color: var(--muted); font-weight: 500; }
-.mic-timer { font-size: 11px; color: var(--accent); margin-top: 4px; display: none; }
-.mic-timer.show { display: block; }
+/* ===== BREAKING NEWS TICKER ===== */
+.ticker-bar{background:linear-gradient(135deg,#1a1a2e,#16213e);padding:10px 0;overflow:hidden}
+.ticker-inner{display:flex;align-items:center;gap:16px}
+.ticker-label{background:var(--accent);color:#fff;padding:6px 16px;border-radius:20px;font-size:12px;font-weight:700;flex-shrink:0;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
+.ticker-content{overflow:hidden;flex:1;position:relative;height:24px}
+.ticker-track{display:flex;gap:40px;animation:tickerScroll 40s linear infinite;position:absolute;white-space:nowrap}
+.ticker-track:hover{animation-play-state:paused}
+@keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(100%)}}
+.ticker-item{color:#eee;font-size:13px;font-weight:500;display:flex;align-items:center;gap:6px}
+.ticker-item::before{content:'◄';color:var(--secondary);font-size:10px}
 
-.result-box {
-  border-radius: 14px; padding: 12px 16px; margin-top: 14px;
-  font-size: 13px; display: none; white-space: pre-line;
-  line-height: 1.8; border: 1px solid var(--border);
-  background: rgba(0,0,0,0.2);
-}
-.result-box.show { display: block; }
-.result-box.success { color: #86efac; border-color: rgba(16,185,129,0.3); background: rgba(16,185,129,0.05); }
-.result-box.error { color: #fca5a5; border-color: rgba(239,68,68,0.3); background: rgba(239,68,68,0.05); }
-.transcript { color: var(--muted); font-size: 11px; margin-bottom: 6px; }
+/* ===== PRICE MARQUEE ===== */
+.price-strip{background:#fff;border-bottom:1px solid var(--border);padding:12px 0;overflow:hidden}
+.price-strip-inner{display:flex;animation:priceScroll 30s linear infinite;gap:0}
+.price-strip-inner:hover{animation-play-state:paused}
+@keyframes priceScroll{0%{transform:translateX(0)}100%{transform:translateX(50%)}}
+.price-chip{display:flex;align-items:center;gap:8px;padding:6px 20px;border-left:1px solid var(--border);flex-shrink:0;white-space:nowrap}
+.price-chip-name{font-size:12px;color:var(--text-light);font-weight:500}
+.price-chip-val{font-size:14px;font-weight:800;color:var(--text)}
+.price-chip-change{font-size:11px;font-weight:700;display:flex;align-items:center;gap:2px}
+.price-chip-change.up{color:var(--green-up)}
+.price-chip-change.down{color:var(--red-down)}
 
-.manual-row { margin-top: 16px; display: flex; gap: 8px; }
-.manual-input {
-  flex: 1; background: rgba(0,0,0,0.3); border: 1px solid var(--border);
-  border-radius: 12px; padding: 11px 14px; color: var(--text);
-  font-size: 13px; direction: rtl; outline: none;
-  font-family: 'Vazirmatn', Tahoma, sans-serif; transition: border 0.2s;
-}
-.manual-input:focus { border-color: var(--accent); }
-.submit-btn {
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  border: none; border-radius: 12px; padding: 11px 18px;
-  color: #fff; cursor: pointer; font-size: 13px;
-  font-family: 'Vazirmatn', Tahoma, sans-serif; font-weight: 600;
-  box-shadow: 0 4px 12px rgba(99,102,241,0.3); transition: all 0.2s;
-}
-.submit-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(99,102,241,0.4); }
-.submit-btn:disabled { opacity: 0.5; transform: none; }
+/* ===== HERO / FEATURED ===== */
+.hero-section{padding:24px 0}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;min-height:420px}
+.hero-main{position:relative;border-radius:var(--radius-lg);overflow:hidden;cursor:pointer}
+.hero-main img{width:100%;height:100%;object-fit:cover}
+.hero-main .overlay{position:absolute;bottom:0;right:0;left:0;background:linear-gradient(transparent,rgba(0,0,0,0.85));padding:30px 24px 24px}
+.hero-main .overlay .cat-tag{display:inline-block;background:var(--primary);color:#fff;padding:4px 14px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:10px}
+.hero-main .overlay h2{color:#fff;font-size:22px;font-weight:800;line-height:1.6;margin-bottom:8px}
+.hero-main .overlay .meta{color:#ccc;font-size:12px;display:flex;gap:12px}
+.hero-side{display:grid;grid-template-rows:1fr 1fr;gap:16px}
+.hero-card{position:relative;border-radius:var(--radius);overflow:hidden;cursor:pointer}
+.hero-card img{width:100%;height:100%;object-fit:cover}
+.hero-card .overlay{position:absolute;bottom:0;right:0;left:0;background:linear-gradient(transparent,rgba(0,0,0,0.8));padding:20px 16px 16px}
+.hero-card .overlay .cat-tag{display:inline-block;background:var(--secondary);color:#fff;padding:3px 12px;border-radius:20px;font-size:10px;font-weight:700;margin-bottom:6px}
+.hero-card .overlay h3{color:#fff;font-size:15px;font-weight:700;line-height:1.6}
+.hero-card .overlay .meta{color:#bbb;font-size:11px;margin-top:4px}
 
-/* Hint */
-.hint {
-  background: var(--card); border-radius: 14px; padding: 14px 16px;
-  margin-bottom: 16px; border: 1px solid var(--border); font-size: 12px;
-  color: var(--muted); line-height: 2;
-}
-.hint-title { color: var(--text); font-weight: 700; font-size: 13px; margin-bottom: 8px; }
-.hint-item { display: flex; align-items: center; gap: 8px; }
-.hint-item span { color: #86efac; }
+/* ===== PRICES SECTION ===== */
+.prices-section{padding:30px 0}
+.price-tabs{display:flex;gap:6px;margin-bottom:20px;overflow-x:auto;padding-bottom:4px}
+.price-tab{padding:10px 22px;border-radius:50px;font-size:13px;font-weight:600;cursor:pointer;border:2px solid var(--border);background:#fff;color:var(--text-light);transition:all .2s;white-space:nowrap;font-family:inherit}
+.price-tab.active,.price-tab:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.price-table-wrap{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.price-table{width:100%;border-collapse:collapse}
+.price-table thead{background:linear-gradient(135deg,var(--primary),var(--primary-dark))}
+.price-table th{color:#fff;padding:14px 16px;font-weight:700;font-size:13px;text-align:right}
+.price-table td{padding:14px 16px;border-bottom:1px solid var(--border);font-size:13px;text-align:right}
+.price-table tbody tr:hover{background:#f0faf4}
+.price-table tbody tr:last-child td{border-bottom:none}
+.price-table .price-val{font-weight:800;font-size:15px;color:var(--text)}
+.price-table .change-up{color:var(--green-up);font-weight:700;font-size:12px}
+.price-table .change-down{color:var(--red-down);font-weight:700;font-size:12px}
+.price-table .change-neutral{color:var(--text-muted);font-weight:600;font-size:12px}
+.price-date{text-align:center;padding:12px;background:var(--bg);font-size:12px;color:var(--text-light);font-weight:500}
+.price-chart-placeholder{background:linear-gradient(135deg,#f0faf4,#e8f8f0);border-radius:var(--radius);padding:40px;text-align:center;color:var(--primary);margin-top:16px}
 
-/* Search & filter */
-.search-row { display: flex; gap: 8px; margin-bottom: 12px; }
-.search-input {
-  flex: 1; background: var(--card); border: 1px solid var(--border);
-  border-radius: 12px; padding: 10px 14px; color: var(--text);
-  font-size: 13px; direction: rtl; outline: none;
-  font-family: 'Vazirmatn', Tahoma, sans-serif;
-}
-.search-input:focus { border-color: var(--accent); }
-.cats { display: flex; gap: 6px; overflow-x: auto; margin-bottom: 14px; padding-bottom: 4px; }
-.cats::-webkit-scrollbar { height: 2px; }
-.cat-btn {
-  background: var(--card); border: 1px solid var(--border); color: var(--muted);
-  border-radius: 20px; padding: 6px 14px; font-size: 11px; cursor: pointer;
-  white-space: nowrap; font-family: 'Vazirmatn', Tahoma, sans-serif;
-  font-weight: 600; transition: all 0.2s;
-}
-.cat-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+/* ===== PRICE CARDS (Quick View) ===== */
+.price-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.price-card{background:#fff;border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);border-top:4px solid var(--primary);transition:all .3s;cursor:pointer}
+.price-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.price-card:nth-child(2){border-top-color:var(--secondary)}
+.price-card:nth-child(3){border-top-color:#3498db}
+.price-card:nth-child(4){border-top-color:#9b59b6}
+.price-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.price-card-icon{font-size:32px}
+.price-card-badge{font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px}
+.price-card h4{font-size:14px;font-weight:700;color:var(--text-light);margin-bottom:6px}
+.price-card .price-amount{font-size:26px;font-weight:900;color:var(--text)}
+.price-card .price-unit{font-size:12px;color:var(--text-muted);font-weight:500}
+.price-card .price-change{display:flex;align-items:center;gap:4px;margin-top:8px;font-size:13px;font-weight:700}
 
-/* Product cards */
-.product-card {
-  background: var(--card); border-radius: 16px; padding: 14px 16px;
-  border: 1px solid var(--border); display: flex; align-items: center;
-  gap: 12px; margin-bottom: 8px; transition: all 0.2s;
-}
-.product-card:hover { border-color: var(--accent); transform: translateY(-1px); }
-.product-card.low { border-color: rgba(245,158,11,0.4); }
-.product-info { flex: 1; min-width: 0; }
-.product-name { font-weight: 700; font-size: 14px; color: #f1f5f9; }
-.product-model { color: var(--muted); font-weight: 400; font-size: 13px; }
-.product-meta { display: flex; gap: 8px; margin-top: 4px; flex-wrap: wrap; }
-.product-cat {
-  font-size: 10px; color: var(--muted); background: var(--card2);
-  padding: 2px 8px; border-radius: 6px;
-}
-.product-price { font-size: 11px; color: #fcd34d; background: rgba(251,191,36,0.1); padding: 2px 8px; border-radius: 6px; }
-.qty-controls { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-.qty-btn {
-  background: var(--card2); border: 1px solid var(--border); border-radius: 8px;
-  width: 30px; height: 30px; color: var(--text); cursor: pointer; font-size: 16px;
-  transition: all 0.2s; display: flex; align-items: center; justify-content: center;
-}
-.qty-btn:hover { background: var(--accent); border-color: var(--accent); }
-.qty-num { font-size: 18px; font-weight: 800; min-width: 32px; text-align: center; color: var(--green); }
-.qty-num.low { color: var(--red); }
-.del-btn { background: transparent; border: none; color: rgba(239,68,68,0.5); cursor: pointer; font-size: 14px; transition: color 0.2s; }
-.del-btn:hover { color: var(--red); }
+/* ===== NEWS GRID ===== */
+.news-section{padding:30px 0}
+.news-layout{display:grid;grid-template-columns:1fr 340px;gap:30px}
+.news-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.news-card{background:#fff;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:all .3s}
+.news-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.news-card-img{height:180px;overflow:hidden;position:relative}
+.news-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.news-card:hover .news-card-img img{transform:scale(1.05)}
+.news-card-img .cat-label{position:absolute;top:12px;right:12px;background:var(--primary);color:#fff;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700}
+.news-card-body{padding:16px}
+.news-card-body h3{font-size:15px;font-weight:700;line-height:1.8;margin-bottom:8px;color:var(--text)}
+.news-card-body h3:hover{color:var(--primary)}
+.news-card-body p{font-size:13px;color:var(--text-light);line-height:1.8;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.news-card-footer{display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--text-muted)}
+.news-card-footer .author{display:flex;align-items:center;gap:6px}
+.news-card-footer .author img{width:24px;height:24px;border-radius:50%;object-fit:cover}
 
-/* Empty */
-.empty { text-align: center; padding: 50px 20px; color: var(--muted); background: var(--card); border-radius: 20px; border: 1px dashed var(--border); }
-.empty-icon { font-size: 48px; margin-bottom: 12px; }
-.empty-text { font-size: 14px; }
+/* ===== SIDEBAR ===== */
+.sidebar{display:flex;flex-direction:column;gap:24px}
+.sidebar-box{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.sidebar-box-header{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;padding:14px 18px;font-weight:700;font-size:14px;display:flex;align-items:center;gap:8px}
+.sidebar-box-body{padding:16px}
 
-/* Dashboard */
-.dashboard { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.dash-card { background: var(--card); border-radius: 16px; padding: 16px; border: 1px solid var(--border); }
-.dash-icon { font-size: 24px; margin-bottom: 8px; }
-.dash-val { font-size: 28px; font-weight: 800; }
-.dash-lbl { font-size: 11px; color: var(--muted); margin-top: 2px; }
-.low-list { grid-column: 1/-1; background: var(--card); border-radius: 16px; padding: 16px; border: 1px solid rgba(245,158,11,0.2); }
-.low-title { font-size: 13px; color: var(--yellow); margin-bottom: 10px; font-weight: 700; }
-.low-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
-.low-item:last-child { border-bottom: none; }
+.popular-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.popular-item:last-child{border-bottom:none}
+.popular-num{width:32px;height:32px;background:var(--primary);color:#fff;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex-shrink:0}
+.popular-item:nth-child(1) .popular-num{background:var(--gold);color:#333}
+.popular-item:nth-child(2) .popular-num{background:#c0c0c0;color:#333}
+.popular-item:nth-child(3) .popular-num{background:#cd7f32;color:#fff}
+.popular-text{font-size:13px;font-weight:600;line-height:1.7;color:var(--text)}
+.popular-text:hover{color:var(--primary)}
+.popular-date{font-size:11px;color:var(--text-muted);margin-top:2px}
 
-/* Toast */
-.toast {
-  position: fixed; top: 80px; left: 50%; transform: translateX(-50%);
-  background: var(--green); color: #fff; padding: 12px 24px;
-  border-radius: 14px; z-index: 999; font-size: 13px; font-weight: 600;
-  max-width: 90vw; text-align: center;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.4); display: none;
-  font-family: 'Vazirmatn', Tahoma, sans-serif;
+.poll-option{display:flex;align-items:center;gap:10px;padding:10px 0;cursor:pointer}
+.poll-radio{width:18px;height:18px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;transition:all .2s}
+.poll-option:hover .poll-radio{border-color:var(--primary)}
+.poll-option.selected .poll-radio{border-color:var(--primary);background:var(--primary);box-shadow:inset 0 0 0 3px #fff}
+.poll-label{font-size:13px;font-weight:500}
+
+.sidebar-ad{background:linear-gradient(135deg,#fef9e7,#fdebd0);border-radius:var(--radius);padding:24px;text-align:center;border:2px dashed var(--secondary)}
+.sidebar-ad h4{font-size:14px;color:var(--secondary-dark);margin-bottom:8px}
+.sidebar-ad p{font-size:12px;color:var(--text-light)}
+
+/* ===== CATEGORY SECTIONS ===== */
+.cat-section{padding:30px 0}
+.cat-news-list .cat-news-item{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--border)}
+.cat-news-list .cat-news-item:last-child{border-bottom:none}
+.cat-news-item .thumb{width:120px;height:90px;border-radius:var(--radius-sm);overflow:hidden;flex-shrink:0}
+.cat-news-item .thumb img{width:100%;height:100%;object-fit:cover}
+.cat-news-item .info h4{font-size:14px;font-weight:700;line-height:1.8;margin-bottom:4px}
+.cat-news-item .info h4:hover{color:var(--primary)}
+.cat-news-item .info p{font-size:12px;color:var(--text-light);line-height:1.7;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cat-news-item .info .meta{font-size:11px;color:var(--text-muted);margin-top:6px}
+
+/* ===== FORUM SECTION ===== */
+.forum-section{padding:30px 0;background:linear-gradient(135deg,#f0faf4,#e8f8f0);margin:30px 0;border-radius:0}
+.forum-section .container{max-width:1280px;margin:0 auto;padding:0 20px}
+.forum-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px}
+.forum-stats{display:flex;gap:24px}
+.forum-stat{text-align:center}
+.forum-stat-val{font-size:24px;font-weight:900;color:var(--primary)}
+.forum-stat-lbl{font-size:11px;color:var(--text-light)}
+.forum-cats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+.forum-cat-card{background:#fff;border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);transition:all .3s;cursor:pointer;border-right:4px solid var(--primary)}
+.forum-cat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.forum-cat-card:nth-child(2){border-right-color:var(--secondary)}
+.forum-cat-card:nth-child(3){border-right-color:#3498db}
+.forum-cat-card:nth-child(4){border-right-color:#9b59b6}
+.forum-cat-card:nth-child(5){border-right-color:#e74c3c}
+.forum-cat-card:nth-child(6){border-right-color:#1abc9c}
+.forum-cat-icon{font-size:28px;margin-bottom:8px}
+.forum-cat-card h4{font-size:15px;font-weight:700;margin-bottom:4px}
+.forum-cat-card p{font-size:12px;color:var(--text-light)}
+.forum-cat-meta{display:flex;gap:16px;margin-top:10px;font-size:11px;color:var(--text-muted)}
+.forum-topics{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.forum-topic-header{background:var(--primary);color:#fff;padding:14px 20px;display:grid;grid-template-columns:1fr 100px 100px 140px;gap:12px;font-weight:700;font-size:13px}
+.forum-topic-row{padding:16px 20px;display:grid;grid-template-columns:1fr 100px 100px 140px;gap:12px;border-bottom:1px solid var(--border);align-items:center;transition:background .2s}
+.forum-topic-row:hover{background:var(--bg)}
+.forum-topic-row:last-child{border-bottom:none}
+.forum-topic-title{font-size:14px;font-weight:600}
+.forum-topic-title:hover{color:var(--primary)}
+.forum-topic-title .topic-cat{font-size:11px;color:var(--text-muted);font-weight:400;display:block}
+.forum-topic-count{text-align:center;font-size:13px;color:var(--text-light)}
+.forum-topic-last{font-size:12px;color:var(--text-muted)}
+.forum-topic-last strong{color:var(--text);font-weight:600;display:block}
+
+/* ===== MARKET SECTION ===== */
+.market-section{padding:30px 0}
+.market-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.market-card{background:#fff;border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);border:1px solid var(--border);transition:all .3s}
+.market-card:hover{border-color:var(--primary);box-shadow:var(--shadow-lg)}
+.market-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.market-card h4{font-size:15px;font-weight:700}
+.market-card .market-type{font-size:11px;padding:4px 10px;border-radius:20px;font-weight:600}
+.market-card .market-type.sell{background:#fde8e8;color:var(--accent)}
+.market-card .market-type.buy{background:#e8f8f0;color:var(--green-up)}
+.market-card p{font-size:13px;color:var(--text-light);margin-bottom:12px;line-height:1.7}
+.market-card-footer{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--text-muted);padding-top:12px;border-top:1px solid var(--border)}
+
+/* ===== EXPERT SECTION ===== */
+.expert-section{padding:30px 0}
+.expert-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.expert-card{background:#fff;border-radius:var(--radius);padding:24px;text-align:center;box-shadow:var(--shadow);transition:all .3s}
+.expert-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.expert-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--primary-light));margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:32px;color:#fff}
+.expert-card h4{font-size:15px;font-weight:700;margin-bottom:4px}
+.expert-card .specialty{font-size:12px;color:var(--primary);font-weight:600;margin-bottom:8px}
+.expert-card p{font-size:12px;color:var(--text-light);line-height:1.7}
+
+/* ===== NEWSLETTER ===== */
+.newsletter{background:linear-gradient(135deg,var(--primary),var(--primary-dark));padding:50px 0;margin:30px 0;text-align:center;color:#fff}
+.newsletter h3{font-size:24px;font-weight:800;margin-bottom:8px}
+.newsletter p{font-size:14px;opacity:.85;margin-bottom:20px}
+.newsletter-form{display:flex;max-width:500px;margin:0 auto;gap:8px}
+.newsletter-form input{flex:1;padding:14px 20px;border:none;border-radius:50px;font-family:inherit;font-size:14px;outline:none}
+.newsletter-form button{padding:14px 32px;border:none;border-radius:50px;background:var(--secondary);color:#fff;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:background .2s}
+.newsletter-form button:hover{background:var(--secondary-dark)}
+
+/* ===== FOOTER ===== */
+.footer{background:#1a1a2e;color:#ccc;padding:50px 0 0}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+.footer-about h3{font-size:18px;font-weight:800;color:#fff;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.footer-about p{font-size:13px;line-height:2;color:#aaa}
+.footer-col h4{font-size:15px;font-weight:700;color:#fff;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--primary)}
+.footer-col ul li{margin-bottom:8px}
+.footer-col ul li a{color:#aaa;font-size:13px;transition:all .2s;display:flex;align-items:center;gap:6px}
+.footer-col ul li a:hover{color:var(--primary);padding-right:6px}
+.footer-col ul li a::before{content:'◄';font-size:8px;color:var(--primary)}
+.footer-contact li{display:flex;align-items:center;gap:10px;margin-bottom:12px;font-size:13px}
+.footer-contact .fc-icon{width:36px;height:36px;background:rgba(255,255,255,0.08);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.footer-social{display:flex;gap:10px;margin-top:16px}
+.footer-social a{width:40px;height:40px;background:rgba(255,255,255,0.08);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;transition:all .2s}
+.footer-social a:hover{background:var(--primary);transform:translateY(-2px)}
+.footer-bottom{border-top:1px solid #333;padding:20px 0;text-align:center;font-size:12px;color:#777}
+.footer-bottom a{color:var(--primary)}
+
+/* ===== BACK TO TOP ===== */
+.back-to-top{position:fixed;bottom:30px;left:30px;width:48px;height:48px;background:var(--primary);color:#fff;border:none;border-radius:50%;cursor:pointer;font-size:20px;box-shadow:var(--shadow-lg);display:none;align-items:center;justify-content:center;transition:all .3s;z-index:800}
+.back-to-top.show{display:flex}
+.back-to-top:hover{background:var(--primary-dark);transform:translateY(-3px)}
+
+/* ===== WEATHER / INFO STRIP ===== */
+.info-strip{background:#fff;border-bottom:1px solid var(--border);padding:10px 0}
+.info-strip .container{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.info-item{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-light)}
+.info-item .ii-icon{font-size:16px}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:1024px){
+  .hero-grid{grid-template-columns:1fr}
+  .hero-side{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+  .news-layout{grid-template-columns:1fr}
+  .sidebar{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .price-cards{grid-template-columns:repeat(2,1fr)}
+  .forum-cats{grid-template-columns:repeat(2,1fr)}
+  .market-grid{grid-template-columns:repeat(2,1fr)}
+  .expert-grid{grid-template-columns:repeat(2,1fr)}
+  .footer-grid{grid-template-columns:1fr 1fr}
 }
-.toast.error { background: var(--red); }
-.toast.show { display: block; animation: toastIn 0.3s ease; }
-@keyframes toastIn { from{opacity:0;transform:translateX(-50%) translateY(-10px)} to{opacity:1;transform:translateX(-50%) translateY(0)} }
+@media(max-width:768px){
+  .top-bar{display:none}
+  .header-search{display:none}
+  .hamburger{display:block}
+  .nav-list{display:none;flex-direction:column;position:absolute;top:100%;right:0;left:0;background:var(--primary-dark);box-shadow:var(--shadow-lg)}
+  .nav-list.open{display:flex}
+  .nav-item .dropdown{position:static;box-shadow:none;opacity:1;visibility:visible;transform:none;background:rgba(0,0,0,0.1)}
+  .dropdown a{color:#fff;border-color:rgba(255,255,255,0.1)}
+  .dropdown a:hover{background:rgba(255,255,255,0.1);color:#fff}
+  .hero-grid{min-height:auto}
+  .hero-side{grid-template-columns:1fr}
+  .news-grid{grid-template-columns:1fr}
+  .sidebar{grid-template-columns:1fr}
+  .price-cards{grid-template-columns:1fr}
+  .forum-cats{grid-template-columns:1fr}
+  .market-grid{grid-template-columns:1fr}
+  .expert-grid{grid-template-columns:1fr 1fr}
+  .footer-grid{grid-template-columns:1fr}
+  .forum-topic-header,.forum-topic-row{grid-template-columns:1fr;gap:4px}
+  .forum-topic-count{display:none}
+  .newsletter-form{flex-direction:column}
+  .price-table{font-size:12px}
+  .price-table th,.price-table td{padding:10px 8px}
+  .section-title{font-size:16px}
+}
+@media(max-width:480px){
+  .container{padding:0 12px}
+  .expert-grid{grid-template-columns:1fr}
+  .forum-stats{gap:12px}
+}
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div class="logo">
-    <div class="logo-icon">📦</div>
-    <div>
-      <div class="logo-text">انبار سینا</div>
-      <div class="logo-sub" id="headerStats">در حال بارگذاری...</div>
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="container">
+    <div class="top-bar-right">
+      <span>📅 پنجشنبه ۴ تیر ۱۴۰۵</span>
+      <span class="separator"></span>
+      <span>🕐 ۰۸:۳۰</span>
+      <span class="separator"></span>
+      <span>🌡️ تهران ۳۲°C</span>
     </div>
-  </div>
-  <div class="tabs">
-    <button class="tab-btn active" onclick="switchView('inventory')">انبار</button>
-    <button class="tab-btn" onclick="switchView('dashboard')">داشبورد</button>
+    <div class="top-bar-left">
+      <a href="#">📧 تماس با ما</a>
+      <span class="separator"></span>
+      <a href="#">📰 درباره ما</a>
+      <span class="separator"></span>
+      <a href="#">🔐 ورود / ثبت‌نام</a>
+    </div>
   </div>
 </div>
 
-<div class="toast" id="toast"></div>
-
-<div class="container">
-  <!-- Voice Card -->
-  <div class="voice-card">
-    <div class="mic-wrap">
-      <div class="mic-outer" id="micOuter">
-        <button class="mic-btn" id="micBtn" onclick="toggleMic()">🎤</button>
+<!-- HEADER -->
+<header class="main-header">
+  <div class="container">
+    <div class="header-inner">
+      <div class="logo-wrap">
+        <div class="logo-icon">🐔</div>
+        <div class="logo-text">
+          <h1>طیور نیوز</h1>
+          <span>پایگاه جامع خبری صنعت طیور ایران</span>
+        </div>
       </div>
-      <div class="mic-label" id="micLabel">ضربه بزن و حرف بزن</div>
-      <div class="mic-timer" id="micTimer">⏱ در حال ضبط...</div>
-    </div>
-    <div class="result-box" id="resultBox">
-      <div class="transcript" id="transcriptEl"></div>
-      <div id="resultMsg"></div>
-    </div>
-    <div class="manual-row">
-      <input class="manual-input" id="manualInput" placeholder="یا اینجا تایپ کن..." onkeydown="if(event.key==='Enter')submitManual()">
-      <button class="submit-btn" id="submitBtn" onclick="submitManual()">ثبت</button>
+      <div class="header-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="جستجو در اخبار، قیمت‌ها، مقالات..." id="searchBox">
+      </div>
+      <div class="header-actions">
+        <button class="header-btn" title="اعلان‌ها" onclick="toggleNotifications()">🔔</button>
+        <button class="header-btn" title="نشان‌شده‌ها">⭐</button>
+        <button class="header-btn" title="حساب کاربری" onclick="showLoginModal()">👤</button>
+      </div>
     </div>
   </div>
+</header>
 
-  <!-- Hint -->
-  <div class="hint">
-    <div class="hint-title">🎤 نمونه دستورات:</div>
-    <div class="hint-item">➕ <span>چهار تا ساعت سامسونگ گلکسی واچ ۴ اضافه کن</span></div>
-    <div class="hint-item">➖ <span>دو تا هندزفری JBL فروختیم</span></div>
-    <div class="hint-item">💰 <span>ساعت شیائومی قیمت سیصد و پنجاه هزار تومان</span></div>
-    <div class="hint-item">🔍 <span>موجودی ساعت سامسونگ چقدره</span></div>
+<!-- NAVIGATION -->
+<nav class="main-nav">
+  <div class="container" style="display:flex;align-items:center">
+    <button class="hamburger" onclick="toggleMenu()">☰</button>
+    <ul class="nav-list" id="navList">
+      <li class="nav-item active"><a href="#home">🏠 صفحه اصلی</a></li>
+      <li class="nav-item">
+        <a href="#prices">💰 قیمت روز ▾</a>
+        <div class="dropdown">
+          <a href="#price-chick"><span class="drop-icon">🐣</span> جوجه یکروزه گوشتی</a>
+          <a href="#price-layer"><span class="drop-icon">🐤</span> جوجه یکروزه تخمگذار</a>
+          <a href="#price-chicken"><span class="drop-icon">🍗</span> مرغ زنده و گوشت مرغ</a>
+          <a href="#price-egg"><span class="drop-icon">🥚</span> تخم مرغ</a>
+          <a href="#price-feed"><span class="drop-icon">🌾</span> نهاده‌های دامی</a>
+          <a href="#price-parent"><span class="drop-icon">📊</span> تخم مرغ نطفه‌دار</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a href="#news">📰 اخبار ▾</a>
+        <div class="dropdown">
+          <a href="#"><span class="drop-icon">🏭</span> مرغداری گوشتی</a>
+          <a href="#"><span class="drop-icon">🥚</span> مرغ تخمگذار</a>
+          <a href="#"><span class="drop-icon">🐔</span> مرغ مادر</a>
+          <a href="#"><span class="drop-icon">👑</span> مرغ اجداد</a>
+          <a href="#"><span class="drop-icon">🐣</span> جوجه‌کشی</a>
+          <a href="#"><span class="drop-icon">🏛️</span> اخبار دولتی</a>
+          <a href="#"><span class="drop-icon">🌍</span> اخبار بین‌الملل</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a href="#articles">📝 مقالات ▾</a>
+        <div class="dropdown">
+          <a href="#"><span class="drop-icon">🔬</span> مقالات علمی</a>
+          <a href="#"><span class="drop-icon">💊</span> بهداشت و درمان</a>
+          <a href="#"><span class="drop-icon">🍽️</span> تغذیه طیور</a>
+          <a href="#"><span class="drop-icon">🏗️</span> مدیریت مرغداری</a>
+          <a href="#"><span class="drop-icon">📈</span> تحلیل بازار</a>
+        </div>
+      </li>
+      <li class="nav-item"><a href="#market">🏪 بازار</a></li>
+      <li class="nav-item"><a href="#forum">💬 انجمن</a></li>
+      <li class="nav-item">
+        <a href="#">📂 بیشتر ▾</a>
+        <div class="dropdown">
+          <a href="#"><span class="drop-icon">📋</span> دایرکتوری مرغداری‌ها</a>
+          <a href="#"><span class="drop-icon">🎓</span> آموزش</a>
+          <a href="#"><span class="drop-icon">📅</span> تقویم رویدادها</a>
+          <a href="#"><span class="drop-icon">📱</span> اپلیکیشن</a>
+          <a href="#"><span class="drop-icon">❓</span> سوالات متداول</a>
+        </div>
+      </li>
+      <li class="nav-item"><a href="#" class="nav-highlight">🔥 استخدام</a></li>
+    </ul>
   </div>
+</nav>
 
-  <!-- Inventory View -->
-  <div id="viewInventory">
-    <div class="search-row">
-      <input class="search-input" id="searchInput" placeholder="🔍 جستجو در انبار..." oninput="renderProducts()">
+<!-- BREAKING NEWS TICKER -->
+<div class="ticker-bar">
+  <div class="container">
+    <div class="ticker-inner">
+      <span class="ticker-label">⚡ فوری</span>
+      <div class="ticker-content">
+        <div class="ticker-track" id="tickerTrack">
+          <span class="ticker-item">قیمت جوجه یکروزه گوشتی امروز با افزایش ۵۰۰ تومانی به ۴۸,۰۰۰ تومان رسید</span>
+          <span class="ticker-item">تخم مرغ شانه‌ای ۱۴۵,۰۰۰ تومان — ثابت نسبت به دیروز</span>
+          <span class="ticker-item">هشدار سازمان دامپزشکی درباره آنفلوانزای فوق حاد پرندگان</span>
+          <span class="ticker-item">نرخ ذرت وارداتی ۱۲,۵۰۰ تومان — کاهش ۲۰۰ تومانی</span>
+          <span class="ticker-item">جلسه تنظیم بازار مرغ و تخم مرغ فردا در وزارت جهاد کشاورزی</span>
+          <span class="ticker-item">صادرات تخم مرغ در خرداد ماه ۳۰ درصد افزایش یافت</span>
+        </div>
+      </div>
     </div>
-    <div class="cats" id="catsBar"></div>
-    <div id="productList"></div>
   </div>
+</div>
 
-  <!-- Dashboard View -->
-  <div id="viewDashboard" style="display:none">
-    <div class="dashboard" id="dashContent"></div>
+<!-- PRICE MARQUEE STRIP -->
+<div class="price-strip">
+  <div class="container">
+    <div class="price-strip-inner" id="priceStrip">
+      <div class="price-chip">
+        <span class="price-chip-name">جوجه یکروزه</span>
+        <span class="price-chip-val">۴۸,۰۰۰</span>
+        <span class="price-chip-change up">▲ ۵۰۰</span>
+      </div>
+      <div class="price-chip">
+        <span class="price-chip-name">مرغ زنده</span>
+        <span class="price-chip-val">۸۵,۰۰۰</span>
+        <span class="price-chip-change down">▼ ۱,۰۰۰</span>
+      </div>
+      <div class="price-chip">
+        <span class="price-chip-name">تخم مرغ (شانه)</span>
+        <span class="price-chip-val">۱۴۵,۰۰۰</span>
+        <span class="price-chip-change up">▲ ۰</span>
+      </div>
+      <div class="price-chip">
+        <span class="price-chip-name">کنجاله سویا</span>
+        <span class="price-chip-val">۲۸,۵۰۰</span>
+        <span class="price-chip-change down">▼ ۳۰۰</span>
+      </div>
+      <div class="price-chip">
+        <span class="price-chip-name">ذرت دامی</span>
+        <span class="price-chip-val">۱۲,۵۰۰</span>
+        <span class="price-chip-change down">▼ ۲۰۰</span>
+      </div>
+      <div class="price-chip">
+        <span class="price-chip-name">گوشت مرغ</span>
+        <span class="price-chip-val">۱۰۵,۰۰۰</span>
+        <span class="price-chip-change up">▲ ۲,۰۰۰</span>
+      </div>
+      <div class="price-chip">
+        <span class="price-chip-name">جوجه تخمگذار</span>
+        <span class="price-chip-val">۵۵,۰۰۰</span>
+        <span class="price-chip-change up">▲ ۱,۰۰۰</span>
+      </div>
+      <div class="price-chip">
+        <span class="price-chip-name">پودر ماهی</span>
+        <span class="price-chip-val">۶۵,۰۰۰</span>
+        <span class="price-chip-change up">▲ ۵۰۰</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HERO / FEATURED NEWS -->
+<section class="hero-section" id="home">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-main" onclick="location.href='#'">
+        <img src="https://placehold.co/800x500/1a7a3a/ffffff?text=خبر+ویژه+طیور&font=playfair-display" alt="خبر ویژه">
+        <div class="overlay">
+          <span class="cat-tag">خبر ویژه</span>
+          <h2>تصمیمات جدید ستاد تنظیم بازار درباره قیمت مرغ و تخم‌مرغ در تابستان ۱۴۰۵</h2>
+          <div class="meta">
+            <span>📅 ۴ تیر ۱۴۰۵</span>
+            <span>👁️ ۲,۳۴۰ بازدید</span>
+            <span>💬 ۱۸ نظر</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-side">
+        <div class="hero-card" onclick="location.href='#'">
+          <img src="https://placehold.co/600x300/f39c12/ffffff?text=جوجه+یکروزه&font=playfair-display" alt="جوجه یکروزه">
+          <div class="overlay">
+            <span class="cat-tag">قیمت روز</span>
+            <h3>روند صعودی قیمت جوجه یکروزه در هفته آخر خرداد ماه</h3>
+            <span class="meta">📅 ۳ تیر ۱۴۰۵</span>
+          </div>
+        </div>
+        <div class="hero-card" onclick="location.href='#'">
+          <img src="https://placehold.co/600x300/e74c3c/ffffff?text=آنفلوانزا&font=playfair-display" alt="آنفلوانزا">
+          <div class="overlay">
+            <span class="cat-tag">بهداشت</span>
+            <h3>هشدار سازمان دامپزشکی: واکسیناسیون علیه آنفلوانزا الزامی شد</h3>
+            <span class="meta">📅 ۲ تیر ۱۴۰۵</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUICK PRICE CARDS -->
+<section class="prices-section" id="prices">
+  <div class="container">
+    <div class="section-title">
+      <span class="icon">💰</span>
+      قیمت‌های لحظه‌ای بازار طیور
+      <a href="#">مشاهده همه قیمت‌ها ←</a>
+    </div>
+    <div class="price-cards">
+      <div class="price-card" onclick="switchPriceTab('chick')">
+        <div class="price-card-header">
+          <span class="price-card-icon">🐣</span>
+          <span class="price-card-badge badge-green">▲ ۱.۱٪</span>
+        </div>
+        <h4>جوجه یکروزه گوشتی</h4>
+        <div class="price-amount">۴۸,۰۰۰</div>
+        <div class="price-unit">تومان / قطعه</div>
+        <div class="price-change" style="color:var(--green-up)">▲ ۵۰۰ تومان نسبت به دیروز</div>
+      </div>
+      <div class="price-card" onclick="switchPriceTab('egg')">
+        <div class="price-card-header">
+          <span class="price-card-icon">🥚</span>
+          <span class="price-card-badge badge-orange">— ۰٪</span>
+        </div>
+        <h4>تخم مرغ (شانه‌ای)</h4>
+        <div class="price-amount">۱۴۵,۰۰۰</div>
+        <div class="price-unit">تومان / شانه ۳۰ عددی</div>
+        <div class="price-change" style="color:var(--text-muted)">— بدون تغییر</div>
+      </div>
+      <div class="price-card" onclick="switchPriceTab('chicken')">
+        <div class="price-card-header">
+          <span class="price-card-icon">🍗</span>
+          <span class="price-card-badge badge-red">▼ ۱.۲٪</span>
+        </div>
+        <h4>مرغ زنده</h4>
+        <div class="price-amount">۸۵,۰۰۰</div>
+        <div class="price-unit">تومان / کیلوگرم</div>
+        <div class="price-change" style="color:var(--red-down)">▼ ۱,۰۰۰ تومان نسبت به دیروز</div>
+      </div>
+      <div class="price-card" onclick="switchPriceTab('feed')">
+        <div class="price-card-header">
+          <span class="price-card-icon">🌾</span>
+          <span class="price-card-badge badge-red">▼ ۰.۸٪</span>
+        </div>
+        <h4>ذرت دامی</h4>
+        <div class="price-amount">۱۲,۵۰۰</div>
+        <div class="price-unit">تومان / کیلوگرم</div>
+        <div class="price-change" style="color:var(--red-down)">▼ ۲۰۰ تومان نسبت به دیروز</div>
+      </div>
+    </div>
+
+    <!-- PRICE TABLE -->
+    <div class="price-tabs" id="priceTabs">
+      <button class="price-tab active" onclick="switchPriceTab('chick')">🐣 جوجه یکروزه</button>
+      <button class="price-tab" onclick="switchPriceTab('egg')">🥚 تخم مرغ</button>
+      <button class="price-tab" onclick="switchPriceTab('chicken')">🍗 مرغ و گوشت</button>
+      <button class="price-tab" onclick="switchPriceTab('feed')">🌾 نهاده‌ها</button>
+      <button class="price-tab" onclick="switchPriceTab('parent')">🐔 مرغ مادر</button>
+      <button class="price-tab" onclick="switchPriceTab('ancestor')">👑 مرغ اجداد</button>
+    </div>
+
+    <div class="price-table-wrap">
+      <div class="price-date">📅 آخرین بروزرسانی: پنجشنبه ۴ تیر ۱۴۰۵ — ساعت ۰۸:۰۰</div>
+      <table class="price-table" id="priceTableBody">
+        <thead>
+          <tr>
+            <th>محصول</th>
+            <th>قیمت امروز (تومان)</th>
+            <th>قیمت دیروز</th>
+            <th>تغییر</th>
+            <th>واحد</th>
+            <th>وضعیت</th>
+          </tr>
+        </thead>
+        <tbody id="priceData">
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- NEWS + SIDEBAR -->
+<section class="news-section" id="news">
+  <div class="container">
+    <div class="section-title">
+      <span class="icon">📰</span>
+      آخرین اخبار صنعت طیور
+      <a href="#">آرشیو اخبار ←</a>
+    </div>
+    <div class="news-layout">
+      <div class="news-grid">
+        <div class="news-card">
+          <div class="news-card-img">
+            <img src="https://placehold.co/400x200/27ae60/ffffff?text=مرغداری+گوشتی&font=playfair-display" alt="">
+            <span class="cat-label">مرغداری گوشتی</span>
+          </div>
+          <div class="news-card-body">
+            <h3><a href="#">افزایش ظرفیت تولید مرغ گوشتی در استان‌های شمالی کشور</a></h3>
+            <p>با بهره‌برداری از ۱۵ واحد جدید مرغداری گوشتی، ظرفیت تولید مرغ در استان‌های گیلان و مازندران ۲۰ درصد افزایش یافت.</p>
+            <div class="news-card-footer">
+              <span class="author">✍️ علی محمدی</span>
+              <span>📅 ۴ تیر ۱۴۰۵</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="news-card">
+          <div class="news-card-img">
+            <img src="https://placehold.co/400x200/f39c12/ffffff?text=تخم+مرغ&font=playfair-display" alt="">
+            <span class="cat-label" style="background:var(--secondary)">تخمگذار</span>
+          </div>
+          <div class="news-card-body">
+            <h3><a href="#">وضعیت بازار تخم مرغ در آستانه فصل گرما — پیش‌بینی کارشناسان</a></h3>
+            <p>کارشناسان صنعت طیور پیش‌بینی می‌کنند با آغاز فصل گرما، تولید تخم مرغ کاهش و قیمت‌ها روند صعودی داشته باشد.</p>
+            <div class="news-card-footer">
+              <span class="author">✍️ مریم احمدی</span>
+              <span>📅 ۳ تیر ۱۴۰۵</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="news-card">
+          <div class="news-card-img">
+            <img src="https://placehold.co/400x200/e74c3c/ffffff?text=واکسیناسیون&font=playfair-display" alt="">
+            <span class="cat-label" style="background:var(--accent)">بهداشت</span>
+          </div>
+          <div class="news-card-body">
+            <h3><a href="#">برنامه واکسیناسیون فصلی طیور — دستورالعمل جدید سازمان دامپزشکی</a></h3>
+            <p>سازمان دامپزشکی کشور دستورالعمل جدید واکسیناسیون فصلی طیور را ابلاغ کرد. تمام واحدهای مرغداری موظف به رعایت هستند.</p>
+            <div class="news-card-footer">
+              <span class="author">✍️ دکتر رضایی</span>
+              <span>📅 ۳ تیر ۱۴۰۵</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="news-card">
+          <div class="news-card-img">
+            <img src="https://placehold.co/400x200/9b59b6/ffffff?text=مرغ+مادر&font=playfair-display" alt="">
+            <span class="cat-label" style="background:#9b59b6">مرغ مادر</span>
+          </div>
+          <div class="news-card-body">
+            <h3><a href="#">واردات ۵ میلیون قطعه مرغ مادر در فصل بهار — تأثیر بر بازار جوجه</a></h3>
+            <p>با واردات محموله‌های جدید مرغ مادر، پیش‌بینی می‌شود عرضه جوجه یکروزه در ماه‌های آینده افزایش یابد.</p>
+            <div class="news-card-footer">
+              <span class="author">✍️ حسن نوری</span>
+              <span>📅 ۲ تیر ۱۴۰۵</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="news-card">
+          <div class="news-card-img">
+            <img src="https://placehold.co/400x200/3498db/ffffff?text=صادرات&font=playfair-display" alt="">
+            <span class="cat-label" style="background:#3498db">بین‌الملل</span>
+          </div>
+          <div class="news-card-body">
+            <h3><a href="#">رشد ۳۰ درصدی صادرات تخم‌مرغ ایران به کشورهای همسایه</a></h3>
+            <p>آمار گمرک نشان می‌دهد صادرات تخم‌مرغ در سه ماه اول سال ۱۴۰۵ نسبت به مدت مشابه سال قبل ۳۰ درصد رشد داشته است.</p>
+            <div class="news-card-footer">
+              <span class="author">✍️ سارا کریمی</span>
+              <span>📅 ۱ تیر ۱۴۰۵</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="news-card">
+          <div class="news-card-img">
+            <img src="https://placehold.co/400x200/1abc9c/ffffff?text=جوجه+کشی&font=playfair-display" alt="">
+            <span class="cat-label" style="background:#1abc9c">جوجه‌کشی</span>
+          </div>
+          <div class="news-card-body">
+            <h3><a href="#">تکنولوژی‌های نوین جوجه‌کشی — افزایش درصد جوجه‌درآوری تا ۹۵٪</a></h3>
+            <p>با استفاده از فناوری‌های جدید هوش مصنوعی در مراکز جوجه‌کشی، درصد جوجه‌درآوری به بالای ۹۵ درصد رسیده است.</p>
+            <div class="news-card-footer">
+              <span class="author">✍️ مهندس خانی</span>
+              <span>📅 ۱ تیر ۱۴۰۵</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SIDEBAR -->
+      <div class="sidebar">
+        <!-- Popular Posts -->
+        <div class="sidebar-box">
+          <div class="sidebar-box-header">🔥 پربازدیدترین‌ها</div>
+          <div class="sidebar-box-body">
+            <div class="popular-item"><span class="popular-num">۱</span><div><div class="popular-text"><a href="#">قیمت جوجه یکروزه امروز ۴ تیر ۱۴۰۵</a></div><div class="popular-date">۲,۳۴۰ بازدید</div></div></div>
+            <div class="popular-item"><span class="popular-num">۲</span><div><div class="popular-text"><a href="#">پیش‌بینی قیمت مرغ در تابستان</a></div><div class="popular-date">۱,۸۹۰ بازدید</div></div></div>
+            <div class="popular-item"><span class="popular-num">۳</span><div><div class="popular-text"><a href="#">بهترین نژادهای مرغ تخمگذار</a></div><div class="popular-date">۱,۵۴۰ بازدید</div></div></div>
+            <div class="popular-item"><span class="popular-num">۴</span><div><div class="popular-text"><a href="#">نرخ نهاده‌ها در هفته جاری</a></div><div class="popular-date">۱,۲۱۰ بازدید</div></div></div>
+            <div class="popular-item"><span class="popular-num">۵</span><div><div class="popular-text"><a href="#">راهنمای کامل پرورش مرغ گوشتی</a></div><div class="popular-date">۹۸۰ بازدید</div></div></div>
+          </div>
+        </div>
+
+        <!-- Poll -->
+        <div class="sidebar-box">
+          <div class="sidebar-box-header">📊 نظرسنجی</div>
+          <div class="sidebar-box-body">
+            <p style="font-size:14px;font-weight:700;margin-bottom:12px">پیش‌بینی شما از قیمت مرغ در تابستان؟</p>
+            <div class="poll-option" onclick="selectPoll(this)"><span class="poll-radio"></span><span class="poll-label">افزایشی (بالای ۱۰۰ هزار تومان)</span></div>
+            <div class="poll-option" onclick="selectPoll(this)"><span class="poll-radio"></span><span class="poll-label">ثابت (حدود ۸۵ هزار تومان)</span></div>
+            <div class="poll-option" onclick="selectPoll(this)"><span class="poll-radio"></span><span class="poll-label">کاهشی (زیر ۸۰ هزار تومان)</span></div>
+            <button class="btn btn-primary" style="width:100%;margin-top:12px;justify-content:center" onclick="submitPoll()">ثبت رأی</button>
+            <p style="font-size:11px;color:var(--text-muted);margin-top:8px;text-align:center">تاکنون ۳۴۵ نفر رأی داده‌اند</p>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="sidebar-box">
+          <div class="sidebar-box-header">⚡ دسترسی سریع</div>
+          <div class="sidebar-box-body">
+            <a href="#prices" class="btn btn-outline" style="width:100%;margin-bottom:8px;justify-content:center">💰 قیمت لحظه‌ای</a>
+            <a href="#forum" class="btn btn-outline" style="width:100%;margin-bottom:8px;justify-content:center">💬 انجمن گفت‌وگو</a>
+            <a href="#market" class="btn btn-outline" style="width:100%;margin-bottom:8px;justify-content:center">🏪 خرید و فروش</a>
+            <a href="#" class="btn btn-outline" style="width:100%;justify-content:center">📋 دایرکتوری مرغداری‌ها</a>
+          </div>
+        </div>
+
+        <!-- Ad Space -->
+        <div class="sidebar-ad">
+          <h4>📢 تبلیغات شما</h4>
+          <p>برای درج آگهی و تبلیغات در طیور نیوز با ما تماس بگیرید</p>
+          <button class="btn btn-secondary" style="margin-top:12px">اطلاعات بیشتر</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORY NEWS: BROILER -->
+<section class="cat-section">
+  <div class="container">
+    <div class="section-title">
+      <span class="icon">🏭</span>
+      اخبار مرغداری گوشتی
+      <a href="#">بیشتر ←</a>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+      <div class="cat-news-list">
+        <div class="cat-news-item">
+          <div class="thumb"><img src="https://placehold.co/140x100/27ae60/ffffff?text=🐔" alt=""></div>
+          <div class="info"><h4><a href="#">طرح توسعه مرغداری‌های گوشتی در استان فارس کلید خورد</a></h4><p>با حمایت بانک کشاورزی، ۲۰ واحد جدید مرغداری گوشتی در استان فارس احداث می‌شود.</p><span class="meta">📅 ۴ تیر ۱۴۰۵ · 👁️ ۵۶۰ بازدید</span></div>
+        </div>
+        <div class="cat-news-item">
+          <div class="thumb"><img src="https://placehold.co/140x100/2ecc71/ffffff?text=📊" alt=""></div>
+          <div class="info"><h4><a href="#">تحلیل هفتگی بازار مرغ گوشتی — هفته اول تیر ماه</a></h4><p>بررسی روند عرضه و تقاضا و پیش‌بینی قیمت مرغ زنده در هفته جاری.</p><span class="meta">📅 ۳ تیر ۱۴۰۵ · 👁️ ۴۲۰ بازدید</span></div>
+        </div>
+        <div class="cat-news-item">
+          <div class="thumb"><img src="https://placehold.co/140x100/1abc9c/ffffff?text=💊" alt=""></div>
+          <div class="info"><h4><a href="#">مدیریت استرس گرمایی در مرغداری‌های گوشتی — توصیه‌های تابستانی</a></h4><p>راهکارهای عملی برای کاهش تلفات ناشی از گرما در فارم‌های مرغ گوشتی.</p><span class="meta">📅 ۲ تیر ۱۴۰۵ · 👁️ ۸۹۰ بازدید</span></div>
+        </div>
+      </div>
+      <div class="cat-news-list">
+        <div class="cat-news-item">
+          <div class="thumb"><img src="https://placehold.co/140x100/16a085/ffffff?text=🏗️" alt=""></div>
+          <div class="info"><h4><a href="#">مقایسه سیستم‌های پرورش مرغ گوشتی — قفسی یا بستری؟</a></h4><p>بررسی مزایا و معایب هر دو سیستم و تأثیر آن بر بازدهی تولید.</p><span class="meta">📅 ۱ تیر ۱۴۰۵ · 👁️ ۳۴۰ بازدید</span></div>
+        </div>
+        <div class="cat-news-item">
+          <div class="thumb"><img src="https://placehold.co/140x100/0e6655/ffffff?text=🌡️" alt=""></div>
+          <div class="info"><h4><a href="#">تجهیزات خنک‌کننده مرغداری — راهنمای خرید سال ۱۴۰۵</a></h4><p>معرفی بهترین برندها و مدل‌های سیستم خنک‌کننده مرغداری با قیمت.</p><span class="meta">📅 ۳۱ خرداد ۱۴۰۵ · 👁️ ۷۲۰ بازدید</span></div>
+        </div>
+        <div class="cat-news-item">
+          <div class="thumb"><img src="https://placehold.co/140x100/117a65/ffffff?text=📈" alt=""></div>
+          <div class="info"><h4><a href="#">آمار تولید مرغ گوشتی در سه ماهه اول سال ۱۴۰۵</a></h4><p>مرکز آمار ایران گزارش تولید مرغ گوشتی در بهار ۱۴۰۵ را منتشر کرد.</p><span class="meta">📅 ۳۰ خرداد ۱۴۰۵ · 👁️ ۵۱۰ بازدید</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORUM SECTION -->
+<section class="forum-section" id="forum">
+  <div class="container">
+    <div class="forum-header">
+      <div class="section-title" style="border-bottom:none;margin-bottom:0;padding-bottom:0">
+        <span class="icon">💬</span>
+        انجمن گفت‌وگوی فعالان صنعت طیور
+      </div>
+      <div class="forum-stats">
+        <div class="forum-stat"><div class="forum-stat-val">۱۲,۴۵۰</div><div class="forum-stat-lbl">عضو فعال</div></div>
+        <div class="forum-stat"><div class="forum-stat-val">۳,۸۷۰</div><div class="forum-stat-lbl">موضوع</div></div>
+        <div class="forum-stat"><div class="forum-stat-val">۲۸,۹۲۰</div><div class="forum-stat-lbl">پاسخ</div></div>
+      </div>
+    </div>
+
+    <!-- Forum Categories -->
+    <div class="forum-cats">
+      <div class="forum-cat-card" onclick="location.href='#'">
+        <div class="forum-cat-icon">🏭</div>
+        <h4>مرغداری گوشتی</h4>
+        <p>بحث و گفتگو درباره پرورش مرغ گوشتی، مدیریت فارم و مسائل روزمره</p>
+        <div class="forum-cat-meta"><span>📝 ۸۴۵ موضوع</span><span>💬 ۶,۲۳۰ پاسخ</span></div>
+      </div>
+      <div class="forum-cat-card" onclick="location.href='#'">
+        <div class="forum-cat-icon">🥚</div>
+        <h4>مرغ تخمگذار</h4>
+        <p>همه چیز درباره پرورش مرغ تخمگذار، نژادها و بازدهی تولید</p>
+        <div class="forum-cat-meta"><span>📝 ۶۲۰ موضوع</span><span>💬 ۴,۸۵۰ پاسخ</span></div>
+      </div>
+      <div class="forum-cat-card" onclick="location.href='#'">
+        <div class="forum-cat-icon">🐔</div>
+        <h4>مرغ مادر و اجداد</h4>
+        <p>تبادل نظر درباره گله‌های مادر و اجداد، مدیریت تولید و واردات</p>
+        <div class="forum-cat-meta"><span>📝 ۳۴۰ موضوع</span><span>💬 ۲,۱۰۰ پاسخ</span></div>
+      </div>
+      <div class="forum-cat-card" onclick="location.href='#'">
+        <div class="forum-cat-icon">🐣</div>
+        <h4>جوجه‌کشی</h4>
+        <p>مباحث تخصصی جوجه‌کشی، تجهیزات، دما و رطوبت انکوباتور</p>
+        <div class="forum-cat-meta"><span>📝 ۵۱۰ موضوع</span><span>💬 ۳,۹۴۰ پاسخ</span></div>
+      </div>
+      <div class="forum-cat-card" onclick="location.href='#'">
+        <div class="forum-cat-icon">💊</div>
+        <h4>بهداشت و درمان</h4>
+        <p>سوالات بهداشتی، بیماری‌ها، واکسیناسیون و مشاوره دامپزشکی</p>
+        <div class="forum-cat-meta"><span>📝 ۹۲۰ موضوع</span><span>💬 ۷,۴۵۰ پاسخ</span></div>
+      </div>
+      <div class="forum-cat-card" onclick="location.href='#'">
+        <div class="forum-cat-icon">💰</div>
+        <h4>بازار و قیمت‌ها</h4>
+        <p>بحث درباره قیمت‌های روز، خرید و فروش، تحلیل بازار</p>
+        <div class="forum-cat-meta"><span>📝 ۶۳۵ موضوع</span><span>💬 ۴,۳۵۰ پاسخ</span></div>
+      </div>
+    </div>
+
+    <!-- Latest Forum Topics -->
+    <div class="forum-topics">
+      <div class="forum-topic-header">
+        <span>موضوع</span>
+        <span style="text-align:center">پاسخ‌ها</span>
+        <span style="text-align:center">بازدید</span>
+        <span>آخرین پاسخ</span>
+      </div>
+      <div class="forum-topic-row">
+        <div class="forum-topic-title"><a href="#">قیمت جوجه یکروزه فردا چقدر میشه؟ پیش‌بینی دوستان چیه؟</a><span class="topic-cat">💰 بازار و قیمت‌ها</span></div>
+        <div class="forum-topic-count">۴۵</div>
+        <div class="forum-topic-count">۱,۲۳۰</div>
+        <div class="forum-topic-last"><strong>رضا_مرغدار</strong>۱۰ دقیقه پیش</div>
+      </div>
+      <div class="forum-topic-row">
+        <div class="forum-topic-title"><a href="#">تلفات بالا در سن ۲۰ روزگی — کمک فوری لازمه!</a><span class="topic-cat">💊 بهداشت و درمان</span></div>
+        <div class="forum-topic-count">۲۳</div>
+        <div class="forum-topic-count">۸۹۰</div>
+        <div class="forum-topic-last"><strong>دکتر_احمدی</strong>۳۰ دقیقه پیش</div>
+      </div>
+      <div class="forum-topic-row">
+        <div class="forum-topic-title"><a href="#">بهترین فن تونلی برای سالن ۱۲۰ متری — تجربیات شما</a><span class="topic-cat">🏭 مرغداری گوشتی</span></div>
+        <div class="forum-topic-count">۱۸</div>
+        <div class="forum-topic-count">۶۴۰</div>
+        <div class="forum-topic-last"><strong>محمد_تهرانی</strong>۱ ساعت پیش</div>
+      </div>
+      <div class="forum-topic-row">
+        <div class="forum-topic-title"><a href="#">مقایسه نژاد لوهمن و های‌لاین — کدوم بهتره؟</a><span class="topic-cat">🥚 مرغ تخمگذار</span></div>
+        <div class="forum-topic-count">۳۲</div>
+        <div class="forum-topic-count">۱,۵۶۰</div>
+        <div class="forum-topic-last"><strong>علی_اصفهانی</strong>۲ ساعت پیش</div>
+      </div>
+      <div class="forum-topic-row">
+        <div class="forum-topic-title"><a href="#">تنظیمات دما و رطوبت ستر — چک‌لیست کامل</a><span class="topic-cat">🐣 جوجه‌کشی</span></div>
+        <div class="forum-topic-count">۱۵</div>
+        <div class="forum-topic-count">۴۲۰</div>
+        <div class="forum-topic-last"><strong>حسین_جوجه‌کشی</strong>۳ ساعت پیش</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:20px">
+      <a href="#" class="btn btn-primary">💬 ورود به انجمن</a>
+      <a href="#" class="btn btn-outline" style="margin-right:8px">📝 ایجاد موضوع جدید</a>
+    </div>
+  </div>
+</section>
+
+<!-- MARKET / BUY-SELL -->
+<section class="market-section" id="market">
+  <div class="container">
+    <div class="section-title">
+      <span class="icon">🏪</span>
+      بازار خرید و فروش طیور
+      <a href="#">همه آگهی‌ها ←</a>
+    </div>
+    <div class="market-grid">
+      <div class="market-card">
+        <div class="market-card-header">
+          <h4>🐣 جوجه یکروزه راس ۳۰۸</h4>
+          <span class="market-type sell">فروش</span>
+        </div>
+        <p>فروش جوجه یکروزه گوشتی نژاد راس ۳۰۸ از جوجه‌کشی معتبر با گواهی بهداشتی. حداقل سفارش ۵,۰۰۰ قطعه.</p>
+        <div class="market-card-footer">
+          <span>📍 تهران</span>
+          <span>📅 ۴ تیر ۱۴۰۵</span>
+          <a href="#" style="color:var(--primary);font-weight:600">مشاهده →</a>
+        </div>
+      </div>
+      <div class="market-card">
+        <div class="market-card-header">
+          <h4>🥚 تخم مرغ صادراتی</h4>
+          <span class="market-type sell">فروش</span>
+        </div>
+        <p>فروش تخم مرغ خوراکی درجه یک مناسب صادرات. ظرفیت عرضه روزانه ۱۰ تن. قیمت توافقی.</p>
+        <div class="market-card-footer">
+          <span>📍 اصفهان</span>
+          <span>📅 ۳ تیر ۱۴۰۵</span>
+          <a href="#" style="color:var(--primary);font-weight:600">مشاهده →</a>
+        </div>
+      </div>
+      <div class="market-card">
+        <div class="market-card-header">
+          <h4>🌾 کنجاله سویا وارداتی</h4>
+          <span class="market-type buy">خرید</span>
+        </div>
+        <p>خریدار ۵۰۰ تن کنجاله سویا وارداتی با پروتئین بالای ۴۶٪. پرداخت نقدی.</p>
+        <div class="market-card-footer">
+          <span>📍 مشهد</span>
+          <span>📅 ۲ تیر ۱۴۰۵</span>
+          <a href="#" style="color:var(--primary);font-weight:600">مشاهده →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERT SECTION -->
+<section class="expert-section">
+  <div class="container">
+    <div class="section-title">
+      <span class="icon">🎓</span>
+      کارشناسان و مشاوران طیور نیوز
+      <a href="#">همه کارشناسان ←</a>
+    </div>
+    <div class="expert-grid">
+      <div class="expert-card">
+        <div class="expert-avatar">👨‍⚕️</div>
+        <h4>دکتر احمد رضایی</h4>
+        <div class="specialty">دامپزشک — بهداشت طیور</div>
+        <p>۱۵ سال سابقه در بهداشت و درمان طیور صنعتی</p>
+      </div>
+      <div class="expert-card">
+        <div class="expert-avatar">👨‍🔬</div>
+        <h4>مهندس فاطمه نوری</h4>
+        <div class="specialty">متخصص تغذیه طیور</div>
+        <p>کارشناس ارشد تغذیه دام و طیور از دانشگاه تهران</p>
+      </div>
+      <div class="expert-card">
+        <div class="expert-avatar">👨‍💼</div>
+        <h4>حسن محمدزاده</h4>
+        <div class="specialty">تحلیلگر بازار طیور</div>
+        <p>تحلیل‌گر بازار با ۱۰ سال تجربه در صنعت مرغداری</p>
+      </div>
+      <div class="expert-card">
+        <div class="expert-avatar">👩‍🏫</div>
+        <h4>دکتر مریم کاظمی</h4>
+        <div class="specialty">ژنتیک و اصلاح نژاد</div>
+        <p>عضو هیئت علمی دانشگاه — تحقیقات ژنتیک طیور</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter">
+  <div class="container">
+    <h3>📬 عضویت در خبرنامه طیور نیوز</h3>
+    <p>روزانه آخرین قیمت‌ها و اخبار مهم صنعت طیور را در ایمیل خود دریافت کنید</p>
+    <div class="newsletter-form">
+      <input type="email" placeholder="ایمیل خود را وارد کنید...">
+      <button onclick="subscribeNewsletter()">عضویت</button>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORY: LAYER -->
+<section class="cat-section">
+  <div class="container">
+    <div class="section-title">
+      <span class="icon" style="background:var(--secondary)">🥚</span>
+      اخبار مرغ تخمگذار
+      <a href="#">بیشتر ←</a>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+      <div class="cat-news-list">
+        <div class="cat-news-item">
+          <div class="thumb"><img src="https://placehold.co/140x100/f39c12/ffffff?text=🥚" alt=""></div>
+          <div class="info"><h4><a href="#">راهنمای انتخاب نژاد مرغ تخمگذار — مقایسه جامع</a></h4><p>مقایسه نژادهای مختلف مرغ تخمگذار از نظر تولید، مصرف خوراک و مقاومت.</p><span class="meta">📅 ۴ تیر ۱۴۰۵</span></div>
+        </div>
+        <div class="cat-news-item">
+          <div class="thumb"><img src="https://placehold.co/140x100/e67e22/ffffff?text=📊" alt=""></div>
+          <div class="info"><h4><a href="#">روند تولید تخم مرغ در سال ۱۴۰۵ — آمار و ارقام</a></h4><p>بررسی آماری تولید تخم مرغ در سه ماهه اول سال و مقایسه با سال گذشته.</p><span class="meta">📅 ۳ تیر ۱۴۰۵</span></div>
+        </div>
+      </div>
+      <div class="cat-news-list">
+        <div class="cat-news-item">
+          <div class="thumb"><img src="https://placehold.co/140x100/d35400/ffffff?text=🏠" alt=""></div>
+          <div class="info"><h4><a href="#">سیستم قفس غنی‌شده — استاندارد جدید اروپایی</a></h4><p>آشنایی با سیستم‌های جدید نگهداری مرغ تخمگذار مطابق استانداردهای بین‌المللی.</p><span class="meta">📅 ۲ تیر ۱۴۰۵</span></div>
+        </div>
+        <div class="cat-news-item">
+          <div class="thumb"><img src="https://placehold.co/140x100/e74c3c/ffffff?text=⚠️" alt=""></div>
+          <div class="info"><h4><a href="#">مدیریت تنش گرمایی در مرغ تخمگذار — راهکارهای عملی</a></h4><p>کاهش تولید تخم مرغ در تابستان و راهکارهای مقابله با استرس حرارتی.</p><span class="meta">📅 ۱ تیر ۱۴۰۵</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <h3>🐔 طیور نیوز</h3>
+        <p>طیور نیوز، پایگاه جامع خبری صنعت طیور ایران است که با هدف اطلاع‌رسانی به فعالان این صنعت، روزانه آخرین قیمت‌ها، اخبار و تحلیل‌های تخصصی را منتشر می‌کند. ما در کنار مرغداران، جوجه‌کش‌ها، تولیدکنندگان تخم مرغ و تمام فعالان زنجیره طیور هستیم.</p>
+        <div class="footer-social">
+          <a href="#" title="تلگرام">📱</a>
+          <a href="#" title="اینستاگرام">📸</a>
+          <a href="#" title="واتساپ">💬</a>
+          <a href="#" title="آپارات">🎬</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>دسترسی سریع</h4>
+        <ul>
+          <li><a href="#prices">قیمت روز طیور</a></li>
+          <li><a href="#news">آخرین اخبار</a></li>
+          <li><a href="#forum">انجمن گفت‌وگو</a></li>
+          <li><a href="#market">بازار خرید و فروش</a></li>
+          <li><a href="#">دایرکتوری مرغداری‌ها</a></li>
+          <li><a href="#">آموزش‌ها</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>دسته‌بندی‌ها</h4>
+        <ul>
+          <li><a href="#">مرغداری گوشتی</a></li>
+          <li><a href="#">مرغ تخمگذار</a></li>
+          <li><a href="#">مرغ مادر</a></li>
+          <li><a href="#">مرغ اجداد</a></li>
+          <li><a href="#">جوجه‌کشی</a></li>
+          <li><a href="#">نهاده‌های دامی</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>تماس با ما</h4>
+        <ul class="footer-contact">
+          <li><span class="fc-icon">📞</span> ۰۲۱-۱۲۳۴۵۶۷۸</li>
+          <li><span class="fc-icon">📱</span> ۰۹۱۲-۱۲۳-۴۵۶۷</li>
+          <li><span class="fc-icon">📧</span> info@toyournews.ir</li>
+          <li><span class="fc-icon">📍</span> تهران — خیابان ولیعصر</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container">
+      <p>© ۱۴۰۵ طیور نیوز — تمامی حقوق محفوظ است. | <a href="#">قوانین و مقررات</a> | <a href="#">حریم خصوصی</a> | <a href="#">تبلیغات</a></p>
+    </div>
+  </div>
+</footer>
+
+<!-- BACK TO TOP -->
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">▲</button>
+
+<!-- LOGIN MODAL -->
+<div id="loginModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;align-items:center;justify-content:center">
+  <div style="background:#fff;border-radius:var(--radius-lg);padding:40px;max-width:420px;width:90%;position:relative">
+    <button onclick="document.getElementById('loginModal').style.display='none'" style="position:absolute;top:16px;left:16px;background:none;border:none;font-size:24px;cursor:pointer;color:var(--text-muted)">✕</button>
+    <div style="text-align:center;margin-bottom:24px">
+      <div style="font-size:48px;margin-bottom:8px">🐔</div>
+      <h3 style="font-size:20px;font-weight:800;color:var(--text)">ورود به طیور نیوز</h3>
+      <p style="font-size:13px;color:var(--text-light)">برای دسترسی به انجمن و امکانات ویژه وارد شوید</p>
+    </div>
+    <div style="margin-bottom:16px">
+      <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px">شماره موبایل یا ایمیل</label>
+      <input type="text" style="width:100%;padding:12px 16px;border:2px solid var(--border);border-radius:var(--radius-sm);font-family:inherit;font-size:14px;outline:none" placeholder="۰۹۱۲۱۲۳۴۵۶۷">
+    </div>
+    <div style="margin-bottom:20px">
+      <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px">رمز عبور</label>
+      <input type="password" style="width:100%;padding:12px 16px;border:2px solid var(--border);border-radius:var(--radius-sm);font-family:inherit;font-size:14px;outline:none" placeholder="رمز عبور">
+    </div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:14px;font-size:15px">ورود به حساب</button>
+    <div style="text-align:center;margin-top:16px;font-size:13px;color:var(--text-light)">
+      <a href="#" style="color:var(--primary)">ثبت‌نام</a> | <a href="#" style="color:var(--primary)">فراموشی رمز</a>
+    </div>
   </div>
 </div>
 
 <script>
-const WORKER_URL = 'https://anbar-api.sfarnam73.workers.dev';
-const STORAGE_KEY = 'sina-anbar-v4';
-let products = [];
-let currentCat = 'همه';
-let recognition = null;
-let isListening = false;
-let isLoading = false;
-let silenceTimer = null;
-let recordingTimer = null;
+// ===== PRICE DATA =====
+const priceData = {
+  chick: [
+    {name:'جوجه یکروزه گوشتی (راس ۳۰۸)',today:'۴۸,۰۰۰',yesterday:'۴۷,۵۰۰',change:'+۵۰۰',unit:'قطعه',status:'up'},
+    {name:'جوجه یکروزه گوشتی (کاب ۵۰۰)',today:'۴۷,۰۰۰',yesterday:'۴۶,۸۰۰',change:'+۲۰۰',unit:'قطعه',status:'up'},
+    {name:'جوجه یکروزه گوشتی (آربورآیکرز)',today:'۴۶,۵۰۰',yesterday:'۴۶,۵۰۰',change:'۰',unit:'قطعه',status:'neutral'},
+    {name:'جوجه یکروزه تخمگذار (لوهمن)',today:'۵۵,۰۰۰',yesterday:'۵۴,۰۰۰',change:'+۱,۰۰۰',unit:'قطعه',status:'up'},
+    {name:'جوجه یکروزه تخمگذار (های‌لاین)',today:'۵۶,۰۰۰',yesterday:'۵۵,۵۰۰',change:'+۵۰۰',unit:'قطعه',status:'up'},
+    {name:'جوجه بوقلمون',today:'۱۲۰,۰۰۰',yesterday:'۱۱۸,۰۰۰',change:'+۲,۰۰۰',unit:'قطعه',status:'up'},
+  ],
+  egg: [
+    {name:'تخم مرغ شانه‌ای ۳۰ عددی',today:'۱۴۵,۰۰۰',yesterday:'۱۴۵,۰۰۰',change:'۰',unit:'شانه',status:'neutral'},
+    {name:'تخم مرغ بسته‌بندی ۱۵ عددی',today:'۸۵,۰۰۰',yesterday:'۸۴,۰۰۰',change:'+۱,۰۰۰',unit:'بسته',status:'up'},
+    {name:'تخم مرغ درب مرغداری',today:'۱۲۵,۰۰۰',yesterday:'۱۲۶,۰۰۰',change:'-۱,۰۰۰',unit:'شانه',status:'down'},
+    {name:'تخم مرغ صادراتی',today:'۱۳۵,۰۰۰',yesterday:'۱۳۳,۰۰۰',change:'+۲,۰۰۰',unit:'شانه',status:'up'},
+    {name:'تخم مرغ محلی',today:'۱۸۰,۰۰۰',yesterday:'۱۷۸,۰۰۰',change:'+۲,۰۰۰',unit:'شانه',status:'up'},
+  ],
+  chicken: [
+    {name:'مرغ زنده درب مرغداری',today:'۸۵,۰۰۰',yesterday:'۸۶,۰۰۰',change:'-۱,۰۰۰',unit:'کیلوگرم',status:'down'},
+    {name:'مرغ زنده بازار',today:'۹۲,۰۰۰',yesterday:'۹۳,۵۰۰',change:'-۱,۵۰۰',unit:'کیلوگرم',status:'down'},
+    {name:'گوشت مرغ (کشتار روز)',today:'۱۰۵,۰۰۰',yesterday:'۱۰۳,۰۰۰',change:'+۲,۰۰۰',unit:'کیلوگرم',status:'up'},
+    {name:'ران مرغ',today:'۱۱۵,۰۰۰',yesterday:'۱۱۴,۰۰۰',change:'+۱,۰۰۰',unit:'کیلوگرم',status:'up'},
+    {name:'سینه مرغ',today:'۱۵۵,۰۰۰',yesterday:'۱۵۳,۰۰۰',change:'+۲,۰۰۰',unit:'کیلوگرم',status:'up'},
+    {name:'فیله مرغ',today:'۱۸۵,۰۰۰',yesterday:'۱۸۲,۰۰۰',change:'+۳,۰۰۰',unit:'کیلوگرم',status:'up'},
+  ],
+  feed: [
+    {name:'ذرت دامی',today:'۱۲,۵۰۰',yesterday:'۱۲,۷۰۰',change:'-۲۰۰',unit:'کیلوگرم',status:'down'},
+    {name:'کنجاله سویا',today:'۲۸,۵۰۰',yesterday:'۲۸,۸۰۰',change:'-۳۰۰',unit:'کیلوگرم',status:'down'},
+    {name:'پودر ماهی',today:'۶۵,۰۰۰',yesterday:'۶۴,۵۰۰',change:'+۵۰۰',unit:'کیلوگرم',status:'up'},
+    {name:'پودر گوشت',today:'۳۵,۰۰۰',yesterday:'۳۵,۰۰۰',change:'۰',unit:'کیلوگرم',status:'neutral'},
+    {name:'سبوس گندم',today:'۸,۲۰۰',yesterday:'۸,۰۰۰',change:'+۲۰۰',unit:'کیلوگرم',status:'up'},
+    {name:'مکمل ویتامینه',today:'۱۸۰,۰۰۰',yesterday:'۱۸۰,۰۰۰',change:'۰',unit:'کیلوگرم',status:'neutral'},
+    {name:'دی‌کلسیم فسفات (DCP)',today:'۴۲,۰۰۰',yesterday:'۴۱,۵۰۰',change:'+۵۰۰',unit:'کیلوگرم',status:'up'},
+    {name:'متیونین',today:'۱۶۰,۰۰۰',yesterday:'۱۶۲,۰۰۰',change:'-۲,۰۰۰',unit:'کیلوگرم',status:'down'},
+  ],
+  parent: [
+    {name:'تخم مرغ نطفه‌دار گوشتی',today:'۱۸,۰۰۰',yesterday:'۱۷,۵۰۰',change:'+۵۰۰',unit:'عدد',status:'up'},
+    {name:'تخم مرغ نطفه‌دار تخمگذار',today:'۲۲,۰۰۰',yesterday:'۲۲,۰۰۰',change:'۰',unit:'عدد',status:'neutral'},
+    {name:'مرغ مادر گوشتی (پولت)',today:'۳۸۰,۰۰۰',yesterday:'۳۷۵,۰۰۰',change:'+۵,۰۰۰',unit:'قطعه',status:'up'},
+    {name:'مرغ مادر تخمگذار (پولت)',today:'۴۲۰,۰۰۰',yesterday:'۴۱۸,۰۰۰',change:'+۲,۰۰۰',unit:'قطعه',status:'up'},
+  ],
+  ancestor: [
+    {name:'مرغ اجداد گوشتی (وارداتی)',today:'۲,۸۰۰,۰۰۰',yesterday:'۲,۷۵۰,۰۰۰',change:'+۵۰,۰۰۰',unit:'قطعه',status:'up'},
+    {name:'مرغ اجداد تخمگذار (وارداتی)',today:'۳,۲۰۰,۰۰۰',yesterday:'۳,۲۰۰,۰۰۰',change:'۰',unit:'عدد',status:'neutral'},
+    {name:'تخم مرغ نطفه‌دار اجداد',today:'۸۵,۰۰۰',yesterday:'۸۴,۰۰۰',change:'+۱,۰۰۰',unit:'عدد',status:'up'},
+  ],
+};
 
-try { const s = localStorage.getItem(STORAGE_KEY); if(s) products = JSON.parse(s); } catch(e){}
-
-function save() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(products)); } catch(e){} }
-
-function showToast(msg, type='success') {
-  const t = document.getElementById('toast');
-  t.textContent = msg.split('\n')[0];
-  t.className = 'toast show' + (type==='error' ? ' error' : '');
-  setTimeout(() => t.className = 'toast', 3500);
-}
-
-function switchView(v) {
-  document.getElementById('viewInventory').style.display = v==='inventory' ? 'block' : 'none';
-  document.getElementById('viewDashboard').style.display = v==='dashboard' ? 'block' : 'none';
-  document.querySelectorAll('.tab-btn').forEach((b,i) => b.className = 'tab-btn' + (i===(v==='inventory'?0:1) ? ' active' : ''));
-  if(v==='dashboard') renderDashboard();
-}
-
-function setLoading(on) {
-  isLoading = on;
-  document.getElementById('micBtn').disabled = on;
-  document.getElementById('submitBtn').disabled = on;
-  if(on) {
-    document.getElementById('micBtn').textContent = '⏳';
-    document.getElementById('micLabel').textContent = 'در حال پردازش...';
-  } else if(!isListening) {
-    document.getElementById('micBtn').textContent = '🎤';
-    document.getElementById('micLabel').textContent = 'ضربه بزن و حرف بزن';
-  }
-}
-
-async function processText(text) {
-  if(!text.trim() || isLoading) return;
-  setLoading(true);
-  document.getElementById('transcriptEl').textContent = 'گفتی: ' + text;
-  const box = document.getElementById('resultBox');
-  const msgEl = document.getElementById('resultMsg');
-  box.className = 'result-box show';
-  msgEl.textContent = '⏳ در حال پردازش...';
-
-  try {
-    const res = await fetch(WORKER_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text, inventory: products })
-    });
-    const data = await res.json();
-    if(data.error) throw new Error(data.error);
-    let action;
-    try { action = JSON.parse(data.result); } catch(e) { throw new Error('پاسخ نامعتبر'); }
-    const { msg, success } = applyAction(action);
-    msgEl.textContent = msg;
-    box.className = 'result-box show ' + (success ? 'success' : 'error');
-    showToast(msg, success ? 'success' : 'error');
-    save(); renderProducts();
-  } catch(e) {
-    msgEl.textContent = '❌ ' + (e.message || 'خطا در اتصال');
-    box.className = 'result-box show error';
-    showToast('خطا: ' + e.message, 'error');
-  }
-  setLoading(false);
-}
-
-function applyAction(action) {
-  let msg = '', success = true;
-  if(action.type === 'list') {
-    msg = products.length > 0 ? '📋 ' + products.length + ' محصول در انبار' : '📋 انبار خالیه';
-  } else if(action.type === 'query') {
-    const found = products.filter(p => p.name.includes(action.product) || action.product.includes(p.name));
-    msg = found.length > 0 ? found.map(p => '📦 ' + p.name + ' ' + (p.model||'') + ': ' + p.qty + ' عدد' + (p.price ? ' | ' + p.price.toLocaleString() + ' تومان' : '')).join('\n') : '⚠️ پیدا نشد';
-  } else if(action.type === 'price') {
-    const idx = products.findIndex(p => p.name.includes(action.product) || action.product.includes(p.name));
-    if(idx >= 0) { products[idx].price = action.price; msg = '✅ قیمت ' + products[idx].name + ' ثبت شد: ' + action.price.toLocaleString() + ' تومان'; }
-    else { msg = '⚠️ محصول پیدا نشد'; success = false; }
-  } else if(action.type === 'add' || action.type === 'set') {
-    const idx = products.findIndex(p => p.name.includes(action.product) || action.product.includes(p.name));
-    if(idx >= 0) {
-      const prev = products[idx].qty;
-      products[idx].qty = action.type === 'set' ? action.qty : products[idx].qty + action.qty;
-      if(action.price) products[idx].price = action.price;
-      msg = '✅ ' + products[idx].name + ': ' + prev + ' → ' + products[idx].qty + ' عدد';
-    } else {
-      products.push({ id: Date.now(), name: action.product, model: action.model||'', category: action.category||'متفرقه', qty: action.qty, price: action.price||0 });
-      msg = '✅ اضافه شد: ' + action.product + ' — ' + action.qty + ' عدد';
-    }
-  } else if(action.type === 'remove') {
-    const idx = products.findIndex(p => p.name.includes(action.product) || action.product.includes(p.name));
-    if(idx >= 0) {
-      const prev = products[idx].qty;
-      products[idx].qty = Math.max(0, products[idx].qty - action.qty);
-      msg = '✅ ' + products[idx].name + ': ' + prev + ' → ' + products[idx].qty + ' عدد';
-    } else { msg = '⚠️ محصول پیدا نشد'; success = false; }
-  }
-  return { msg, success };
-}
-
-function submitManual() {
-  const inp = document.getElementById('manualInput');
-  const text = inp.value.trim();
-  if(!text) return;
-  inp.value = '';
-  processText(text);
-}
-
-function stopMic(finalText) {
-  clearTimeout(silenceTimer);
-  clearTimeout(recordingTimer);
-  recognition && recognition.stop();
-  isListening = false;
-  document.getElementById('micBtn').className = 'mic-btn';
-  document.getElementById('micOuter').className = 'mic-outer';
-  document.getElementById('micBtn').textContent = '🎤';
-  document.getElementById('micLabel').textContent = 'ضربه بزن و حرف بزن';
-  document.getElementById('micTimer').className = 'mic-timer';
-  if(finalText && finalText.trim()) processText(finalText);
-}
-
-function toggleMic() {
-  if(isLoading) return;
-  if(isListening) { stopMic(''); return; }
-
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if(!SR) { showToast('از Chrome استفاده کن', 'error'); return; }
-
-  recognition = new SR();
-  recognition.lang = 'fa-IR';
-  recognition.interimResults = true;
-  recognition.continuous = true; // ادامه گوش بده
-
-  let lastTranscript = '';
-  let finalTranscript = '';
-
-  recognition.onstart = () => {
-    isListening = true;
-    document.getElementById('micBtn').className = 'mic-btn listening';
-    document.getElementById('micOuter').className = 'mic-outer listening';
-    document.getElementById('micBtn').textContent = '⏹️';
-    document.getElementById('micLabel').textContent = 'گوش می‌دم... حرف بزن';
-    document.getElementById('micTimer').className = 'mic-timer show';
-
-    // بعد از ۱۵ ثانیه خودکار متوقف بشه
-    recordingTimer = setTimeout(() => stopMic(finalTranscript || lastTranscript), 15000);
-  };
-
-  recognition.onend = () => {
-    if(isListening) {
-      // اگه هنوز داره گوش میده، ادامه بده
-      try { recognition.start(); } catch(e) { stopMic(finalTranscript || lastTranscript); }
-    }
-  };
-
-  recognition.onerror = (e) => {
-    if(e.error !== 'no-speech') stopMic(finalTranscript || lastTranscript);
-  };
-
-  recognition.onresult = (e) => {
-    let interim = '';
-    for(let i = e.resultIndex; i < e.results.length; i++) {
-      if(e.results[i].isFinal) finalTranscript += e.results[i][0].transcript;
-      else interim += e.results[i][0].transcript;
-    }
-    lastTranscript = finalTranscript + interim;
-    document.getElementById('transcriptEl').textContent = 'می‌گه: ' + lastTranscript;
-    document.getElementById('resultBox').className = 'result-box show';
-
-    // بعد از ۲.۵ ثانیه سکوت، ارسال کن
-    clearTimeout(silenceTimer);
-    silenceTimer = setTimeout(() => stopMic(finalTranscript || lastTranscript), 2500);
-  };
-
-  try { recognition.start(); } catch(e) { showToast('خطا در میکروفون', 'error'); }
-}
-
-function getCategories() { return ['همه', ...new Set(products.map(p => p.category).filter(Boolean))]; }
-
-function updateStats() {
-  const total = products.reduce((s,p) => s+p.qty, 0);
-  document.getElementById('headerStats').textContent = total + ' آیتم · ' + products.length + ' محصول';
-}
-
-function renderCats() {
-  document.getElementById('catsBar').innerHTML = getCategories().map(c =>
-    '<button class="cat-btn' + (c===currentCat?' active':'') + '" onclick="currentCat=\'' + c + '\';renderProducts()">' + c + '</button>'
-  ).join('');
-}
-
-function renderProducts() {
-  const search = document.getElementById('searchInput').value.toLowerCase();
-  const filtered = products.filter(p => {
-    const ms = p.name.toLowerCase().includes(search) || (p.model||'').toLowerCase().includes(search);
-    const mc = currentCat==='همه' || p.category===currentCat;
-    return ms && mc;
+function switchPriceTab(tab) {
+  document.querySelectorAll('.price-tab').forEach((t,i) => {
+    const tabs = ['chick','egg','chicken','feed','parent','ancestor'];
+    t.classList.toggle('active', tabs[i] === tab);
   });
-  renderCats(); updateStats();
-  const list = document.getElementById('productList');
-  if(!filtered.length) {
-    list.innerHTML = '<div class="empty"><div class="empty-icon">' + (products.length===0?'📭':'🔍') + '</div><div class="empty-text">' + (products.length===0?'انبار خالیه! با صدا یا تایپ اضافه کن':'چیزی پیدا نشد') + '</div></div>';
-    return;
-  }
-  list.innerHTML = filtered.map(p =>
-    '<div class="product-card' + (p.qty<=2?' low':'') + '">' +
-    '<div class="product-info">' +
-    '<div class="product-name">' + p.name + (p.model?' <span class="product-model">· '+p.model+'</span>':'') + '</div>' +
-    '<div class="product-meta">' +
-    '<span class="product-cat">' + (p.category||'متفرقه') + '</span>' +
-    (p.price ? '<span class="product-price">💰 ' + p.price.toLocaleString() + ' ت</span>' : '') +
-    '</div></div>' +
-    '<div class="qty-controls">' +
-    '<button class="qty-btn" onclick="changeQty(' + p.id + ',-1)">−</button>' +
-    '<span class="qty-num' + (p.qty<=2?' low':'') + '">' + p.qty + '</span>' +
-    '<button class="qty-btn" onclick="changeQty(' + p.id + ',1)">+</button>' +
-    '<button class="del-btn" onclick="delProduct(' + p.id + ')">🗑</button>' +
-    '</div></div>'
-  ).join('');
+  renderPriceTable(tab);
 }
 
-function changeQty(id, d) {
-  products = products.map(p => p.id===id ? {...p, qty: Math.max(0, p.qty+d)} : p);
-  save(); renderProducts();
+function renderPriceTable(tab) {
+  const data = priceData[tab] || [];
+  const tbody = document.getElementById('priceData');
+  tbody.innerHTML = data.map(item => {
+    const statusClass = item.status === 'up' ? 'change-up' : item.status === 'down' ? 'change-down' : 'change-neutral';
+    const statusIcon = item.status === 'up' ? '▲' : item.status === 'down' ? '▼' : '—';
+    const statusBadge = item.status === 'up' ? '<span class="badge badge-green">صعودی</span>' : item.status === 'down' ? '<span class="badge badge-red">نزولی</span>' : '<span class="badge badge-orange">ثابت</span>';
+    return '<tr><td style="font-weight:600">' + item.name + '</td><td class="price-val">' + item.today + '</td><td>' + item.yesterday + '</td><td class="' + statusClass + '">' + statusIcon + ' ' + item.change + '</td><td>' + item.unit + '</td><td>' + statusBadge + '</td></tr>';
+  }).join('');
 }
 
-function delProduct(id) {
-  const p = products.find(x => x.id===id);
-  if(confirm('«' + p.name + '» حذف بشه؟')) { products = products.filter(x => x.id!==id); save(); renderProducts(); }
+// ===== NAVIGATION =====
+function toggleMenu() {
+  document.getElementById('navList').classList.toggle('open');
 }
 
-function renderDashboard() {
-  const total = products.reduce((s,p) => s+p.qty, 0);
-  const low = products.filter(p => p.qty<=2);
-  const cats = getCategories().length - 1;
-  const totalVal = products.reduce((s,p) => s+(p.price||0)*p.qty, 0);
-  document.getElementById('dashContent').innerHTML =
-    '<div class="dash-card" style="border-color:rgba(99,102,241,0.3)"><div class="dash-icon">📦</div><div class="dash-val" style="color:#6366f1">' + products.length + '</div><div class="dash-lbl">کل محصولات</div></div>' +
-    '<div class="dash-card" style="border-color:rgba(139,92,246,0.3)"><div class="dash-icon">🔢</div><div class="dash-val" style="color:#8b5cf6">' + total + '</div><div class="dash-lbl">کل آیتم‌ها</div></div>' +
-    '<div class="dash-card" style="border-color:rgba(245,158,11,0.3)"><div class="dash-icon">⚠️</div><div class="dash-val" style="color:#f59e0b">' + low.length + '</div><div class="dash-lbl">موجودی کم</div></div>' +
-    '<div class="dash-card" style="border-color:rgba(16,185,129,0.3)"><div class="dash-icon">🗂️</div><div class="dash-val" style="color:#10b981">' + cats + '</div><div class="dash-lbl">دسته‌بندی</div></div>' +
-    (totalVal > 0 ? '<div class="dash-card" style="grid-column:1/-1;border-color:rgba(251,191,36,0.3)"><div class="dash-icon">💰</div><div class="dash-val" style="color:#fcd34d;font-size:20px">' + totalVal.toLocaleString() + ' تومان</div><div class="dash-lbl">ارزش کل انبار</div></div>' : '') +
-    (low.length > 0 ? '<div class="low-list"><div class="low-title">⚠️ موجودی کم</div>' + low.map(p => '<div class="low-item"><span>' + p.name + ' ' + (p.model||'') + '</span><span style="color:var(--red)">' + p.qty + ' عدد</span></div>').join('') + '</div>' : '');
+// ===== LOGIN MODAL =====
+function showLoginModal() {
+  document.getElementById('loginModal').style.display = 'flex';
 }
 
-renderProducts();
+// ===== POLL =====
+function selectPoll(el) {
+  document.querySelectorAll('.poll-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+function submitPoll() {
+  const selected = document.querySelector('.poll-option.selected');
+  if (!selected) { alert('لطفاً یک گزینه را انتخاب کنید'); return; }
+  alert('رأی شما ثبت شد! ممنون از مشارکت شما.');
+}
+
+// ===== NEWSLETTER =====
+function subscribeNewsletter() {
+  const email = document.querySelector('.newsletter-form input').value;
+  if (!email) { alert('لطفاً ایمیل خود را وارد کنید'); return; }
+  alert('عضویت شما در خبرنامه با موفقیت انجام شد!');
+  document.querySelector('.newsletter-form input').value = '';
+}
+
+// ===== NOTIFICATIONS =====
+function toggleNotifications() {
+  alert('🔔 شما ۳ اعلان جدید دارید:\n\n۱. قیمت جوجه یکروزه بروز شد\n۲. پاسخ جدید در انجمن\n۳. خبر فوری جدید');
+}
+
+// ===== BACK TO TOP =====
+window.addEventListener('scroll', () => {
+  document.getElementById('backToTop').classList.toggle('show', window.scrollY > 400);
+});
+
+// ===== LIVE DATE =====
+function updateDateTime() {
+  const now = new Date();
+  const persianDays = ['یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنجشنبه','جمعه','شنبه'];
+  const day = persianDays[now.getDay()];
+  const time = now.toLocaleTimeString('fa-IR', {hour:'2-digit', minute:'2-digit'});
+  const topDate = document.querySelector('.top-bar-right span:first-child');
+  const topTime = document.querySelector('.top-bar-right span:nth-child(3)');
+  if (topTime) topTime.textContent = '🕐 ' + time;
+}
+setInterval(updateDateTime, 60000);
+
+// ===== INIT =====
+renderPriceTable('chick');
+updateDateTime();
+
+// Close modal on outside click
+document.getElementById('loginModal').addEventListener('click', function(e) {
+  if (e.target === this) this.style.display = 'none';
+});
+
+// Close mobile menu on link click
+document.querySelectorAll('.nav-item > a').forEach(a => {
+  a.addEventListener('click', () => {
+    if (window.innerWidth <= 768) document.getElementById('navList').classList.remove('open');
+  });
+});
 </script>
 </body>
 </html>
