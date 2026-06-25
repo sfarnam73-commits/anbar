@@ -1,0 +1,189 @@
+{
+  "name": "چراغی لا - انتشار مقاله روزانه",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 10,
+              "triggerAtMinute": 0
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "هر روز ساعت ۱۰ صبح",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [220, 300]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "status",
+              "lookupValue": "pending"
+            }
+          ]
+        },
+        "options": {
+          "returnFirstMatch": true
+        }
+      },
+      "id": "google-sheets",
+      "name": "خواندن کلمه کلیدی از شیت",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [440, 300],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": ""
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "={{ $vars.CLAUDE_API_KEY }}"
+            },
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            },
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"claude-sonnet-4-20250514\",\n  \"max_tokens\": 8000,\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"تو یک نویسنده حرفه‌ای حقوقی هستی که مقالات سئو شده فارسی برای یک سایت وکالت می‌نویسی.\\n\\nکلمه کلیدی اصلی: {{ $json.keyword }}\\nکلمات کلیدی فرعی: {{ $json.secondary_keywords }}\\nتعداد کلمات: {{ $json.word_count }} کلمه\\n\\nلطفاً یک مقاله کامل بنویس با این ساختار:\\n\\n1. عنوان جذاب و سئو شده (شامل کلمه کلیدی اصلی)\\n2. متا دیسکریپشن (حداکثر ۱۶۰ کاراکتر)\\n3. مقدمه (شامل کلمه کلیدی اصلی)\\n4. چند بخش با تیتر H2 و H3\\n5. نتیجه‌گیری\\n6. سوالات متداول (۳ تا ۵ سوال)\\n\\nنکات مهم:\\n- زبان ساده و قابل فهم برای عموم مردم باشه\\n- کلمه کلیدی اصلی رو ۳ تا ۵ بار طبیعی در متن استفاده کن\\n- کلمات کلیدی فرعی رو هم در متن بگنجون\\n- از مثال‌های عملی و کاربردی استفاده کن\\n- لحن حرفه‌ای ولی صمیمی باشه\\n- حتماً به قوانین ایران اشاره کن\\n\\nخروجی رو دقیقاً به این فرمت JSON بده:\\n{\\n  \\\"title\\\": \\\"عنوان مقاله\\\",\\n  \\\"meta_description\\\": \\\"متا دیسکریپشن\\\",\\n  \\\"content\\\": \\\"محتوای HTML مقاله با تگ‌های h2, h3, p, ul, li\\\",\\n  \\\"tags\\\": [\\\"تگ۱\\\", \\\"تگ۲\\\", \\\"تگ۳\\\"],\\n  \\\"category\\\": \\\"دسته‌بندی پیشنهادی\\\"\\n}\\n\\nفقط JSON برگردون، هیچ توضیح اضافه‌ای نده.\"\n    }\n  ]\n}"
+      },
+      "id": "claude-api",
+      "name": "تولید مقاله با Claude",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [660, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract the article JSON from Claude's response\nconst response = $input.first().json;\nconst textContent = response.content[0].text;\n\n// Parse the JSON from Claude's response\nlet article;\ntry {\n  // Try direct parse\n  article = JSON.parse(textContent);\n} catch(e) {\n  // If wrapped in markdown code block, extract it\n  const match = textContent.match(/```(?:json)?\\s*([\\s\\S]*?)```/);\n  if (match) {\n    article = JSON.parse(match[1].trim());\n  } else {\n    throw new Error('Could not parse Claude response as JSON');\n  }\n}\n\nreturn [{\n  json: {\n    title: article.title,\n    meta_description: article.meta_description,\n    content: article.content,\n    tags: article.tags,\n    category: article.category,\n    keyword: $('خواندن کلمه کلیدی از شیت').first().json.keyword,\n    row_number: $('خواندن کلمه کلیدی از شیت').first().json.row_number\n  }\n}];"
+      },
+      "id": "parse-response",
+      "name": "پردازش پاسخ Claude",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [880, 300]
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "title": "={{ $json.title }}",
+        "content": "={{ $json.content }}",
+        "additionalFields": {
+          "status": "publish",
+          "comment_status": "open"
+        }
+      },
+      "id": "wordpress-post",
+      "name": "انتشار در وردپرس",
+      "type": "n8n-nodes-base.wordpress",
+      "typeVersion": 1,
+      "position": [1100, 300],
+      "credentials": {
+        "wordpressApi": {
+          "id": "",
+          "name": ""
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "status": "published",
+            "published_date": "={{ $now.format('yyyy-MM-dd HH:mm') }}",
+            "post_url": "={{ $('انتشار در وردپرس').first().json.link }}"
+          },
+          "matchingColumns": ["row_number"]
+        }
+      },
+      "id": "update-sheet",
+      "name": "آپدیت وضعیت در شیت",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [1320, 300],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": ""
+        }
+      }
+    }
+  ],
+  "connections": {
+    "هر روز ساعت ۱۰ صبح": {
+      "main": [
+        [{ "node": "خواندن کلمه کلیدی از شیت", "type": "main", "index": 0 }]
+      ]
+    },
+    "خواندن کلمه کلیدی از شیت": {
+      "main": [
+        [{ "node": "تولید مقاله با Claude", "type": "main", "index": 0 }]
+      ]
+    },
+    "تولید مقاله با Claude": {
+      "main": [
+        [{ "node": "پردازش پاسخ Claude", "type": "main", "index": 0 }]
+      ]
+    },
+    "پردازش پاسخ Claude": {
+      "main": [
+        [{ "node": "انتشار در وردپرس", "type": "main", "index": 0 }]
+      ]
+    },
+    "انتشار در وردپرس": {
+      "main": [
+        [{ "node": "آپدیت وضعیت در شیت", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Tehran"
+  },
+  "tags": []
+}
