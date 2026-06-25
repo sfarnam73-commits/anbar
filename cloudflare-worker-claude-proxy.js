@@ -16,20 +16,25 @@ export default {
 
     let body;
     try {
-      body = await request.json();
+      const rawText = await request.text();
+      body = JSON.parse(rawText);
+      // handle double-encoded JSON from n8n
       if (typeof body === "string") {
         body = JSON.parse(body);
       }
     } catch (e) {
       return Response.json(
-        { error: "Invalid JSON body: " + e.message },
+        { error: "Cannot parse body: " + e.message },
         { status: 400 },
       );
     }
 
     const apiKey = body.api_key;
     if (!apiKey) {
-      return Response.json({ error: "api_key required" }, { status: 400 });
+      return Response.json(
+        { error: "api_key required", received_keys: Object.keys(body) },
+        { status: 400 },
+      );
     }
 
     const anthropicBody = {
