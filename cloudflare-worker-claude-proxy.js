@@ -14,7 +14,18 @@ export default {
       return Response.json({ error: "POST only" }, { status: 405 });
     }
 
-    const body = await request.json();
+    let body;
+    try {
+      body = await request.json();
+      if (typeof body === "string") {
+        body = JSON.parse(body);
+      }
+    } catch (e) {
+      return Response.json(
+        { error: "Invalid JSON body: " + e.message },
+        { status: 400 },
+      );
+    }
 
     const apiKey = body.api_key;
     if (!apiKey) {
