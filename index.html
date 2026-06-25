@@ -7,6 +7,7 @@
 <meta name="keywords" content="قیمت جوجه یکروزه, جوجه یکروزه گوشتی, قیمت مرغ زنده, قیمت تخم مرغ, نهاده دامی, مرغداری, بازار جوجه ایران">
 <title>بازار جوجه ایران | مرجع قیمت جوجه یکروزه و نهاده‌های دامی</title>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -150,6 +151,24 @@ img{max-width:100%;display:block}
 .p-tab{padding:9px 20px;border-radius:50px;font-size:13px;font-weight:600;cursor:pointer;border:2px solid var(--border);background:#fff;color:var(--text-light);transition:all .2s;white-space:nowrap;font-family:inherit}
 .p-tab.active,.p-tab:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
 .price-box{background:#fff;border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;border:1px solid var(--border)}
+.chart-section{margin-top:24px}
+.chart-tabs{display:flex;gap:5px;margin-bottom:14px;overflow-x:auto}
+.ch-tab{padding:8px 16px;border-radius:50px;font-size:12px;font-weight:600;cursor:pointer;border:2px solid var(--border);background:#fff;color:var(--text-light);transition:all .2s;white-space:nowrap;font-family:inherit}
+.ch-tab.active,.ch-tab:hover{background:var(--secondary);color:#fff;border-color:var(--secondary)}
+.chart-wrap{background:#fff;border-radius:var(--r);box-shadow:var(--shadow);padding:20px;border:1px solid var(--border)}
+.chart-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px}
+.chart-header h4{font-size:15px;font-weight:700;color:var(--text)}
+.chart-period{display:flex;gap:4px}
+.cp-btn{padding:5px 12px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:#fff;color:var(--text-light);font-family:inherit;transition:all .15s}
+.cp-btn.active,.cp-btn:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.chart-canvas{position:relative;height:300px;width:100%}
+.chart-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px}
+.cs-item{background:var(--bg);border-radius:var(--r);padding:12px;text-align:center}
+.cs-label{font-size:11px;color:var(--text-muted);margin-bottom:2px}
+.cs-val{font-size:16px;font-weight:800}
+.cs-val.up{color:var(--up)}
+.cs-val.down{color:var(--down)}
+@media(max-width:768px){.chart-summary{grid-template-columns:repeat(2,1fr)}}
 .price-update{background:var(--primary-pale);padding:10px 18px;font-size:12px;color:var(--primary-dark);font-weight:600;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--border)}
 .ptable{width:100%;border-collapse:collapse}
 .ptable thead{background:var(--primary)}
@@ -485,6 +504,39 @@ img{max-width:100%;display:block}
         <tbody id="priceBody"></tbody>
       </table>
     </div>
+
+    <!-- PRICE CHARTS -->
+    <div class="chart-section">
+      <div class="section-header" style="margin-top:8px">
+        <div class="section-title"><span class="dot"></span> نمودار قیمت</div>
+      </div>
+      <div class="chart-tabs">
+        <button class="ch-tab active" onclick="switchChart('chick_chart')">🐣 جوجه یکروزه</button>
+        <button class="ch-tab" onclick="switchChart('live_chart')">🐔 مرغ زنده</button>
+        <button class="ch-tab" onclick="switchChart('egg_chart')">🥚 تخم مرغ</button>
+        <button class="ch-tab" onclick="switchChart('feed_chart')">🌾 نهاده‌ها</button>
+      </div>
+      <div class="chart-wrap">
+        <div class="chart-header">
+          <h4 id="chartTitle">📈 روند قیمت جوجه یکروزه گوشتی (راس ۳۰۸)</h4>
+          <div class="chart-period">
+            <button class="cp-btn" onclick="changePeriod('week')">هفتگی</button>
+            <button class="cp-btn active" onclick="changePeriod('month')">ماهانه</button>
+            <button class="cp-btn" onclick="changePeriod('quarter')">سه‌ماهه</button>
+          </div>
+        </div>
+        <div class="chart-canvas">
+          <canvas id="priceChart"></canvas>
+        </div>
+        <div class="chart-summary" id="chartSummary">
+          <div class="cs-item"><div class="cs-label">قیمت امروز</div><div class="cs-val">۴۸,۰۰۰</div></div>
+          <div class="cs-item"><div class="cs-label">بالاترین (ماه)</div><div class="cs-val up">۵۲,۰۰۰</div></div>
+          <div class="cs-item"><div class="cs-label">پایین‌ترین (ماه)</div><div class="cs-val down">۴۱,۰۰۰</div></div>
+          <div class="cs-item"><div class="cs-label">میانگین ماه</div><div class="cs-val">۴۶,۲۰۰</div></div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -882,6 +934,135 @@ setInterval(updateTime,60000);
 document.querySelectorAll('.nav-item > a').forEach(a=>a.addEventListener('click',()=>{
   if(innerWidth<=768)document.getElementById('navList').classList.remove('open');
 }));
+
+switchTab('chick');
+updateTime();
+
+// ===== PRICE CHARTS =====
+const chartData={
+  chick_chart:{
+    title:'📈 روند قیمت جوجه یکروزه گوشتی (راس ۳۰۸)',
+    week:{labels:['شنبه','یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنجشنبه','جمعه'],data:[46500,47000,47200,47500,47500,48000,48000],color:'#16a34a'},
+    month:{labels:['۵ خرداد','۸ خرداد','۱۱ خرداد','۱۴ خرداد','۱۷ خرداد','۲۰ خرداد','۲۳ خرداد','۲۶ خرداد','۲۹ خرداد','۱ تیر','۴ تیر'],data:[41000,42500,44000,45000,46200,47000,47500,48500,52000,47500,48000],color:'#16a34a'},
+    quarter:{labels:['فروردین','اردیبهشت','خرداد هفته۱','خرداد هفته۲','خرداد هفته۳','خرداد هفته۴','تیر هفته۱'],data:[35000,38000,41000,44000,47000,50000,48000],color:'#16a34a'},
+    summary:{today:'۴۸,۰۰۰',high:'۵۲,۰۰۰',low:'۴۱,۰۰۰',avg:'۴۶,۲۰۰'}
+  },
+  live_chart:{
+    title:'📈 روند قیمت مرغ زنده (درب مرغداری)',
+    week:{labels:['شنبه','یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنجشنبه','جمعه'],data:[87000,86500,86000,86000,85500,85000,85000],color:'#dc2626'},
+    month:{labels:['۵ خرداد','۸ خرداد','۱۱ خرداد','۱۴ خرداد','۱۷ خرداد','۲۰ خرداد','۲۳ خرداد','۲۶ خرداد','۲۹ خرداد','۱ تیر','۴ تیر'],data:[82000,83000,85000,88000,90000,89000,87000,86000,86500,86000,85000],color:'#dc2626'},
+    quarter:{labels:['فروردین','اردیبهشت','خرداد هفته۱','خرداد هفته۲','خرداد هفته۳','خرداد هفته۴','تیر هفته۱'],data:[78000,80000,82000,85000,89000,87000,85000],color:'#dc2626'},
+    summary:{today:'۸۵,۰۰۰',high:'۹۰,۰۰۰',low:'۸۲,۰۰۰',avg:'۸۵,۸۰۰'}
+  },
+  egg_chart:{
+    title:'📈 روند قیمت تخم مرغ (شانه‌ای)',
+    week:{labels:['شنبه','یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنجشنبه','جمعه'],data:[143000,144000,145000,145000,145000,145000,145000],color:'#f59e0b'},
+    month:{labels:['۵ خرداد','۸ خرداد','۱۱ خرداد','۱۴ خرداد','۱۷ خرداد','۲۰ خرداد','۲۳ خرداد','۲۶ خرداد','۲۹ خرداد','۱ تیر','۴ تیر'],data:[135000,137000,138000,140000,141000,142000,143000,144000,145000,145000,145000],color:'#f59e0b'},
+    quarter:{labels:['فروردین','اردیبهشت','خرداد هفته۱','خرداد هفته۲','خرداد هفته۳','خرداد هفته۴','تیر هفته۱'],data:[125000,130000,135000,138000,142000,144000,145000],color:'#f59e0b'},
+    summary:{today:'۱۴۵,۰۰۰',high:'۱۴۵,۰۰۰',low:'۱۳۵,۰۰۰',avg:'۱۴۱,۵۰۰'}
+  },
+  feed_chart:{
+    title:'📈 روند قیمت ذرت دامی',
+    week:{labels:['شنبه','یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنجشنبه','جمعه'],data:[13000,12900,12800,12700,12600,12500,12500],color:'#8b5cf6'},
+    month:{labels:['۵ خرداد','۸ خرداد','۱۱ خرداد','۱۴ خرداد','۱۷ خرداد','۲۰ خرداد','۲۳ خرداد','۲۶ خرداد','۲۹ خرداد','۱ تیر','۴ تیر'],data:[14000,13800,13500,13300,13200,13000,12900,12800,12700,12600,12500],color:'#8b5cf6'},
+    quarter:{labels:['فروردین','اردیبهشت','خرداد هفته۱','خرداد هفته۲','خرداد هفته۳','خرداد هفته۴','تیر هفته۱'],data:[15500,15000,14000,13500,13000,12700,12500],color:'#8b5cf6'},
+    summary:{today:'۱۲,۵۰۰',high:'۱۴,۰۰۰',low:'۱۲,۵۰۰',avg:'۱۳,۱۰۰'}
+  }
+};
+
+let currentChart='chick_chart';
+let currentPeriod='month';
+let priceChartInstance=null;
+
+function renderChart(){
+  const d=chartData[currentChart];
+  if(!d)return;
+  const pd=d[currentPeriod];
+  document.getElementById('chartTitle').textContent=d.title;
+  const s=d.summary;
+  document.getElementById('chartSummary').innerHTML=
+    '<div class="cs-item"><div class="cs-label">قیمت امروز</div><div class="cs-val">'+s.today+'</div></div>'+
+    '<div class="cs-item"><div class="cs-label">بالاترین</div><div class="cs-val up">'+s.high+'</div></div>'+
+    '<div class="cs-item"><div class="cs-label">پایین‌ترین</div><div class="cs-val down">'+s.low+'</div></div>'+
+    '<div class="cs-item"><div class="cs-label">میانگین</div><div class="cs-val">'+s.avg+'</div></div>';
+
+  if(priceChartInstance)priceChartInstance.destroy();
+  const ctx=document.getElementById('priceChart').getContext('2d');
+  const gradient=ctx.createLinearGradient(0,0,0,280);
+  gradient.addColorStop(0,pd.color+'40');
+  gradient.addColorStop(1,pd.color+'05');
+
+  priceChartInstance=new Chart(ctx,{
+    type:'line',
+    data:{
+      labels:pd.labels,
+      datasets:[{
+        label:'قیمت (تومان)',
+        data:pd.data,
+        borderColor:pd.color,
+        backgroundColor:gradient,
+        borderWidth:3,
+        pointBackgroundColor:pd.color,
+        pointBorderColor:'#fff',
+        pointBorderWidth:2,
+        pointRadius:5,
+        pointHoverRadius:8,
+        fill:true,
+        tension:0.35
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          backgroundColor:'#1e293b',
+          titleFont:{family:'Vazirmatn',size:12},
+          bodyFont:{family:'Vazirmatn',size:13,weight:'bold'},
+          padding:12,
+          cornerRadius:8,
+          callbacks:{
+            label:function(ctx){return ctx.parsed.y.toLocaleString('fa-IR')+' تومان'}
+          }
+        }
+      },
+      scales:{
+        x:{
+          grid:{display:false},
+          ticks:{font:{family:'Vazirmatn',size:11},color:'#94a3b8'}
+        },
+        y:{
+          grid:{color:'#f1f5f9'},
+          ticks:{
+            font:{family:'Vazirmatn',size:11},color:'#94a3b8',
+            callback:function(v){return (v/1000).toLocaleString('fa-IR')+'k'}
+          }
+        }
+      },
+      interaction:{intersect:false,mode:'index'}
+    }
+  });
+}
+
+function switchChart(chart){
+  currentChart=chart;
+  document.querySelectorAll('.ch-tab').forEach((t,i)=>{
+    const tabs=['chick_chart','live_chart','egg_chart','feed_chart'];
+    t.classList.toggle('active',tabs[i]===chart);
+  });
+  renderChart();
+}
+
+function changePeriod(p){
+  currentPeriod=p;
+  document.querySelectorAll('.cp-btn').forEach(b=>{
+    b.classList.toggle('active',b.textContent.includes(p==='week'?'هفتگی':p==='month'?'ماهانه':'سه‌ماهه'));
+  });
+  renderChart();
+}
+
+renderChart();
 
 switchTab('chick');
 updateTime();
