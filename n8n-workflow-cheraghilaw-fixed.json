@@ -1,0 +1,205 @@
+{
+  "name": "چراغی لا - انتشار مقاله روزانه",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [-128, 0],
+      "id": "8cc91ed9-a643-4fb4-a231-acd2591a88cd",
+      "name": "When clicking 'Execute workflow'"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 10
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [-128, 200],
+      "id": "e97ef9c6-9fd5-4dd1-85e0-c3498574d84b",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "jsCode": "const topics = [\n  { topic: \"مهریه چیست و چه اهمیتی در ازدواج دارد\", keyword: \"مهریه\" },\n  { topic: \"انواع مهریه در قانون ایران\", keyword: \"انواع مهریه\" },\n  { topic: \"نحوه مطالبه و وصول مهریه از طریق دادگاه\", keyword: \"مطالبه مهریه\" },\n  { topic: \"مهریه عندالمطالبه و عندالاستطاعه چه تفاوتی دارند\", keyword: \"مهریه عندالمطالبه\" },\n  { topic: \"اجرای مهریه از طریق اجرای ثبت اسناد\", keyword: \"اجرای مهریه\" },\n  { topic: \"حق حبس زن و رابطه آن با مهریه\", keyword: \"حق حبس مهریه\" },\n  { topic: \"مهریه در صورت فوت شوهر چه می‌شود\", keyword: \"مهریه بعد از فوت\" },\n  { topic: \"تعدیل و کاهش مهریه آیا ممکن است\", keyword: \"کاهش مهریه\" },\n  { topic: \"مهریه و طلاق تکلیف مهریه هنگام جدایی\", keyword: \"مهریه و طلاق\" },\n  { topic: \"زندان مهریه و قانون محکومیت های مالی\", keyword: \"زندان مهریه\" },\n  { topic: \"نحوه توافق بر سر مهریه قبل از ازدواج\", keyword: \"توافق مهریه\" },\n  { topic: \"بخشش مهریه و شرایط قانونی آن\", keyword: \"بخشش مهریه\" },\n  { topic: \"مهریه در ازدواج موقت چگونه است\", keyword: \"مهریه ازدواج موقت\" },\n  { topic: \"وکیل مهریه چرا برای مطالبه مهریه به وکیل نیاز داریم\", keyword: \"وکیل مهریه همدان\" },\n  { topic: \"محاسبه مهریه به نرخ روز و شاخص تورم\", keyword: \"محاسبه مهریه به نرخ روز\" }\n];\n\nconst counter = $getWorkflowStaticData('global');\nlet index = counter.topicIndex || 0;\n\nif (index >= topics.length) {\n  index = 0;\n}\n\nconst pick = topics[index];\n\ncounter.topicIndex = index + 1;\n\nreturn [{ json: { topic: pick.topic, keyword: pick.keyword, current_index: index } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [120, 0],
+      "id": "875b203e-d29c-4909-acd9-5576e650481c",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "claude-sonnet-4-6",
+          "mode": "list",
+          "cachedResultName": "claude-sonnet-4-6"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=تو یک متخصص سئو حرفه‌ای و نویسنده محتوای حقوقی هستی. یک مقاله کامل و طولانی حداقل ۸۰۰ کلمه درباره این موضوع بنویس:\n\nموضوع: {{ $('Code in JavaScript1').item.json.topic }}\nکلمه کلیدی اصلی: {{ $('Code in JavaScript1').item.json.keyword }}\n\nقوانین مهم:\n۱. کلمه کلیدی اصلی باید در عنوان، جمله اول مقاله، و توضیحات متا بیاید.\n۲. مقاله باید حداقل ۶ پاراگراف کامل و حداقل ۴ زیرعنوان داشته باشد.\n۳. از تگهای HTML استفاده کن: <h2> برای زیرعنوان اصلی، <h3> برای زیرعنوان فرعی، <p> برای پاراگراف.\n۴. عنوان حداکثر ۶۰ کاراکتر باشد.\n۵. کوتاه ننویس. مقاله باید جامع و کامل باشد.\n\nحتماً و بدون استثنا هر چهار بخش را با این جداکننده‌ها بنویس:\n===TITLE===\n(عنوان اینجا)\n===CONTENT===\n(متن کامل مقاله با تگ‌های HTML اینجا)\n===KEYWORD===\n(فقط کلمه کلیدی اصلی اینجا)\n===META===\n(توضیح ۱۵۰ کاراکتری شامل کلمه کلیدی اینجا)\n\nهیچ بخشی را خالی نگذار و هیچ بخشی را حذف نکن."
+            }
+          ]
+        },
+        "options": {
+          "maxTokens": 8000
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.anthropic",
+      "typeVersion": 1,
+      "position": [360, 0],
+      "id": "125aae6e-d613-4149-9006-c701ed6d125b",
+      "name": "Message a model",
+      "credentials": {
+        "anthropicApi": {
+          "id": "2UKZ7fzC97Fu6Erb",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// پاسخ Claude رو از هر فرمتی که باشه استخراج کن\nconst data = $('Message a model').first().json;\nlet raw = '';\n\nif (data.content && Array.isArray(data.content)) {\n  raw = data.content[0].text;\n} else if (data.output) {\n  raw = data.output;\n} else if (data.text) {\n  raw = data.text;\n} else if (data.message && data.message.content) {\n  raw = data.message.content[0].text;\n} else {\n  raw = JSON.stringify(data);\n}\n\nfunction getPart(label, next) {\n  let start = raw.indexOf('===' + label + '===');\n  if (start === -1) return '';\n  start = start + ('===' + label + '===').length;\n  let end = next ? raw.indexOf('===' + next + '===') : raw.length;\n  if (end === -1) end = raw.length;\n  return raw.substring(start, end).trim();\n}\n\nlet title = getPart('TITLE', 'CONTENT');\nlet content = getPart('CONTENT', 'KEYWORD');\nlet keyword = getPart('KEYWORD', 'META');\nlet meta = getPart('META', null);\n\n// فالبک اگه پارس نشد\nconst topicData = $('Code in JavaScript1').first().json;\nif (!title) title = topicData.topic;\nif (!keyword) keyword = topicData.keyword;\nif (!meta) meta = title;\nif (!content) throw new Error('مقاله تولید نشد - خروجی Claude خالی بود');\n\nreturn [{\n  json: {\n    title: title,\n    content: content,\n    focus_keyword: keyword,\n    meta_description: meta\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [600, 0],
+      "id": "b48650fc-ae61-45f8-8539-f603965060ea",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "title": "={{ $json.title }}",
+        "additionalFields": {
+          "content": "={{ $json.content }}",
+          "status": "publish"
+        }
+      },
+      "type": "n8n-nodes-base.wordpress",
+      "typeVersion": 1,
+      "position": [840, 0],
+      "id": "062e6cdd-4cc2-4b02-bed1-6b98ed81dfce",
+      "name": "Create a post",
+      "credentials": {
+        "wordpressApi": {
+          "id": "33IQJRFQvqOZ0C2Q",
+          "name": "Wordpress account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://cheraghilaw.ir/wp-json/wp/v2/posts/{{ $json.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"meta\": {\n    \"rank_math_focus_keyword\": \"{{ $('Code in JavaScript').item.json.focus_keyword }}\",\n    \"rank_math_description\": \"{{ $('Code in JavaScript').item.json.meta_description }}\",\n    \"rank_math_title\": \"{{ $('Code in JavaScript').item.json.title }}\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [1080, 0],
+      "id": "67c77570-c10f-436c-8665-00598a4c18f1",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "j26s31CeVBcmCoO4",
+          "name": "Unnamed credential"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking 'Execute workflow'": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Create a post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a post": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Tehran"
+  },
+  "versionId": "27d31e6a-b26e-4188-be9f-818bcefd4c17",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e4156f4ea5c73ae9dc5458c0288854b1eaee0802888be7dece414ea34e7e7e88"
+  },
+  "nodeGroups": [],
+  "id": "YM1uLdt0DM1T5hFN",
+  "tags": []
+}
