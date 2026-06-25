@@ -42,11 +42,11 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://sweet-meadow-8623.sfarnam73.workers.dev",
+        "url": "https://api.cheraghilaw.ir",
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={{ JSON.stringify($json) }}",
-        "options": { "timeout": 120000 }
+        "options": { "timeout": 300000 }
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
@@ -56,7 +56,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const data = $('ارسال به Claude').first().json;\nlet raw = '';\n\nif (data.content && Array.isArray(data.content)) {\n  raw = data.content[0].text;\n} else if (data.text) {\n  raw = data.text;\n} else if (data.error) {\n  throw new Error('خطای Claude: ' + (data.error.message || JSON.stringify(data.error)));\n} else {\n  throw new Error('پاسخ نامعتبر');\n}\n\nfunction getPart(label, next) {\n  let s = raw.indexOf('===' + label + '===');\n  if (s === -1) return '';\n  s += ('===' + label + '===').length;\n  let e = next ? raw.indexOf('===' + next + '===') : raw.length;\n  if (e === -1) e = raw.length;\n  return raw.substring(s, e).trim();\n}\n\nconst topicData = $('انتخاب موضوع').first().json;\nlet title = getPart('TITLE', 'CONTENT') || topicData.topic;\nlet content = getPart('CONTENT', 'KEYWORD');\nlet keyword = getPart('KEYWORD', 'META') || topicData.keyword;\nlet meta = getPart('META', null) || title;\n\nif (!content) throw new Error('مقاله تولید نشد');\n\nreturn [{ json: { title, content, focus_keyword: keyword, meta_description: meta } }];"
+        "jsCode": "const data = $('ارسال به Claude').first().json;\nlet raw = '';\n\nif (data.content && Array.isArray(data.content)) {\n  raw = data.content[0].text;\n} else if (data.text) {\n  raw = data.text;\n} else if (data.error) {\n  const errMsg = typeof data.error === 'string' ? data.error : (data.error.message || JSON.stringify(data.error));\n  throw new Error('خطای Claude: ' + errMsg);\n} else {\n  throw new Error('پاسخ نامعتبر - کلیدهای دریافتی: ' + Object.keys(data).join(', '));\n}\n\nif (!raw || raw.length < 50) {\n  throw new Error('پاسخ خیلی کوتاه یا خالی: ' + raw.substring(0, 200));\n}\n\nfunction getPart(label, next) {\n  let s = raw.indexOf('===' + label + '===');\n  if (s === -1) return '';\n  s += ('===' + label + '===').length;\n  let e = next ? raw.indexOf('===' + next + '===') : raw.length;\n  if (e === -1) e = raw.length;\n  return raw.substring(s, e).trim();\n}\n\nconst topicData = $('انتخاب موضوع').first().json;\nlet title = getPart('TITLE', 'CONTENT') || topicData.topic;\nlet content = getPart('CONTENT', 'KEYWORD');\nlet keyword = getPart('KEYWORD', 'META') || topicData.keyword;\nlet meta = getPart('META', null) || title;\n\nif (!content) {\n  content = raw;\n}\n\nreturn [{ json: { title, content, focus_keyword: keyword, meta_description: meta } }];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
