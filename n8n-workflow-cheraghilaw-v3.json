@@ -1,0 +1,252 @@
+{
+  "name": "چراغی لا - انتشار مقاله روزانه v3",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [-140, 0],
+      "id": "8cc91ed9-a643-4fb4-a231-acd2591a88cd",
+      "name": "When clicking 'Execute workflow'"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 10
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [-140, 200],
+      "id": "e97ef9c6-9fd5-4dd1-85e0-c3498574d84b",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "jsCode": "const topics = [\n  {\n    topic: \"طلاق توافقی چیست و چه مراحلی دارد؟ بررسی کامل شرایط، مدارک و هزینه طلاق توافقی در قانون ایران\",\n    keyword: \"طلاق توافقی\",\n    word_count: 2000\n  },\n  {\n    topic: \"مهریه چیست؟ انواع مهریه، نحوه مطالبه و وصول مهریه از طریق دادگاه و اجرای ثبت\",\n    keyword: \"مطالبه مهریه\",\n    word_count: 2000\n  },\n  {\n    topic: \"حضانت فرزند بعد از طلاق: حق حضانت مادر و پدر، سن حضانت و نحوه تغییر حضانت\",\n    keyword: \"حضانت فرزند\",\n    word_count: 1800\n  },\n  {\n    topic: \"نفقه زن: میزان نفقه، شرایط مطالبه نفقه و ضمانت اجرای عدم پرداخت نفقه\",\n    keyword: \"نفقه زن\",\n    word_count: 1500\n  },\n  {\n    topic: \"نحوه طرح شکایت کیفری: مراحل شکایت در دادسرا، مدارک لازم و هزینه‌ها\",\n    keyword: \"شکایت کیفری\",\n    word_count: 1800\n  },\n  {\n    topic: \"جرم کلاهبرداری در قانون ایران: تعریف، مصادیق، مجازات و نحوه شکایت\",\n    keyword: \"کلاهبرداری\",\n    word_count: 2000\n  },\n  {\n    topic: \"خیانت در امانت: تعریف حقوقی، تفاوت با سرقت و کلاهبرداری و مجازات قانونی\",\n    keyword: \"خیانت در امانت\",\n    word_count: 1500\n  },\n  {\n    topic: \"دعاوی ملکی: انواع دعاوی ملکی، خلع ید، تصرف عدوانی و الزام به تنظیم سند\",\n    keyword: \"دعاوی ملکی\",\n    word_count: 2200\n  },\n  {\n    topic: \"قرارداد اجاره: حقوق موجر و مستاجر، فسخ اجاره و تخلیه ملک\",\n    keyword: \"حقوق مستاجر\",\n    word_count: 1800\n  },\n  {\n    topic: \"چک برگشتی: نحوه شکایت، مجازات صادرکننده چک بلامحل و مراحل وصول\",\n    keyword: \"چک برگشتی\",\n    word_count: 2000\n  },\n  {\n    topic: \"وصول مطالبات: روش‌های حقوقی وصول طلب، توقیف اموال و اجرای احکام\",\n    keyword: \"وصول مطالبات\",\n    word_count: 1500\n  },\n  {\n    topic: \"قانون ارث در ایران: سهم‌الارث زن و شوهر، فرزندان و والدین و نحوه تقسیم ارث\",\n    keyword: \"تقسیم ارث\",\n    word_count: 2200\n  },\n  {\n    topic: \"حقوق کارگر و کارفرما: قرارداد کار، اخراج، سنوات و مراجعه به اداره کار\",\n    keyword: \"حقوق کارگر\",\n    word_count: 1800\n  },\n  {\n    topic: \"دیه چیست؟ نحوه محاسبه دیه، نرخ دیه و انواع دیه در قانون مجازات اسلامی\",\n    keyword: \"محاسبه دیه\",\n    word_count: 1500\n  },\n  {\n    topic: \"چرا به وکیل نیاز دارید؟ مزایای داشتن وکیل پایه یک دادگستری در پرونده‌های حقوقی و کیفری\",\n    keyword: \"وکیل پایه یک دادگستری همدان\",\n    word_count: 1500\n  }\n];\n\nconst counter = $getWorkflowStaticData('global');\nlet index = counter.topicIndex || 0;\n\nif (index >= topics.length) {\n  index = 0;\n}\n\nconst pick = topics[index];\ncounter.topicIndex = index + 1;\n\nreturn [{\n  json: {\n    topic: pick.topic,\n    keyword: pick.keyword,\n    word_count: pick.word_count,\n    current_index: index,\n    total_topics: topics.length\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [100, 0],
+      "id": "875b203e-d29c-4909-acd9-5576e650481c",
+      "name": "انتخاب موضوع"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $vars.CLAUDE_WORKER_URL }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"api_key\": \"{{ $vars.CLAUDE_API_KEY }}\",\n  \"model\": \"claude-sonnet-4-6\",\n  \"max_tokens\": 8000,\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"تو یک وکیل پایه یک دادگستری و متخصص تولید محتوای حقوقی سئو شده هستی. برای سایت دفتر وکالت چراغی در همدان مقاله بنویس.\\n\\nموضوع: {{ $json.topic }}\\nکلمه کلیدی اصلی: {{ $json.keyword }}\\nتعداد کلمات: حداقل {{ $json.word_count }} کلمه\\n\\n=== قوانین نگارش ===\\n۱. مقاله باید جامع، دقیق و مبتنی بر قوانین جمهوری اسلامی ایران باشد.\\n۲. هر جا مرتبط است به شماره مواد قانونی اشاره کن (مثلاً ماده ۱۰۸۲ قانون مدنی).\\n۳. از مثال‌های عملی و واقعی استفاده کن.\\n۴. لحن مقاله حرفه‌ای ولی ساده و قابل فهم برای عموم مردم باشد.\\n۵. در پایان مقاله یک پاراگراف دعوت به اقدام بنویس: «برای مشاوره حقوقی تخصصی در همدان با دفتر وکالت چراغی تماس بگیرید.»\\n\\n=== قوانین سئو ===\\n۱. کلمه کلیدی اصلی باید در: عنوان، جمله اول مقدمه، حداقل ۲ زیرعنوان H2، و متا دیسکریپشن بیاید.\\n۲. کلمه کلیدی را ۴ تا ۶ بار طبیعی در متن استفاده کن (بدون زیاده‌روی).\\n۳. از کلمات مترادف و مرتبط هم استفاده کن.\\n۴. عنوان حداکثر ۶۰ کاراکتر و جذاب باشد.\\n۵. متا دیسکریپشن دقیقاً ۱۵۰ کاراکتر باشد.\\n\\n=== ساختار مقاله ===\\n- مقدمه: ۲ تا ۳ پاراگراف، کلمه کلیدی در جمله اول\\n- حداقل ۴ بخش با زیرعنوان <h2>\\n- هر بخش حداقل ۲ پاراگراف کامل\\n- در صورت نیاز از <h3> برای زیربخش‌ها استفاده کن\\n- از <ul><li> برای لیست و <strong> برای تأکید استفاده کن\\n- بخش «سوالات متداول»: ۴ سوال و جواب کاربردی\\n- نتیجه‌گیری + دعوت به اقدام\\n\\n=== فرمت خروجی ===\\nحتماً خروجی را دقیقاً با این جداکننده‌ها بنویس:\\n\\n===TITLE===\\n(عنوان مقاله - حداکثر ۶۰ کاراکتر)\\n===CONTENT===\\n(متن کامل مقاله با تگ‌های HTML: h2, h3, p, ul, li, strong)\\n===KEYWORD===\\n(فقط کلمه کلیدی اصلی)\\n===META===\\n(متا دیسکریپشن ۱۵۰ کاراکتری)\\n\\nهیچ بخشی را خالی نگذار و هیچ توضیح اضافه‌ای خارج از این فرمت ننویس.\"\n    }\n  ]\n}",
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [340, 0],
+      "id": "claude-via-worker",
+      "name": "تولید مقاله با Claude"
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $('تولید مقاله با Claude').first().json;\nlet raw = '';\n\nif (data.content && Array.isArray(data.content)) {\n  raw = data.content[0].text;\n} else if (data.output) {\n  raw = data.output;\n} else if (data.text) {\n  raw = data.text;\n} else {\n  raw = JSON.stringify(data);\n}\n\nfunction getPart(label, next) {\n  let start = raw.indexOf('===' + label + '===');\n  if (start === -1) return '';\n  start = start + ('===' + label + '===').length;\n  let end = next ? raw.indexOf('===' + next + '===') : raw.length;\n  if (end === -1) end = raw.length;\n  return raw.substring(start, end).trim();\n}\n\nlet title = getPart('TITLE', 'CONTENT');\nlet content = getPart('CONTENT', 'KEYWORD');\nlet keyword = getPart('KEYWORD', 'META');\nlet meta = getPart('META', null);\n\nconst topicData = $('انتخاب موضوع').first().json;\nif (!title) title = topicData.topic;\nif (!keyword) keyword = topicData.keyword;\nif (!meta) meta = title;\nif (!content) throw new Error('مقاله تولید نشد - خروجی Claude خالی بود');\n\nreturn [{\n  json: {\n    title: title,\n    content: content,\n    focus_keyword: keyword,\n    meta_description: meta,\n    word_count: topicData.word_count,\n    topic_index: topicData.current_index\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [580, 0],
+      "id": "b48650fc-ae61-45f8-8539-f603965060ea",
+      "name": "پردازش پاسخ"
+    },
+    {
+      "parameters": {
+        "title": "={{ $json.title }}",
+        "additionalFields": {
+          "content": "={{ $json.content }}",
+          "status": "publish"
+        }
+      },
+      "type": "n8n-nodes-base.wordpress",
+      "typeVersion": 1,
+      "position": [820, 0],
+      "id": "062e6cdd-4cc2-4b02-bed1-6b98ed81dfce",
+      "name": "انتشار در وردپرس",
+      "credentials": {
+        "wordpressApi": {
+          "id": "33IQJRFQvqOZ0C2Q",
+          "name": "Wordpress account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://cheraghilaw.ir/wp-json/wp/v2/posts/{{ $json.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"meta\": {\n    \"rank_math_focus_keyword\": \"{{ $('پردازش پاسخ').item.json.focus_keyword }}\",\n    \"rank_math_description\": \"{{ $('پردازش پاسخ').item.json.meta_description }}\",\n    \"rank_math_title\": \"{{ $('پردازش پاسخ').item.json.title }}\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [1060, 0],
+      "id": "67c77570-c10f-436c-8665-00598a4c18f1",
+      "name": "ثبت سئو Rank Math",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "j26s31CeVBcmCoO4",
+          "name": "Unnamed credential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://www.google.com/ping?sitemap=https://cheraghilaw.ir/sitemap_index.xml",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [1300, 0],
+      "id": "a1b2c3d4-ping-google-sitemap",
+      "name": "پینگ Google Search Console"
+    },
+    {
+      "parameters": {
+        "chatId": "",
+        "text": "=✅ مقاله جدید منتشر شد!\n\n📝 عنوان: {{ $('پردازش پاسخ').item.json.title }}\n🔑 کلمه کلیدی: {{ $('پردازش پاسخ').item.json.focus_keyword }}\n📊 تعداد کلمات: {{ $('پردازش پاسخ').item.json.word_count }}\n🔗 لینک: {{ $('انتشار در وردپرس').item.json.link }}\n\n📌 مقاله {{ $('انتخاب موضوع').item.json.current_index + 1 }} از {{ $('انتخاب موضوع').item.json.total_topics }}",
+        "additionalFields": {
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1540, 0],
+      "id": "e5f6g7h8-telegram-notify",
+      "name": "اطلاع‌رسانی تلگرام",
+      "credentials": {
+        "telegramApi": {
+          "id": "",
+          "name": ""
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking 'Execute workflow'": {
+      "main": [
+        [
+          {
+            "node": "انتخاب موضوع",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "انتخاب موضوع",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "انتخاب موضوع": {
+      "main": [
+        [
+          {
+            "node": "تولید مقاله با Claude",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "تولید مقاله با Claude": {
+      "main": [
+        [
+          {
+            "node": "پردازش پاسخ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "پردازش پاسخ": {
+      "main": [
+        [
+          {
+            "node": "انتشار در وردپرس",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "انتشار در وردپرس": {
+      "main": [
+        [
+          {
+            "node": "ثبت سئو Rank Math",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ثبت سئو Rank Math": {
+      "main": [
+        [
+          {
+            "node": "پینگ Google Search Console",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "پینگ Google Search Console": {
+      "main": [
+        [
+          {
+            "node": "اطلاع‌رسانی تلگرام",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Tehran"
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e4156f4ea5c73ae9dc5458c0288854b1eaee0802888be7dece414ea34e7e7e88"
+  },
+  "nodeGroups": [],
+  "tags": []
+}
