@@ -11,7 +11,7 @@
     },
     {
       "parameters": {
-        "rule": { "interval": [{ "triggerAtHour": 10 }] }
+        "rule": { "interval": [{ "triggerAtHour": 10, "daysInterval": 2 }] }
       },
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.3,
@@ -21,7 +21,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const topics = [\n  { topic: 'طلاق توافقی چیست و چه مراحلی دارد؟ بررسی کامل شرایط و مدارک', keyword: 'طلاق توافقی', word_count: 2000 },\n  { topic: 'مهریه چیست؟ انواع مهریه و نحوه مطالبه مهریه از طریق دادگاه', keyword: 'مطالبه مهریه', word_count: 2000 },\n  { topic: 'حضانت فرزند بعد از طلاق: حق حضانت مادر و پدر و سن حضانت', keyword: 'حضانت فرزند', word_count: 1800 },\n  { topic: 'نفقه زن: میزان نفقه و شرایط مطالبه نفقه و ضمانت اجرا', keyword: 'نفقه زن', word_count: 1500 },\n  { topic: 'نحوه طرح شکایت کیفری: مراحل شکایت در دادسرا و مدارک لازم', keyword: 'شکایت کیفری', word_count: 1800 },\n  { topic: 'جرم کلاهبرداری در قانون ایران: تعریف و مصادیق و مجازات', keyword: 'کلاهبرداری', word_count: 2000 },\n  { topic: 'خیانت در امانت: تعریف حقوقی و تفاوت با سرقت و مجازات', keyword: 'خیانت در امانت', word_count: 1500 },\n  { topic: 'دعاوی ملکی: خلع ید و تصرف عدوانی و الزام به تنظیم سند', keyword: 'دعاوی ملکی', word_count: 2200 },\n  { topic: 'قرارداد اجاره: حقوق موجر و مستاجر و فسخ اجاره', keyword: 'حقوق مستاجر', word_count: 1800 },\n  { topic: 'چک برگشتی: نحوه شکایت و مجازات صادرکننده چک بلامحل', keyword: 'چک برگشتی', word_count: 2000 },\n  { topic: 'وصول مطالبات: روش‌های حقوقی وصول طلب و توقیف اموال', keyword: 'وصول مطالبات', word_count: 1500 },\n  { topic: 'قانون ارث در ایران: سهم‌الارث و نحوه تقسیم ارث', keyword: 'تقسیم ارث', word_count: 2200 },\n  { topic: 'حقوق کارگر و کارفرما: قرارداد کار و اخراج و سنوات', keyword: 'حقوق کارگر', word_count: 1800 },\n  { topic: 'دیه چیست؟ نحوه محاسبه دیه و نرخ دیه و انواع دیه', keyword: 'محاسبه دیه', word_count: 1500 },\n  { topic: 'چرا به وکیل نیاز دارید؟ مزایای وکیل پایه یک دادگستری', keyword: 'وکیل پایه یک دادگستری همدان', word_count: 1500 }\n];\n\nconst counter = $getWorkflowStaticData('global');\nlet index = counter.topicIndex || 0;\nif (index >= topics.length) index = 0;\nconst pick = topics[index];\ncounter.topicIndex = index + 1;\n\nreturn [{ json: { topic: pick.topic, keyword: pick.keyword, word_count: pick.word_count, current_index: index } }];"
+        "jsCode": "const topics = [\n  { topic: 'طلاق توافقی چیست و چه مراحلی دارد؟ بررسی کامل شرایط و مدارک', keyword: 'طلاق توافقی', category: 'حقوق خانواده', word_count: 2000 },\n  { topic: 'مهریه چیست؟ انواع مهریه و نحوه مطالبه مهریه از طریق دادگاه', keyword: 'مطالبه مهریه', category: 'حقوق خانواده', word_count: 2000 },\n  { topic: 'حضانت فرزند بعد از طلاق: حق حضانت مادر و پدر و سن حضانت', keyword: 'حضانت فرزند', category: 'حقوق خانواده', word_count: 1800 },\n  { topic: 'نفقه زن: میزان نفقه و شرایط مطالبه نفقه و ضمانت اجرا', keyword: 'نفقه زن', category: 'حقوق خانواده', word_count: 1500 },\n  { topic: 'نحوه طرح شکایت کیفری: مراحل شکایت در دادسرا و مدارک لازم', keyword: 'شکایت کیفری', category: 'حقوق کیفری', word_count: 1800 },\n  { topic: 'جرم کلاهبرداری در قانون ایران: تعریف و مصادیق و مجازات', keyword: 'کلاهبرداری', category: 'حقوق کیفری', word_count: 2000 },\n  { topic: 'خیانت در امانت: تعریف حقوقی و تفاوت با سرقت و مجازات', keyword: 'خیانت در امانت', category: 'حقوق کیفری', word_count: 1500 },\n  { topic: 'دعاوی ملکی: خلع ید و تصرف عدوانی و الزام به تنظیم سند', keyword: 'دعاوی ملکی', category: 'حقوق ملکی', word_count: 2200 },\n  { topic: 'قرارداد اجاره: حقوق موجر و مستاجر و فسخ اجاره', keyword: 'حقوق مستاجر', category: 'حقوق ملکی', word_count: 1800 },\n  { topic: 'چک برگشتی: نحوه شکایت و مجازات صادرکننده چک بلامحل', keyword: 'چک برگشتی', category: 'حقوق تجاری', word_count: 2000 },\n  { topic: 'وصول مطالبات: روش‌های حقوقی وصول طلب و توقیف اموال', keyword: 'وصول مطالبات', category: 'حقوق تجاری', word_count: 1500 },\n  { topic: 'قانون ارث در ایران: سهم‌الارث و نحوه تقسیم ارث', keyword: 'تقسیم ارث', category: 'حقوق خانواده', word_count: 2200 },\n  { topic: 'حقوق کارگر و کارفرما: قرارداد کار و اخراج و سنوات', keyword: 'حقوق کارگر', category: 'حقوق کار', word_count: 1800 },\n  { topic: 'دیه چیست؟ نحوه محاسبه دیه و نرخ دیه و انواع دیه', keyword: 'محاسبه دیه', category: 'حقوق کیفری', word_count: 1500 },\n  { topic: 'چرا به وکیل نیاز دارید؟ مزایای وکیل پایه یک دادگستری', keyword: 'وکیل پایه یک دادگستری همدان', category: 'عمومی', word_count: 1500 }\n];\n\nconst counter = $getWorkflowStaticData('global');\nlet index = counter.topicIndex || 0;\nif (index >= topics.length) index = 0;\n\n// بررسی تکراری نبودن - چک میکنیم آخرین ۵ مقاله چه موضوعاتی بودن\nconst recentTopics = counter.recentTopics || [];\nlet attempts = 0;\nwhile (recentTopics.includes(index) && attempts < topics.length) {\n  index = (index + 1) % topics.length;\n  attempts++;\n}\nrecentTopics.push(index);\nif (recentTopics.length > 5) recentTopics.shift();\ncounter.recentTopics = recentTopics;\n\nconst pick = topics[index];\ncounter.topicIndex = (index + 1) % topics.length;\n\nreturn [{ json: { topic: pick.topic, keyword: pick.keyword, category: pick.category, word_count: pick.word_count, current_index: index } }];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -31,7 +31,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// ============================================\n// <<<< API KEY خودت رو فقط اینجا عوض کن >>>>\nconst API_KEY = 'API_KEY_INJA';\n// ============================================\n\nconst topic = $json.topic;\nconst keyword = $json.keyword;\nconst word_count = $json.word_count;\n\nconst prompt = 'تو یک وکیل پایه یک دادگستری و متخصص تولید محتوای حقوقی سئو شده هستی. برای سایت دفتر وکالت چراغی در همدان مقاله بنویس.' +\n  '\\n\\nموضوع: ' + topic +\n  '\\nکلمه کلیدی اصلی: ' + keyword +\n  '\\nتعداد کلمات: حداقل ' + word_count + ' کلمه' +\n  '\\n\\n=== قوانین محتوا ===' +\n  '\\n- مقاله جامع و مبتنی بر قوانین ایران باشد' +\n  '\\n- به مواد قانونی مرتبط اشاره کن (مثلاً ماده ۱۱۳۳ قانون مدنی)' +\n  '\\n- حداقل ۲ مثال عملی و کاربردی بزن' +\n  '\\n- لحن حرفه‌ای ولی ساده و قابل فهم برای عموم' +\n  '\\n- از کلمات انتقالی استفاده کن (همچنین، علاوه بر این، در نتیجه، از سوی دیگر، به عبارت دیگر)' +\n  '\\n- در پایان بنویس: برای مشاوره حقوقی تخصصی در همدان با دفتر وکالت چراغی تماس بگیرید.' +\n  '\\n\\n=== قوانین سئو (نمره Rank Math باید بالای ۹۰ باشد) ===' +\n  '\\n- کلمه کلیدی دقیقاً در عنوان باشد' +\n  '\\n- عنوان شامل عدد باشد (مثل: ۷ نکته، ۵ مرحله، راهنمای کامل ۱۴۰۴)' +\n  '\\n- عنوان حداکثر ۶۰ کاراکتر' +\n  '\\n- کلمه کلیدی دقیقاً در جمله اول پاراگراف اول باشد' +\n  '\\n- کلمه کلیدی در حداقل ۲ زیرعنوان h2 باشد' +\n  '\\n- کلمه کلیدی ۶ تا ۱۰ بار در کل متن (تراکم ۱ تا ۱.۵ درصد)' +\n  '\\n- متا دیسکریپشن دقیقاً ۱۵۰ کاراکتر شامل کلمه کلیدی و دعوت به اقدام' +\n  '\\n- اسلاگ URL فارسی کوتاه شامل کلمه کلیدی' +\n  '\\n\\n=== لینک‌ها (خیلی مهم) ===' +\n  '\\n- ۲ لینک داخلی در متن اضافه کن:' +\n  '\\n  <a href=\"https://cheraghilaw.ir\">دفتر وکالت چراغی همدان</a>' +\n  '\\n  <a href=\"https://cheraghilaw.ir/contact\">مشاوره حقوقی در همدان</a>' +\n  '\\n- ۱ لینک خارجی به منبع معتبر حقوقی:' +\n  '\\n  <a href=\"https://rc.majlis.ir\" target=\"_blank\" rel=\"noopener\">مرکز پژوهش‌های مجلس</a>' +\n  '\\n  یا <a href=\"https://www.ekhtebar.ir\" target=\"_blank\" rel=\"noopener\">اختبار</a>' +\n  '\\n\\n=== ساختار محتوا ===' +\n  '\\n- ابتدا فهرست مطالب با لینک anchor:' +\n  '\\n  <div class=\"toc\"><h3>فهرست مطالب</h3><ul><li><a href=\"#section1\">عنوان بخش</a></li>...</ul></div>' +\n  '\\n- مقدمه: ۲ پاراگراف کوتاه (هر پاراگراف حداکثر ۳ خط)' +\n  '\\n- حداقل ۵ بخش با h2 (هر h2 دارای id برای anchor باشد مثل id=\"section1\")' +\n  '\\n- هر بخش ۲-۳ پاراگراف کوتاه' +\n  '\\n- از h3 برای زیربخش‌ها استفاده کن' +\n  '\\n- از تگ‌های ul، li، strong، em، blockquote استفاده کن' +\n  '\\n- پاراگراف‌ها کوتاه باشند (حداکثر ۳ خط)' +\n  '\\n- ۵ سوال متداول (FAQ) با ساختار h3 برای هر سوال' +\n  '\\n- نتیجه‌گیری با h2' +\n  '\\n\\n=== فرمت خروجی (حتماً با این جداکننده‌ها) ===' +\n  '\\n===TITLE===' +\n  '\\n(عنوان حداکثر ۶۰ کاراکتر - شامل عدد و کلمه کلیدی)' +\n  '\\n===SLUG===' +\n  '\\n(اسلاگ URL فارسی کوتاه مثل: طلاق-توافقی-شرایط-مراحل)' +\n  '\\n===CONTENT===' +\n  '\\n(متن کامل HTML با فهرست مطالب و لینک‌ها)' +\n  '\\n===KEYWORD===' +\n  '\\n(کلمه کلیدی)' +\n  '\\n===META===' +\n  '\\n(متا دیسکریپشن دقیقاً ۱۵۰ کاراکتر)';\n\nreturn [{\n  json: {\n    api_key: API_KEY,\n    model: 'claude-sonnet-4-6',\n    max_tokens: 8000,\n    messages: [{ role: 'user', content: prompt }]\n  }\n}];"
+        "jsCode": "// ============================================\n// <<<< API KEY خودت رو فقط اینجا عوض کن >>>>\nconst API_KEY = 'API_KEY_INJA';\n// ============================================\n\nconst topic = $json.topic;\nconst keyword = $json.keyword;\nconst category = $json.category;\nconst word_count = $json.word_count;\n\nconst prompt = 'تو یک وکیل پایه یک دادگستری و متخصص تولید محتوای حقوقی سئو شده هستی. برای سایت دفتر وکالت چراغی در همدان مقاله بنویس.' +\n  '\\n\\nموضوع: ' + topic +\n  '\\nکلمه کلیدی اصلی: ' + keyword +\n  '\\nدسته‌بندی: ' + category +\n  '\\nتعداد کلمات: حداقل ' + word_count + ' کلمه' +\n  '\\n\\n=== قوانین محتوا ===' +\n  '\\n- مقاله جامع و مبتنی بر قوانین ایران باشد' +\n  '\\n- به مواد قانونی مرتبط اشاره کن (شماره ماده و نام قانون)' +\n  '\\n- حداقل ۲ مثال عملی و کاربردی بزن' +\n  '\\n- لحن حرفه‌ای ولی ساده و قابل فهم برای عموم' +\n  '\\n- از کلمات انتقالی زیاد استفاده کن (همچنین، علاوه بر این، در نتیجه، از سوی دیگر، به عبارت دیگر، در واقع، به طور کلی)' +\n  '\\n- در پایان بنویس: برای مشاوره حقوقی تخصصی در همدان با دفتر وکالت چراغی تماس بگیرید. شماره تماس: [شماره تلفن]' +\n  '\\n\\n=== قوانین سئو (نمره Rank Math باید بالای ۹۰ باشد) ===' +\n  '\\n- کلمه کلیدی دقیقاً در عنوان باشد' +\n  '\\n- عنوان شامل عدد باشد (مثل: ۷ نکته، ۵ مرحله، راهنمای کامل ۱۴۰۴)' +\n  '\\n- عنوان حداکثر ۶۰ کاراکتر و جذاب' +\n  '\\n- کلمه کلیدی دقیقاً در جمله اول پاراگراف اول باشد' +\n  '\\n- کلمه کلیدی در حداقل ۲ زیرعنوان h2 باشد' +\n  '\\n- کلمه کلیدی ۶ تا ۱۰ بار در کل متن (تراکم ۱ تا ۱.۵ درصد)' +\n  '\\n- متا دیسکریپشن دقیقاً ۱۵۰ کاراکتر شامل کلمه کلیدی و دعوت به اقدام' +\n  '\\n- اسلاگ URL فارسی کوتاه شامل کلمه کلیدی' +\n  '\\n\\n=== لینک‌ها (خیلی مهم برای سئو) ===' +\n  '\\n- ۲ لینک داخلی در متن مقاله قرار بده:' +\n  '\\n  <a href=\"https://cheraghilaw.ir\">دفتر وکالت چراغی همدان</a>' +\n  '\\n  <a href=\"https://cheraghilaw.ir/contact\">مشاوره حقوقی در همدان</a>' +\n  '\\n- ۱ لینک خارجی به منبع معتبر حقوقی ایران:' +\n  '\\n  مثل <a href=\"https://rc.majlis.ir\" target=\"_blank\" rel=\"noopener\">مرکز پژوهش‌های مجلس</a>' +\n  '\\n  یا <a href=\"https://rooznamehrasmi.ir\" target=\"_blank\" rel=\"noopener\">روزنامه رسمی</a>' +\n  '\\n\\n=== ساختار محتوا ===' +\n  '\\n- ابتدا فهرست مطالب با لینک anchor:' +\n  '\\n  <div class=\"toc\"><h3>فهرست مطالب</h3><ul><li><a href=\"#s1\">عنوان</a></li>...</ul></div>' +\n  '\\n- مقدمه: ۲ پاراگراف کوتاه (هر پاراگراف حداکثر ۳ خط)' +\n  '\\n- حداقل ۵ بخش با h2 (هر h2 دارای id مثل id=\"s1\")' +\n  '\\n- هر بخش ۲-۳ پاراگراف کوتاه (حداکثر ۳ خط هر پاراگراف)' +\n  '\\n- از h3 برای زیربخش‌ها استفاده کن' +\n  '\\n- از تگ‌های ul، li، strong، em، blockquote استفاده کن' +\n  '\\n- ۵ سوال متداول (FAQ) با h3 برای هر سوال' +\n  '\\n- نتیجه‌گیری با h2' +\n  '\\n\\n=== تولید ۲ عنوان برای تست A/B ===' +\n  '\\n- عنوان اول: شامل عدد (مثلاً ۷ نکته مهم درباره...)' +\n  '\\n- عنوان دوم: سوالی (مثلاً آیا میدانید... ?)' +\n  '\\n\\n=== فرمت خروجی (حتماً با این جداکننده‌ها) ===' +\n  '\\n===TITLE_A===' +\n  '\\n(عنوان اول - شامل عدد - حداکثر ۶۰ کاراکتر)' +\n  '\\n===TITLE_B===' +\n  '\\n(عنوان دوم - سوالی - حداکثر ۶۰ کاراکتر)' +\n  '\\n===SLUG===' +\n  '\\n(اسلاگ URL فارسی کوتاه)' +\n  '\\n===CONTENT===' +\n  '\\n(متن کامل HTML با فهرست مطالب و لینک‌ها)' +\n  '\\n===FAQ_SCHEMA===' +\n  '\\n(کد JSON-LD اسکیما FAQ - فقط کد JSON بدون تگ script)' +\n  '\\n===KEYWORD===' +\n  '\\n(کلمه کلیدی)' +\n  '\\n===META===' +\n  '\\n(متا دیسکریپشن دقیقاً ۱۵۰ کاراکتر)';\n\nreturn [{\n  json: {\n    api_key: API_KEY,\n    model: 'claude-sonnet-4-6',\n    max_tokens: 8000,\n    messages: [{ role: 'user', content: prompt }]\n  }\n}];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -56,7 +56,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const data = $('ارسال به Claude').first().json;\nlet raw = '';\n\nif (data.content && Array.isArray(data.content)) {\n  raw = data.content[0].text;\n} else if (data.text) {\n  raw = data.text;\n} else if (data.error) {\n  const errMsg = typeof data.error === 'string' ? data.error : (data.error.message || JSON.stringify(data.error));\n  throw new Error('خطای Claude: ' + errMsg);\n} else {\n  throw new Error('پاسخ نامعتبر - کلیدهای دریافتی: ' + Object.keys(data).join(', '));\n}\n\nif (!raw || raw.length < 50) {\n  throw new Error('پاسخ خیلی کوتاه یا خالی: ' + raw.substring(0, 200));\n}\n\nfunction getPart(label, next) {\n  let s = raw.indexOf('===' + label + '===');\n  if (s === -1) return '';\n  s += ('===' + label + '===').length;\n  let e = next ? raw.indexOf('===' + next + '===') : raw.length;\n  if (e === -1) e = raw.length;\n  return raw.substring(s, e).trim();\n}\n\nconst topicData = $('انتخاب موضوع').first().json;\nlet title = getPart('TITLE', 'SLUG') || topicData.topic;\nlet slug = getPart('SLUG', 'CONTENT') || '';\nlet content = getPart('CONTENT', 'KEYWORD');\nlet keyword = getPart('KEYWORD', 'META') || topicData.keyword;\nlet meta = getPart('META', null) || title;\n\nif (!content) {\n  content = raw;\n}\n\nreturn [{ json: { title, slug, content, focus_keyword: keyword, meta_description: meta } }];"
+        "jsCode": "const data = $('ارسال به Claude').first().json;\nlet raw = '';\n\nif (data.content && Array.isArray(data.content)) {\n  raw = data.content[0].text;\n} else if (data.text) {\n  raw = data.text;\n} else if (data.error) {\n  const errMsg = typeof data.error === 'string' ? data.error : (data.error.message || JSON.stringify(data.error));\n  throw new Error('خطای Claude: ' + errMsg);\n} else {\n  throw new Error('پاسخ نامعتبر - کلیدهای دریافتی: ' + Object.keys(data).join(', '));\n}\n\nif (!raw || raw.length < 50) {\n  throw new Error('پاسخ خیلی کوتاه یا خالی: ' + raw.substring(0, 200));\n}\n\nfunction getPart(label, next) {\n  let s = raw.indexOf('===' + label + '===');\n  if (s === -1) return '';\n  s += ('===' + label + '===').length;\n  let e = next ? raw.indexOf('===' + next + '===') : raw.length;\n  if (e === -1) e = raw.length;\n  return raw.substring(s, e).trim();\n}\n\nconst topicData = $('انتخاب موضوع').first().json;\n\n// دو عنوان A/B\nlet titleA = getPart('TITLE_A', 'TITLE_B') || topicData.topic;\nlet titleB = getPart('TITLE_B', 'SLUG') || titleA;\n\n// انتخاب تصادفی بین دو عنوان\nconst useA = Math.random() > 0.5;\nlet title = useA ? titleA : titleB;\nlet abVariant = useA ? 'A' : 'B';\n\nlet slug = getPart('SLUG', 'CONTENT') || '';\nlet content = getPart('CONTENT', 'FAQ_SCHEMA');\nlet faqSchema = getPart('FAQ_SCHEMA', 'KEYWORD') || '';\nlet keyword = getPart('KEYWORD', 'META') || topicData.keyword;\nlet meta = getPart('META', null) || title;\nlet category = topicData.category || '';\n\nif (!content) {\n  content = raw;\n}\n\n// اضافه کردن FAQ Schema به انتهای محتوا\nif (faqSchema) {\n  try {\n    JSON.parse(faqSchema);\n    content += '\\n<script type=\"application/ld+json\">' + faqSchema + '</script>';\n  } catch(e) {\n    // اگه JSON معتبر نبود، اضافه نکن\n  }\n}\n\nreturn [{ json: { title, titleA, titleB, abVariant, slug, content, focus_keyword: keyword, meta_description: meta, category } }];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -100,6 +100,26 @@
     },
     {
       "parameters": {
+        "method": "POST",
+        "url": "=https://cheraghilaw.ir/wp-json/wp/v2/media/{{ $json.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ alt_text: $('پردازش پاسخ').item.json.focus_keyword + ' - دفتر وکالت چراغی همدان', caption: $('پردازش پاسخ').item.json.title }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [1420, 0],
+      "id": "set-image-alt",
+      "name": "ثبت Alt تصویر",
+      "credentials": {
+        "httpBasicAuth": { "id": "j26s31CeVBcmCoO4", "name": "Unnamed credential" }
+      }
+    },
+    {
+      "parameters": {
         "title": "={{ $('پردازش پاسخ').item.json.title }}",
         "additionalFields": {
           "content": "={{ $('پردازش پاسخ').item.json.content }}",
@@ -109,7 +129,7 @@
       },
       "type": "n8n-nodes-base.wordpress",
       "typeVersion": 1,
-      "position": [1420, 0],
+      "position": [1640, 0],
       "id": "062e6cdd-wp",
       "name": "انتشار در وردپرس",
       "credentials": {
@@ -118,23 +138,125 @@
     },
     {
       "parameters": {
+        "jsCode": "const postId = $json.id;\nconst parsedData = $('پردازش پاسخ').item.json;\nconst imageId = $('آپلود تصویر').item.json.id;\nconst categoryName = parsedData.category;\n\n// ساخت بدنه درخواست\nconst body = {\n  featured_media: imageId,\n  meta: {\n    rank_math_focus_keyword: parsedData.focus_keyword,\n    rank_math_description: parsedData.meta_description,\n    rank_math_title: parsedData.title\n  }\n};\n\nreturn [{ json: { postId, body: JSON.stringify(body), categoryName, postUrl: $json.link || ('https://cheraghilaw.ir/?p=' + postId), title: parsedData.title, abVariant: parsedData.abVariant, titleA: parsedData.titleA, titleB: parsedData.titleB } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1860, 0],
+      "id": "prepare-update",
+      "name": "آماده‌سازی آپدیت"
+    },
+    {
+      "parameters": {
         "method": "POST",
-        "url": "=https://cheraghilaw.ir/wp-json/wp/v2/posts/{{ $json.id }}",
+        "url": "=https://cheraghilaw.ir/wp-json/wp/v2/posts/{{ $json.postId }}",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpBasicAuth",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ featured_media: $('آپلود تصویر').item.json.id, meta: { rank_math_focus_keyword: $('پردازش پاسخ').item.json.focus_keyword, rank_math_description: $('پردازش پاسخ').item.json.meta_description, rank_math_title: $('پردازش پاسخ').item.json.title } }) }}",
+        "jsonBody": "={{ $json.body }}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
-      "position": [1640, 0],
+      "position": [2080, 0],
       "id": "67c77570-rm",
       "name": "ثبت سئو و تصویر شاخص",
       "credentials": {
         "httpBasicAuth": { "id": "j26s31CeVBcmCoO4", "name": "Unnamed credential" }
       }
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://cheraghilaw.ir/wp-json/wp/v2/categories?search={{ encodeURIComponent($('آماده‌سازی آپدیت').item.json.categoryName) }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [2300, 0],
+      "id": "search-category",
+      "name": "جستجوی دسته‌بندی",
+      "credentials": {
+        "httpBasicAuth": { "id": "j26s31CeVBcmCoO4", "name": "Unnamed credential" }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const categories = $json;\nconst categoryName = $('آماده‌سازی آپدیت').item.json.categoryName;\nconst postId = $('آماده‌سازی آپدیت').item.json.postId;\n\nlet categoryId = null;\n\nif (Array.isArray(categories) && categories.length > 0) {\n  categoryId = categories[0].id;\n} \n\nreturn [{ json: { postId, categoryId, categoryName, needsCreate: !categoryId } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2520, 0],
+      "id": "check-category",
+      "name": "بررسی دسته‌بندی"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://cheraghilaw.ir/wp-json/wp/v2/categories",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ name: $json.categoryName }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [2740, -100],
+      "id": "create-category",
+      "name": "ساخت دسته‌بندی",
+      "credentials": {
+        "httpBasicAuth": { "id": "j26s31CeVBcmCoO4", "name": "Unnamed credential" }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const postId = $('بررسی دسته‌بندی').item.json.postId;\nlet categoryId;\n\ntry {\n  categoryId = $('ساخت دسته‌بندی').item.json.id;\n} catch(e) {\n  categoryId = $('بررسی دسته‌بندی').item.json.categoryId;\n}\n\nif (!categoryId) {\n  return [{ json: { postId, skip: true } }];\n}\n\nreturn [{ json: { postId, categoryId, body: JSON.stringify({ categories: [categoryId] }) } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2960, 0],
+      "id": "prepare-cat-assign",
+      "name": "آماده ثبت دسته"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://cheraghilaw.ir/wp-json/wp/v2/posts/{{ $json.postId }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.body }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [3180, 0],
+      "id": "assign-category",
+      "name": "ثبت دسته‌بندی پست",
+      "credentials": {
+        "httpBasicAuth": { "id": "j26s31CeVBcmCoO4", "name": "Unnamed credential" }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.telegram.org/botTELEGRAM_BOT_TOKEN/sendMessage",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ chat_id: 'TELEGRAM_CHAT_ID', text: '✅ مقاله جدید منتشر شد!\\n\\n📝 عنوان: ' + $('آماده‌سازی آپدیت').item.json.title + '\\n🔗 لینک: ' + $('آماده‌سازی آپدیت').item.json.postUrl + '\\n📊 عنوان انتخاب شده: نسخه ' + $('آماده‌سازی آپدیت').item.json.abVariant + '\\n\\nعنوان A: ' + $('آماده‌سازی آپدیت').item.json.titleA + '\\nعنوان B: ' + $('آماده‌سازی آپدیت').item.json.titleB, parse_mode: 'HTML' }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [3400, 0],
+      "id": "telegram-notify",
+      "name": "اعلان تلگرام"
     }
   ],
   "pinData": {},
@@ -161,10 +283,34 @@
       "main": [[{ "node": "آپلود تصویر", "type": "main", "index": 0 }]]
     },
     "آپلود تصویر": {
+      "main": [[{ "node": "ثبت Alt تصویر", "type": "main", "index": 0 }]]
+    },
+    "ثبت Alt تصویر": {
       "main": [[{ "node": "انتشار در وردپرس", "type": "main", "index": 0 }]]
     },
     "انتشار در وردپرس": {
+      "main": [[{ "node": "آماده‌سازی آپدیت", "type": "main", "index": 0 }]]
+    },
+    "آماده‌سازی آپدیت": {
       "main": [[{ "node": "ثبت سئو و تصویر شاخص", "type": "main", "index": 0 }]]
+    },
+    "ثبت سئو و تصویر شاخص": {
+      "main": [[{ "node": "جستجوی دسته‌بندی", "type": "main", "index": 0 }]]
+    },
+    "جستجوی دسته‌بندی": {
+      "main": [[{ "node": "بررسی دسته‌بندی", "type": "main", "index": 0 }]]
+    },
+    "بررسی دسته‌بندی": {
+      "main": [[{ "node": "ساخت دسته‌بندی", "type": "main", "index": 0 }], [{ "node": "آماده ثبت دسته", "type": "main", "index": 0 }]]
+    },
+    "ساخت دسته‌بندی": {
+      "main": [[{ "node": "آماده ثبت دسته", "type": "main", "index": 0 }]]
+    },
+    "آماده ثبت دسته": {
+      "main": [[{ "node": "ثبت دسته‌بندی پست", "type": "main", "index": 0 }]]
+    },
+    "ثبت دسته‌بندی پست": {
+      "main": [[{ "node": "اعلان تلگرام", "type": "main", "index": 0 }]]
     }
   },
   "active": false,
