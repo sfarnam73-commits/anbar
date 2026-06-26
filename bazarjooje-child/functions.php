@@ -226,6 +226,54 @@ add_filter('excerpt_length', function() { return 25; });
 add_filter('excerpt_more', function() { return '...'; });
 
 // =========================================
+// CONTACT FORM AJAX HANDLER
+// =========================================
+add_action('wp_ajax_bj_contact_submit', 'bj_contact_submit');
+add_action('wp_ajax_nopriv_bj_contact_submit', 'bj_contact_submit');
+function bj_contact_submit() {
+    if (!wp_verify_nonce($_POST['bj_contact_nonce'] ?? '', 'bj_contact_form')) {
+        wp_send_json_error('nonce_fail');
+    }
+
+    $name    = sanitize_text_field($_POST['bj_name'] ?? '');
+    $email   = sanitize_email($_POST['bj_email'] ?? '');
+    $phone   = sanitize_text_field($_POST['bj_phone'] ?? '');
+    $subject = sanitize_text_field($_POST['bj_subject'] ?? '');
+    $message = sanitize_textarea_field($_POST['bj_message'] ?? '');
+
+    if (empty($name) || empty($email) || empty($message)) {
+        wp_send_json_error('missing_fields');
+    }
+
+    $subjects = [
+        'general' => 'سوال عمومی',
+        'prices'  => 'استعلام قیمت',
+        'cooperation' => 'پیشنهاد همکاری',
+        'ads'     => 'تبلیغات',
+        'bug'     => 'گزارش مشکل',
+        'other'   => 'سایر',
+    ];
+    $subject_label = $subjects[$subject] ?? $subject;
+
+    $to = get_option('admin_email');
+    $mail_subject = 'پیام جدید از سایت بازار جوجه — ' . $subject_label;
+    $body  = "نام: {$name}\n";
+    $body .= "ایمیل: {$email}\n";
+    $body .= "تلفن: {$phone}\n";
+    $body .= "موضوع: {$subject_label}\n\n";
+    $body .= "پیام:\n{$message}";
+
+    $headers = ['Content-Type: text/plain; charset=UTF-8', "Reply-To: {$name} <{$email}>"];
+
+    $sent = wp_mail($to, $mail_subject, $body, $headers);
+    if ($sent) {
+        wp_send_json_success();
+    } else {
+        wp_send_json_error('mail_fail');
+    }
+}
+
+// =========================================
 // DISABLE JANNAH STYLES ON FRONT PAGE
 // =========================================
 add_action('wp_enqueue_scripts', 'bj_manage_parent_styles', 100);
