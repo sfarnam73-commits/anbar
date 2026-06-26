@@ -828,3 +828,5 @@ class BazarJooje_Prices {
 }
 
 BazarJooje_Prices::instance();
+
+require_once plugin_dir_path(__FILE__) . 'auto-news.php';
