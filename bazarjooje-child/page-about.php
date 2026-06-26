@@ -246,6 +246,7 @@ get_header(); ?>
   <p>ما با تمام وجود اینجاییم تا به شما کمک کنیم</p>
   <div class="cta-btns">
     <a href="https://t.me/joojeiran" class="cta-btn cta-btn-w">📱 کانال تلگرام</a>
+    <a href="https://bale.ir/bazarjooje" class="cta-btn cta-btn-w">💬 کانال بله</a>
     <a href="<?php echo esc_url(home_url('/contact')); ?>" class="cta-btn cta-btn-o">📧 تماس با ما</a>
     <a href="<?php echo esc_url(home_url('/forum')); ?>" class="cta-btn cta-btn-o">💬 ورود به انجمن</a>
   </div>

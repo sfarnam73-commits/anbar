@@ -94,13 +94,13 @@ get_header(); ?>
   <div class="contact-card">
     <div class="contact-card-icon">📧</div>
     <div class="contact-card-title">ایمیل</div>
-    <div class="contact-card-val"><?php echo esc_html(get_option('bj_email', 'info@bazarjooje.ir')); ?></div>
+    <div class="contact-card-val">Sfarnam73@gmail.com</div>
     <div class="contact-card-desc">پاسخ‌دهی در ۲۴ ساعت</div>
   </div>
   <div class="contact-card">
     <div class="contact-card-icon">📞</div>
     <div class="contact-card-title">تلفن</div>
-    <div class="contact-card-val"><?php echo esc_html(get_option('bj_mobile', '۰۹۱۲-۱۲۳-۴۵۶۷')); ?></div>
+    <div class="contact-card-val">۰۸۱۳۸۲۶۴۶۴۴</div>
     <div class="contact-card-desc">شنبه تا پنج‌شنبه</div>
   </div>
   <div class="contact-card">
@@ -173,7 +173,7 @@ get_header(); ?>
         <div class="ci-icon">📧</div>
         <div class="ci-text">
           <h4>ایمیل پشتیبانی</h4>
-          <p><?php echo esc_html(get_option('bj_email', 'info@bazarjooje.ir')); ?></p>
+          <p>Sfarnam73@gmail.com</p>
         </div>
       </div>
 
@@ -181,7 +181,7 @@ get_header(); ?>
         <div class="ci-icon">📞</div>
         <div class="ci-text">
           <h4>شماره تماس</h4>
-          <p dir="ltr" style="text-align:right"><?php echo esc_html(get_option('bj_mobile', '۰۹۱۲-۱۲۳-۴۵۶۷')); ?></p>
+          <p>۰۸۱۳۸۲۶۴۶۴۴<br>۰۹۱۸۸۱۱۱۵۰۴<br>۰۹۱۸۱۷۱۷۰۱۱</p>
         </div>
       </div>
 
@@ -206,9 +206,10 @@ get_header(); ?>
         <h4>ما را در شبکه‌های اجتماعی دنبال کنید</h4>
         <div class="social-links">
           <a href="https://t.me/joojeiran" class="social-link" target="_blank"><span>📱</span> تلگرام</a>
-          <a href="#" class="social-link"><span>📸</span> اینستاگرام</a>
-          <a href="#" class="social-link"><span>🎬</span> آپارات</a>
-          <a href="#" class="social-link"><span>💬</span> واتساپ</a>
+          <a href="https://bale.ir/bazarjooje" class="social-link" target="_blank"><span>🅱</span> بله</a>
+          <a href="https://instagram.com/bazarjooje" class="social-link" target="_blank"><span>📸</span> اینستاگرام</a>
+          <a href="https://aparat.com/bazarjooje" class="social-link" target="_blank"><span>🎬</span> آپارات</a>
+          <a href="https://wa.me/989188111504" class="social-link" target="_blank"><span>💬</span> واتساپ</a>
         </div>
       </div>
     </div>

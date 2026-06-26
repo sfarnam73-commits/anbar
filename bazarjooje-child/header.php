@@ -86,7 +86,7 @@
         <?php
     }
     ?>
-    <a href="#" class="nav-app">📱 دانلود اپلیکیشن</a>
+    <a href="https://bale.ir/bazarjooje" target="_blank" class="nav-app">💬 کانال بله</a>
   </div>
 </nav>
 
