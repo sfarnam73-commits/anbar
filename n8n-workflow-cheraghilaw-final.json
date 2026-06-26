@@ -91,7 +91,7 @@
     {
       "parameters": {
         "method": "GET",
-        "url": "={{ $json.imageUrl }}",
+        "url": "=https://api.cheraghilaw.ir/pexels-image?url={{ encodeURIComponent($json.imageUrl) }}",
         "options": { "redirect": { "redirect": { "followRedirects": true } }, "response": { "response": { "responseFormat": "file" } } }
       },
       "type": "n8n-nodes-base.httpRequest",

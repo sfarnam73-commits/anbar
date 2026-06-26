@@ -66,6 +66,35 @@ export default {
       });
     }
 
+    // --- Pexels Image Download Proxy ---
+    if (url.pathname === "/pexels-image") {
+      const imageUrl = url.searchParams.get("url");
+      if (!imageUrl || !imageUrl.includes("pexels.com")) {
+        return Response.json({ error: "valid pexels url required" }, {
+          status: 400,
+          headers: { "Access-Control-Allow-Origin": "*" },
+        });
+      }
+
+      let imgResponse;
+      try {
+        imgResponse = await fetch(imageUrl);
+      } catch (e) {
+        return Response.json(
+          { error: "Failed to download image: " + e.message },
+          { status: 502, headers: { "Access-Control-Allow-Origin": "*" } },
+        );
+      }
+
+      return new Response(imgResponse.body, {
+        status: imgResponse.status,
+        headers: {
+          "Content-Type": imgResponse.headers.get("Content-Type") || "image/jpeg",
+          "Access-Control-Allow-Origin": "*",
+        },
+      });
+    }
+
     // --- Claude API Proxy (existing) ---
     if (request.method !== "POST") {
       return Response.json({ error: "POST only" }, { status: 405 });
