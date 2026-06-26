@@ -35,7 +35,7 @@
   <div class="container">
     <div class="header-inner">
       <a href="<?php echo esc_url(home_url('/')); ?>" class="logo">
-        <div class="logo-icon">🐣</div>
+        <div class="logo-icon"><img src="<?php echo esc_url(BJ_CHILD_URI . '/assets/img/logo-icon.png'); ?>" alt="بازار جوجه ایران" style="width:100%;height:100%;object-fit:contain;border-radius:50%"></div>
         <div class="logo-text">
           <h1><?php bloginfo('name'); ?></h1>
           <span><?php bloginfo('description'); ?></span>

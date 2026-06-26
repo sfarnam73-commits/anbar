@@ -15,7 +15,7 @@
   <div class="container">
     <div class="footer-grid">
       <div class="footer-about">
-        <h3>🐣 <?php bloginfo('name'); ?></h3>
+        <h3><img src="<?php echo esc_url(BJ_CHILD_URI . '/assets/img/logo-icon.png'); ?>" alt="" style="width:28px;height:28px;object-fit:contain;vertical-align:middle;border-radius:50%;margin-left:6px"><?php bloginfo('name'); ?></h3>
         <p><?php echo esc_html(get_option('bj_footer_about', 'بازار جوجه ایران، مرجع اصلی قیمت روزانه جوجه یکروزه، مرغ زنده، تخم مرغ و نهاده‌های دامی. ما هر روز آخرین قیمت‌ها، اخبار و تحلیل‌های بازار طیور را برای مرغداران و فعالان صنعت طیور منتشر می‌کنیم.')); ?></p>
         <div class="footer-social">
           <a href="https://t.me/joojeiran" title="تلگرام">📱</a>
@@ -88,7 +88,7 @@
 <div class="modal-bg" id="loginModal">
   <div class="modal">
     <button class="modal-close" onclick="bjCloseModal()">✕</button>
-    <div style="text-align:center;font-size:40px;margin-bottom:4px">🐣</div>
+    <div style="text-align:center;margin-bottom:4px"><img src="<?php echo esc_url(BJ_CHILD_URI . '/assets/img/logo-icon.png'); ?>" alt="بازار جوجه ایران" style="width:56px;height:56px;object-fit:contain;border-radius:50%"></div>
     <h3>ورود به <?php bloginfo('name'); ?></h3>
     <p class="sub">برای دسترسی به انجمن و امکانات ویژه وارد شوید</p>
     <form method="post" action="<?php echo esc_url(wp_login_url(home_url())); ?>">
