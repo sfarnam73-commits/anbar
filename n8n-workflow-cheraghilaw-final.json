@@ -67,9 +67,9 @@
     {
       "parameters": {
         "method": "GET",
-        "url": "=https://api.pexels.com/v1/search?query={{ encodeURIComponent($('انتخاب موضوع').item.json.img) }}&per_page=15&orientation=landscape",
-        "sendHeaders": true,
-        "headerParameters": { "parameters": [{ "name": "Authorization", "value": "PEXELS_API_KEY_INJA" }] },
+        "url": "=https://api.cheraghilaw.ir/pexels?query={{ encodeURIComponent($('انتخاب موضوع').item.json.img) }}&per_page=15&api_key=PEXELS_API_KEY_INJA",
+        "sendHeaders": false,
+        "headerParameters": { "parameters": [] },
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",

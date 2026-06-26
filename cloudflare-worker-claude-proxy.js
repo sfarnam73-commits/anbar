@@ -4,12 +4,69 @@ export default {
       return new Response(null, {
         headers: {
           "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "POST, OPTIONS",
-          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type, Authorization",
         },
       });
     }
 
+    const url = new URL(request.url);
+
+    // --- Pexels API Proxy ---
+    if (url.pathname === "/pexels") {
+      if (request.method !== "GET") {
+        return Response.json({ error: "GET only for /pexels" }, {
+          status: 405,
+          headers: { "Access-Control-Allow-Origin": "*" },
+        });
+      }
+
+      const query = url.searchParams.get("query");
+      const perPage = url.searchParams.get("per_page") || "15";
+      const apiKey = url.searchParams.get("api_key") || request.headers.get("Authorization");
+
+      if (!query) {
+        return Response.json({ error: "query parameter required" }, {
+          status: 400,
+          headers: { "Access-Control-Allow-Origin": "*" },
+        });
+      }
+
+      if (!apiKey) {
+        return Response.json({ error: "api_key parameter or Authorization header required" }, {
+          status: 400,
+          headers: { "Access-Control-Allow-Origin": "*" },
+        });
+      }
+
+      let pexelsResponse;
+      try {
+        pexelsResponse = await fetch(
+          `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=${perPage}`,
+          {
+            headers: {
+              "Authorization": apiKey,
+            },
+          }
+        );
+      } catch (e) {
+        return Response.json(
+          { error: "Failed to connect to Pexels API: " + e.message },
+          { status: 502, headers: { "Access-Control-Allow-Origin": "*" } },
+        );
+      }
+
+      const pexelsData = await pexelsResponse.text();
+      return new Response(pexelsData, {
+        status: pexelsResponse.status,
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+      });
+    }
+
+    // --- Claude API Proxy (existing) ---
     if (request.method !== "POST") {
       return Response.json({ error: "POST only" }, { status: 405 });
     }
