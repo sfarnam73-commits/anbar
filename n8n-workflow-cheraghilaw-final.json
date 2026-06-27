@@ -219,6 +219,27 @@
     },
     {
       "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "" },
+          "conditions": [
+            {
+              "id": "if-needs-create",
+              "leftValue": "={{ $json.needsCreate }}",
+              "rightValue": true,
+              "operator": { "type": "boolean", "operation": "equals", "singleValue": true }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [3180, 0],
+      "id": "if-category",
+      "name": "شرط دسته‌بندی"
+    },
+    {
+      "parameters": {
         "method": "POST",
         "url": "https://cheraghilaw.ir/wp-json/wp/v2/categories",
         "authentication": "genericCredentialType",
@@ -230,7 +251,7 @@
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
-      "position": [3180, -100],
+      "position": [3400, -150],
       "id": "create-category",
       "name": "ساخت دسته‌بندی",
       "credentials": {
@@ -243,7 +264,7 @@
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [3400, 0],
+      "position": [3620, 0],
       "id": "prepare-cat-assign",
       "name": "آماده ثبت دسته"
     },
@@ -260,7 +281,7 @@
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
-      "position": [3620, 0],
+      "position": [3840, 0],
       "id": "assign-category",
       "name": "ثبت دسته‌بندی پست",
       "credentials": {
@@ -278,7 +299,7 @@
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
-      "position": [3840, 0],
+      "position": [4060, 0],
       "id": "telegram-notify",
       "name": "اعلان تلگرام"
     }
@@ -331,6 +352,9 @@
       "main": [[{ "node": "بررسی دسته‌بندی", "type": "main", "index": 0 }]]
     },
     "بررسی دسته‌بندی": {
+      "main": [[{ "node": "شرط دسته‌بندی", "type": "main", "index": 0 }]]
+    },
+    "شرط دسته‌بندی": {
       "main": [[{ "node": "ساخت دسته‌بندی", "type": "main", "index": 0 }], [{ "node": "آماده ثبت دسته", "type": "main", "index": 0 }]]
     },
     "ساخت دسته‌بندی": {
