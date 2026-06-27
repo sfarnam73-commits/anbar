@@ -95,6 +95,35 @@ export default {
       });
     }
 
+    // --- Telegram API Proxy ---
+    if (url.pathname.startsWith("/telegram/")) {
+      const telegramPath = url.pathname.replace("/telegram/", "");
+      const telegramUrl = `https://api.telegram.org/${telegramPath}`;
+
+      let tgResponse;
+      try {
+        tgResponse = await fetch(telegramUrl, {
+          method: request.method,
+          headers: { "Content-Type": request.headers.get("Content-Type") || "application/json" },
+          body: request.method === "POST" ? await request.text() : undefined,
+        });
+      } catch (e) {
+        return Response.json(
+          { error: "Failed to connect to Telegram API: " + e.message },
+          { status: 502, headers: { "Access-Control-Allow-Origin": "*" } },
+        );
+      }
+
+      const tgData = await tgResponse.text();
+      return new Response(tgData, {
+        status: tgResponse.status,
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+      });
+    }
+
     // --- Claude API Proxy (existing) ---
     if (request.method !== "POST") {
       return Response.json({ error: "POST only" }, { status: 405 });
