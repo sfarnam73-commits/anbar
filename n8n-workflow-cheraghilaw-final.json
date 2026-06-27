@@ -230,7 +230,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const postId = $('آماده‌سازی آپدیت').item.json.postId;\nconst data = $json;\nlet categoryId = null;\n\nif (data.id) {\n  categoryId = data.id;\n} else if (data.data && data.data.term_id) {\n  categoryId = data.data.term_id;\n} else {\n  try {\n    const searchResult = $('جستجوی دسته‌بندی').first().json;\n    if (Array.isArray(searchResult) && searchResult.length > 0) {\n      categoryId = searchResult[0].id;\n    }\n  } catch(e) {}\n}\n\nif (!categoryId) {\n  return [{ json: { postId, body: '{}' } }];\n}\n\nreturn [{ json: { postId, categoryId, body: JSON.stringify({ categories: [categoryId] }) } }];"
+        "jsCode": "const postId = $('آماده‌سازی آپدیت').item.json.postId;\nconst data = $json;\nlet categoryId = null;\n\nif (data.id) {\n  categoryId = data.id;\n} else if (Array.isArray(data) && data.length > 0) {\n  categoryId = data[0].id;\n}\n\nif (!categoryId) {\n  return [{ json: { postId, body: '{}' } }];\n}\n\nreturn [{ json: { postId, categoryId, body: JSON.stringify({ categories: [categoryId] }) } }];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -319,9 +319,6 @@
       "main": [[{ "node": "جستجوی دسته‌بندی", "type": "main", "index": 0 }]]
     },
     "جستجوی دسته‌بندی": {
-      "main": [[{ "node": "ساخت دسته‌بندی", "type": "main", "index": 0 }]]
-    },
-    "ساخت دسته‌بندی": {
       "main": [[{ "node": "آماده ثبت دسته", "type": "main", "index": 0 }]]
     },
     "آماده ثبت دسته": {
