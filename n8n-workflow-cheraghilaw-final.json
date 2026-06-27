@@ -209,62 +209,32 @@
     },
     {
       "parameters": {
-        "jsCode": "const categories = $json;\nconst categoryName = $('آماده‌سازی آپدیت').item.json.categoryName;\nconst postId = $('آماده‌سازی آپدیت').item.json.postId;\n\nlet categoryId = null;\n\nif (Array.isArray(categories) && categories.length > 0) {\n  categoryId = categories[0].id;\n} \n\nreturn [{ json: { postId, categoryId, categoryName, needsCreate: !categoryId } }];"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [2960, 0],
-      "id": "check-category",
-      "name": "بررسی دسته‌بندی"
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": { "caseSensitive": true, "leftValue": "" },
-          "conditions": [
-            {
-              "id": "if-needs-create",
-              "leftValue": "={{ $json.needsCreate }}",
-              "rightValue": true,
-              "operator": { "type": "boolean", "operation": "equals", "singleValue": true }
-            }
-          ],
-          "combinator": "and"
-        }
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
-      "position": [3180, 0],
-      "id": "if-category",
-      "name": "شرط دسته‌بندی"
-    },
-    {
-      "parameters": {
         "method": "POST",
         "url": "https://cheraghilaw.ir/wp-json/wp/v2/categories",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpBasicAuth",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ name: $json.categoryName }) }}",
-        "options": {}
+        "jsonBody": "={{ JSON.stringify({ name: $('آماده‌سازی آپدیت').item.json.categoryName }) }}",
+        "options": { "allowUnauthorizedCerts": false }
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
-      "position": [3400, -150],
+      "position": [2960, 0],
       "id": "create-category",
       "name": "ساخت دسته‌بندی",
       "credentials": {
         "httpBasicAuth": { "id": "j26s31CeVBcmCoO4", "name": "Unnamed credential" }
-      }
+      },
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
-        "jsCode": "const postId = $('بررسی دسته‌بندی').item.json.postId;\nlet categoryId;\n\ntry {\n  categoryId = $('ساخت دسته‌بندی').item.json.id;\n} catch(e) {\n  categoryId = $('بررسی دسته‌بندی').item.json.categoryId;\n}\n\nif (!categoryId) {\n  return [{ json: { postId, skip: true } }];\n}\n\nreturn [{ json: { postId, categoryId, body: JSON.stringify({ categories: [categoryId] }) } }];"
+        "jsCode": "const postId = $('آماده‌سازی آپدیت').item.json.postId;\nconst data = $json;\nlet categoryId = null;\n\nif (data.id) {\n  categoryId = data.id;\n} else if (data.data && data.data.term_id) {\n  categoryId = data.data.term_id;\n} else {\n  try {\n    const searchResult = $('جستجوی دسته‌بندی').first().json;\n    if (Array.isArray(searchResult) && searchResult.length > 0) {\n      categoryId = searchResult[0].id;\n    }\n  } catch(e) {}\n}\n\nif (!categoryId) {\n  return [{ json: { postId, body: '{}' } }];\n}\n\nreturn [{ json: { postId, categoryId, body: JSON.stringify({ categories: [categoryId] }) } }];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [3620, 0],
+      "position": [3180, 0],
       "id": "prepare-cat-assign",
       "name": "آماده ثبت دسته"
     },
@@ -281,7 +251,7 @@
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
-      "position": [3840, 0],
+      "position": [3400, 0],
       "id": "assign-category",
       "name": "ثبت دسته‌بندی پست",
       "credentials": {
@@ -299,7 +269,7 @@
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
-      "position": [4060, 0],
+      "position": [3620, 0],
       "id": "telegram-notify",
       "name": "اعلان تلگرام"
     }
@@ -349,13 +319,7 @@
       "main": [[{ "node": "جستجوی دسته‌بندی", "type": "main", "index": 0 }]]
     },
     "جستجوی دسته‌بندی": {
-      "main": [[{ "node": "بررسی دسته‌بندی", "type": "main", "index": 0 }]]
-    },
-    "بررسی دسته‌بندی": {
-      "main": [[{ "node": "شرط دسته‌بندی", "type": "main", "index": 0 }]]
-    },
-    "شرط دسته‌بندی": {
-      "main": [[{ "node": "ساخت دسته‌بندی", "type": "main", "index": 0 }], [{ "node": "آماده ثبت دسته", "type": "main", "index": 0 }]]
+      "main": [[{ "node": "ساخت دسته‌بندی", "type": "main", "index": 0 }]]
     },
     "ساخت دسته‌بندی": {
       "main": [[{ "node": "آماده ثبت دسته", "type": "main", "index": 0 }]]
