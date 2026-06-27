@@ -1,0 +1,693 @@
+{
+  "name": "موبایل ۸ - بررسی ساعت هوشمند (سئو حرفه‌ای)",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -140,
+        0
+      ],
+      "id": "m8-manual",
+      "name": "When clicking 'Execute workflow'"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9,
+              "triggerAtMinute": 45
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -140,
+        200
+      ],
+      "id": "m8-schedule",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "jsCode": "const topics = [\n  { topic: 'راهنمای خرید ساعت هوشمند: ۷ نکته مهم قبل از خرید', keyword: 'راهنمای خرید ساعت هوشمند', category: 'ساعت هوشمند', img: 'smartwatch shopping guide technology wearable', word_count: 2000 },\n  { topic: 'بهترین ساعت هوشمند زیر ۱ میلیون تومان ۱۴۰۵', keyword: 'بهترین ساعت هوشمند زیر ۱ میلیون', category: 'ساعت هوشمند', img: 'budget smartwatch affordable wrist wearable', word_count: 2200 },\n  { topic: 'بهترین ساعت هوشمند زیر ۲ میلیون تومان ۱۴۰۵', keyword: 'بهترین ساعت هوشمند زیر ۲ میلیون', category: 'ساعت هوشمند', img: 'modern smartwatch stylish wearable tech', word_count: 2200 },\n  { topic: 'بهترین ساعت هوشمند زیر ۳ میلیون تومان ۱۴۰۵', keyword: 'بهترین ساعت هوشمند زیر ۳ میلیون', category: 'ساعت هوشمند', img: 'premium smartwatch luxury technology design', word_count: 2200 },\n  { topic: 'ساعت هوشمند چیست؟ همه چیز درباره اسمارت‌واچ به زبان ساده', keyword: 'ساعت هوشمند چیست', category: 'ساعت هوشمند', img: 'smartwatch explanation technology digital watch', word_count: 2000 },\n  { topic: 'تفاوت ساعت هوشمند سیم‌کارت‌خور و بلوتوثی: کدوم بخریم؟', keyword: 'ساعت هوشمند سیم کارت خور', category: 'ساعت هوشمند', img: 'smartwatch sim card cellular bluetooth compare', word_count: 2000 },\n  { topic: 'ساعت هوشمند دخترانه و زنانه: راهنمای انتخاب بهترین مدل', keyword: 'ساعت هوشمند دخترانه', category: 'ساعت هوشمند', img: 'women smartwatch fashion stylish pink elegant', word_count: 2000 },\n  { topic: 'بهترین ساعت هوشمند ورزشی: ۵ مدل برای تناسب اندام ۱۴۰۵', keyword: 'ساعت هوشمند ورزشی', category: 'ساعت هوشمند', img: 'fitness smartwatch sport running exercise gym', word_count: 2000 },\n  { topic: 'ساعت هوشمند اصل یا تقلبی؟ ۶ روش ساده تشخیص قبل از خرید', keyword: 'تشخیص ساعت هوشمند اصل', category: 'ساعت هوشمند', img: 'smartwatch genuine fake quality check inspect', word_count: 1800 },\n  { topic: 'آموزش اتصال ساعت هوشمند به گوشی: اندروید و آیفون ۱۴۰۵', keyword: 'اتصال ساعت هوشمند به گوشی', category: 'ساعت هوشمند', img: 'smartwatch phone pairing connection bluetooth', word_count: 2000 },\n  { topic: 'بهترین ساعت هوشمند برای سالمندان: ۵ مدل با قابلیت سلامت', keyword: 'ساعت هوشمند سالمندان', category: 'ساعت هوشمند', img: 'elderly senior smartwatch health monitor care', word_count: 1800 },\n  { topic: 'ساعت هوشمند بچگانه: راهنمای خرید برای والدین ۱۴۰۵', keyword: 'ساعت هوشمند بچگانه', category: 'ساعت هوشمند', img: 'kids children smartwatch colorful fun cartoon', word_count: 1800 },\n  { topic: 'مقایسه ساعت هوشمند و مچ‌بند هوشمند: کدوم به‌درد شما میخوره؟', keyword: 'مقایسه ساعت هوشمند و مچ بند', category: 'ساعت هوشمند', img: 'smartwatch vs fitness band comparison wearable', word_count: 2000 },\n  { topic: 'اندازه‌گیری فشار خون با ساعت هوشمند: دقیق هست یا نه؟', keyword: 'ساعت هوشمند فشار خون', category: 'ساعت هوشمند', img: 'smartwatch blood pressure heart health monitor', word_count: 1800 },\n  { topic: '۱۰ قابلیت ساعت هوشمند که احتمالاً نمیدونستید', keyword: 'قابلیت ساعت هوشمند', category: 'ساعت هوشمند', img: 'smartwatch features technology innovation screen', word_count: 2000 },\n  { topic: 'ساعت هوشمند ضدآب: بهترین انتخاب برای شنا و ورزش آبی', keyword: 'ساعت هوشمند ضدآب', category: 'ساعت هوشمند', img: 'waterproof smartwatch swimming pool water sport', word_count: 1800 },\n  { topic: 'بهترین اپلیکیشن‌های ساعت هوشمند اندروید در سال ۱۴۰۵', keyword: 'اپلیکیشن ساعت هوشمند', category: 'ساعت هوشمند', img: 'smartwatch apps application mobile screen icon', word_count: 2000 },\n  { topic: 'عمر باتری ساعت هوشمند: ۸ راه ساده برای افزایش شارژ', keyword: 'عمر باتری ساعت هوشمند', category: 'ساعت هوشمند', img: 'smartwatch battery charging power energy cable', word_count: 1800 },\n  { topic: 'خرید ساعت هوشمند آنلاین: ۵ نکته برای خرید مطمئن و بی‌دردسر', keyword: 'خرید ساعت هوشمند آنلاین', category: 'ساعت هوشمند', img: 'online shopping smartwatch ecommerce delivery box', word_count: 2000 },\n  { topic: 'تفاوت ساعت هوشمند ارزان و گران: آیا پول بیشتر ارزش داره؟', keyword: 'ساعت هوشمند ارزان', category: 'ساعت هوشمند', img: 'cheap expensive smartwatch comparison value money', word_count: 2000 }\n];\n\nconst counter = $getWorkflowStaticData('global');\n\n// --- Skip logic: publish 2 out of every 3 days = every 1.5 days ---\nlet dayCount = counter.dayCount || 0;\ndayCount++;\ncounter.dayCount = dayCount;\nif (dayCount % 3 === 0) {\n  return [];\n}\n\nlet index = counter.topicIndex || 0;\nif (index >= topics.length) index = 0;\n\nconst recentTopics = counter.recentTopics || [];\nlet attempts = 0;\nwhile (recentTopics.includes(index) && attempts < topics.length) {\n  index = (index + 1) % topics.length;\n  attempts++;\n}\nrecentTopics.push(index);\nif (recentTopics.length > 5) recentTopics.shift();\ncounter.recentTopics = recentTopics;\n\nconst pick = topics[index];\ncounter.topicIndex = (index + 1) % topics.length;\n\nreturn [{ json: { topic: pick.topic, keyword: pick.keyword, category: pick.category, img: pick.img, word_count: pick.word_count, current_index: index } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        100,
+        0
+      ],
+      "id": "m8-select-topic",
+      "name": "انتخاب موضوع"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================================\n// <<<< API KEY خودت رو فقط اینجا عوض کن >>>>\nconst API_KEY = 'API_KEY_INJA';\n// ============================================\n\nconst topic = $json.topic;\nconst keyword = $json.keyword;\nconst category = $json.category;\nconst word_count = $json.word_count;\n\nconst prompt = 'تو یک متخصص فناوری، بررسی محصولات دیجیتال و تولید محتوای سئو شده هستی. برای فروشگاه آنلاین موبایل ۸ (mobile8.ir) یک مقاله بررسی و راهنمای خرید بنویس.' +\n  '\\n\\nموضوع: ' + topic +\n  '\\nکلمه کلیدی اصلی: ' + keyword +\n  '\\nدسته‌بندی: ' + category +\n  '\\nتعداد کلمات: حداقل ' + word_count + ' کلمه' +\n  '\\n\\n=== قوانین محتوا ===' +\n  '\\n- مقاله جامع، دقیق، به‌روز و کاربردی باشد' +\n  '\\n- اطلاعات فنی دقیق و قابل اتکا' +\n  '\\n- لحن حرفه‌ای، صمیمی و قابل فهم برای همه' +\n  '\\n- حداقل ۳ مثال و نکته عملی بزن' +\n  '\\n- از کلمات انتقالی زیاد استفاده کن (همچنین، علاوه بر این، در نتیجه، از سوی دیگر، به عبارت دیگر، در واقع، به طور کلی، بنابراین)' +\n  '\\n- در صورت معرفی محصولات، مشخصات فنی را در جدول HTML بیاور' +\n  '\\n- مزایا و معایب هر محصول یا روش را لیست کن' +\n  '\\n- در انتهای هر بخش معرفی محصول، لینک خرید بذار:' +\n  '\\n  <a href=\\\"https://mobile8.ir/product-category/smart-watch/\\\" style=\\\"display:inline-block;background:#1a73e8;color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;margin:10px 0\\\">مشاهده و خرید از فروشگاه موبایل ۸</a>' +\n  '\\n- نام فروشگاه «موبایل ۸» را حداقل ۳ بار در مقاله ذکر کن (ابتدا، وسط، انتها)' +\n  '\\n- در پایان مقاله بنویس: برای مشاهده جدیدترین مدل‌های ساعت هوشمند با بهترین قیمت، به <a href=\\\"https://mobile8.ir/product-category/smart-watch/\\\">فروشگاه آنلاین موبایل ۸</a> سر بزنید.' +\n  '\\n\\n=== قوانین سئو (نمره Rank Math باید بالای ۹۰ باشد) ===' +\n  '\\n- کلمه کلیدی دقیقاً در عنوان باشد' +\n  '\\n- عنوان شامل عدد باشد (مثل: ۷ نکته، ۵ مدل، راهنمای کامل ۱۴۰۵)' +\n  '\\n- عنوان حداکثر ۶۰ کاراکتر و جذاب' +\n  '\\n- کلمه کلیدی دقیقاً در جمله اول پاراگراف اول باشد' +\n  '\\n- کلمه کلیدی در حداقل ۳ زیرعنوان h2 باشد' +\n  '\\n- کلمه کلیدی ۸ تا ۱۲ بار در کل متن (تراکم ۱ تا ۱.۵ درصد)' +\n  '\\n- متا دیسکریپشن بین ۱۴۰ تا ۱۵۵ کاراکتر شامل کلمه کلیدی و دعوت به اقدام' +\n  '\\n- اسلاگ URL فارسی کوتاه شامل کلمه کلیدی' +\n  '\\n- در اولین پاراگراف، کلمه کلیدی را با تگ strong بولد کن' +\n  '\\n- از کلمات کلیدی مرتبط (LSI) هم استفاده کن: خرید ساعت هوشمند، اسمارت واچ، ساعت هوشمند ارزان، بهترین ساعت هوشمند، قیمت ساعت هوشمند، ساعت مچی هوشمند' +\n  '\\n- پاراگراف‌ها کوتاه باشند (حداکثر ۳ جمله)' +\n  '\\n- از جملات کوتاه و فعال استفاده کن' +\n  '\\n\\n=== لینک‌ها (خیلی مهم برای سئو) ===' +\n  '\\n- ۴ لینک داخلی در جاهای مختلف متن مقاله قرار بده:' +\n  '\\n  ۱. <a href=\\\"https://mobile8.ir/product-category/smart-watch/\\\">خرید ساعت هوشمند از موبایل ۸</a>' +\n  '\\n  ۲. <a href=\\\"https://mobile8.ir\\\">فروشگاه آنلاین موبایل ۸</a>' +\n  '\\n  ۳. <a href=\\\"https://mobile8.ir/product-category/smart-watch/\\\">مشاهده همه ساعت‌های هوشمند</a>' +\n  '\\n  ۴. یک لینک داخلی دیگر با anchor text مرتبط با موضوع' +\n  '\\n- ۲ لینک خارجی به منابع معتبر فناوری (متناسب با موضوع انتخاب کن):' +\n  '\\n  <a href=\\\"https://www.gsmarena.com\\\" target=\\\"_blank\\\" rel=\\\"noopener\\\">GSMArena</a>' +\n  '\\n  <a href=\\\"https://www.techradar.com\\\" target=\\\"_blank\\\" rel=\\\"noopener\\\">TechRadar</a>' +\n  '\\n  <a href=\\\"https://www.wareable.com\\\" target=\\\"_blank\\\" rel=\\\"noopener\\\">Wareable</a>' +\n  '\\n  <a href=\\\"https://www.tomsguide.com\\\" target=\\\"_blank\\\" rel=\\\"noopener\\\">Tom\\'s Guide</a>' +\n  '\\n\\n=== ساختار محتوا ===' +\n  '\\n- ابتدا فهرست مطالب با لینک anchor:' +\n  '\\n  <div class=\\\"toc\\\"><h3>فهرست مطالب</h3><ul><li><a href=\\\"#s1\\\">عنوان</a></li>...</ul></div>' +\n  '\\n- مقدمه: ۲ پاراگراف کوتاه - کلمه کلیدی بولد در جمله اول' +\n  '\\n- حداقل ۶ بخش با h2 (هر h2 دارای id مثل id=\\\"s1\\\")' +\n  '\\n- هر بخش ۲-۳ پاراگراف کوتاه (حداکثر ۳ خط)' +\n  '\\n- از h3 برای زیربخش‌ها استفاده کن' +\n  '\\n- از تگ‌های ul، li، strong، em، blockquote استفاده کن' +\n  '\\n- در صورت معرفی محصول، جدول مشخصات:' +\n  '\\n  <table style=\\\"width:100%;border-collapse:collapse;margin:15px 0\\\"><tr style=\\\"background:#f0f7ff\\\"><th style=\\\"padding:10px;border:1px solid #ddd\\\">مشخصه</th><th style=\\\"padding:10px;border:1px solid #ddd\\\">جزئیات</th></tr>...</table>' +\n  '\\n- یک جعبه نکته مهم:' +\n  '\\n  <div style=\\\"background:#fff3cd;border-right:4px solid #ffc107;padding:15px;margin:20px 0;border-radius:8px\\\"><strong>💡 نکته مهم:</strong> [نکته کلیدی]</div>' +\n  '\\n- ۵ سوال متداول (FAQ) با h3 برای هر سوال - سوالات واقعی که مردم سرچ میکنن' +\n  '\\n- نتیجه‌گیری با h2 شامل دعوت به اقدام (CTA) برای خرید از فروشگاه موبایل ۸' +\n  '\\n\\n=== تولید ۲ عنوان برای تست A/B ===' +\n  '\\n- عنوان اول: شامل عدد (مثلاً ۷ نکته مهم درباره...)' +\n  '\\n- عنوان دوم: سوالی (مثلاً آیا میدانید... ?)' +\n  '\\n\\n=== فرمت خروجی (حتماً با این جداکننده‌ها) ===' +\n  '\\n===TITLE_A===' +\n  '\\n(عنوان اول - شامل عدد - حداکثر ۶۰ کاراکتر)' +\n  '\\n===TITLE_B===' +\n  '\\n(عنوان دوم - سوالی - حداکثر ۶۰ کاراکتر)' +\n  '\\n===SLUG===' +\n  '\\n(اسلاگ URL فارسی کوتاه)' +\n  '\\n===CONTENT===' +\n  '\\n(متن کامل HTML با فهرست مطالب و لینک‌ها)' +\n  '\\n===FAQ_SCHEMA===' +\n  '\\n(کد JSON-LD اسکیما FAQ - فقط کد JSON بدون تگ script)' +\n  '\\n===KEYWORD===' +\n  '\\n(کلمه کلیدی)' +\n  '\\n===META===' +\n  '\\n(متا دیسکریپشن بین ۱۴۰ تا ۱۵۵ کاراکتر)';\n\nreturn [{\n  json: {\n    api_key: API_KEY,\n    model: 'claude-sonnet-4-6',\n    max_tokens: 8000,\n    messages: [{ role: 'user', content: prompt }]\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        320,
+        0
+      ],
+      "id": "m8-build-request",
+      "name": "ساخت درخواست"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.cheraghilaw.ir",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "timeout": 300000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        540,
+        0
+      ],
+      "id": "m8-claude-http",
+      "name": "ارسال به Claude"
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $('ارسال به Claude').first().json;\nlet raw = '';\n\nif (data.content && Array.isArray(data.content)) {\n  raw = data.content[0].text;\n} else if (data.text) {\n  raw = data.text;\n} else if (data.error) {\n  const errMsg = typeof data.error === 'string' ? data.error : (data.error.message || JSON.stringify(data.error));\n  throw new Error('خطای Claude: ' + errMsg);\n} else {\n  throw new Error('پاسخ نامعتبر - کلیدهای دریافتی: ' + Object.keys(data).join(', '));\n}\n\nif (!raw || raw.length < 50) {\n  throw new Error('پاسخ خیلی کوتاه یا خالی: ' + raw.substring(0, 200));\n}\n\nfunction getPart(label, next) {\n  let s = raw.indexOf('===' + label + '===');\n  if (s === -1) return '';\n  s += ('===' + label + '===').length;\n  let e = next ? raw.indexOf('===' + next + '===') : raw.length;\n  if (e === -1) e = raw.length;\n  return raw.substring(s, e).trim();\n}\n\nconst topicData = $('انتخاب موضوع').first().json;\n\nlet titleA = getPart('TITLE_A', 'TITLE_B') || topicData.topic;\nlet titleB = getPart('TITLE_B', 'SLUG') || titleA;\n\nconst useA = Math.random() > 0.5;\nlet title = useA ? titleA : titleB;\nlet abVariant = useA ? 'A' : 'B';\n\nlet slug = getPart('SLUG', 'CONTENT') || '';\nlet content = getPart('CONTENT', 'FAQ_SCHEMA');\nlet faqSchema = getPart('FAQ_SCHEMA', 'KEYWORD') || '';\nlet keyword = getPart('KEYWORD', 'META') || topicData.keyword;\nlet meta = getPart('META', null) || title;\nlet category = topicData.category || '';\n\nif (!content) {\n  content = raw;\n}\n\nif (faqSchema) {\n  try {\n    JSON.parse(faqSchema);\n    content += '\\n<script type=\"application/ld+json\">' + faqSchema + '</script>';\n  } catch(e) {}\n}\n\nreturn [{ json: { title, titleA, titleB, abVariant, slug, content, focus_keyword: keyword, meta_description: meta, category } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        760,
+        0
+      ],
+      "id": "m8-parse-response",
+      "name": "پردازش پاسخ"
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://api.cheraghilaw.ir/pexels?query={{ encodeURIComponent($('انتخاب موضوع').item.json.img) }}&per_page=15&page={{ Math.floor(Math.random() * 5) + 1 }}&api_key=PEXELS_API_KEY_INJA",
+        "sendHeaders": false,
+        "headerParameters": {
+          "parameters": []
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        980,
+        0
+      ],
+      "id": "m8-search-pexels",
+      "name": "جستجوی تصویر Pexels"
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $json;\nconst photos = data.photos || [];\nif (photos.length === 0) {\n  throw new Error('تصویری پیدا نشد');\n}\nconst seed = Date.now() + Math.random() * 10000;\nconst pick = photos[Math.floor(seed % photos.length)];\nconst imageUrl = pick.src.large2x || pick.src.large || pick.src.original;\nconst photographer = pick.photographer || '';\nreturn [{ json: { imageUrl, photographer } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        0
+      ],
+      "id": "m8-pick-image",
+      "name": "انتخاب تصویر"
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://api.cheraghilaw.ir/pexels-image?url={{ encodeURIComponent($json.imageUrl) }}",
+        "options": {
+          "redirect": {
+            "redirect": {
+              "followRedirects": true
+            }
+          },
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1420,
+        0
+      ],
+      "id": "m8-download-image",
+      "name": "دانلود تصویر"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://mobile8.ir/wp-json/wp/v2/media",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Disposition",
+              "value": "=attachment; filename=\"{{ $('پردازش پاسخ').item.json.slug || 'article' }}.jpg\""
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "binaryData",
+        "inputDataFieldName": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1640,
+        0
+      ],
+      "id": "m8-upload-image",
+      "name": "آپلود تصویر",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "MOBILE8_HTTP_CRED",
+          "name": "Mobile8 HTTP Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://mobile8.ir/wp-json/wp/v2/media/{{ $json.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ alt_text: $('پردازش پاسخ').item.json.focus_keyword + ' - فروشگاه موبایل ۸', caption: $('پردازش پاسخ').item.json.title }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1860,
+        0
+      ],
+      "id": "m8-set-image-alt",
+      "name": "ثبت Alt تصویر",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "MOBILE8_HTTP_CRED",
+          "name": "Mobile8 HTTP Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "title": "={{ $('پردازش پاسخ').item.json.title }}",
+        "additionalFields": {
+          "content": "={{ $('پردازش پاسخ').item.json.content }}",
+          "slug": "={{ $('پردازش پاسخ').item.json.slug }}",
+          "status": "publish"
+        }
+      },
+      "type": "n8n-nodes-base.wordpress",
+      "typeVersion": 1,
+      "position": [
+        2080,
+        0
+      ],
+      "id": "m8-wp-publish",
+      "name": "انتشار در وردپرس",
+      "credentials": {
+        "wordpressApi": {
+          "id": "MOBILE8_WP_CRED",
+          "name": "Mobile8 WordPress"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const postId = $json.id;\nconst parsedData = $('پردازش پاسخ').item.json;\nconst imageId = $('آپلود تصویر').item.json.id;\nconst categoryName = parsedData.category;\n\nconst body = {\n  featured_media: imageId,\n  meta: {\n    rank_math_focus_keyword: parsedData.focus_keyword,\n    rank_math_description: parsedData.meta_description,\n    rank_math_title: parsedData.title\n  }\n};\n\nreturn [{ json: { postId, body: JSON.stringify(body), categoryName, postUrl: $json.link || ('https://mobile8.ir/?p=' + postId), title: parsedData.title, abVariant: parsedData.abVariant, titleA: parsedData.titleA, titleB: parsedData.titleB, keyword: parsedData.focus_keyword } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2300,
+        0
+      ],
+      "id": "m8-prepare-update",
+      "name": "آماده‌سازی آپدیت"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://mobile8.ir/wp-json/wp/v2/posts/{{ $json.postId }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.body }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2520,
+        0
+      ],
+      "id": "m8-set-seo",
+      "name": "ثبت سئو و تصویر شاخص",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "MOBILE8_HTTP_CRED",
+          "name": "Mobile8 HTTP Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://mobile8.ir/wp-json/wp/v2/categories?search={{ encodeURIComponent($('آماده‌سازی آپدیت').item.json.categoryName) }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2740,
+        0
+      ],
+      "id": "m8-search-category",
+      "name": "جستجوی دسته‌بندی",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "MOBILE8_HTTP_CRED",
+          "name": "Mobile8 HTTP Auth"
+        }
+      },
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const postId = $('آماده‌سازی آپدیت').item.json.postId;\nconst data = $json;\nlet categoryId = null;\n\nif (data && data.id) {\n  categoryId = data.id;\n} else if (Array.isArray(data) && data.length > 0) {\n  categoryId = data[0].id;\n}\n\nif (!categoryId) {\n  return [{ json: { postId, body: '{}' } }];\n}\n\nreturn [{ json: { postId, categoryId, body: JSON.stringify({ categories: [categoryId] }) } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2960,
+        0
+      ],
+      "id": "m8-prepare-cat",
+      "name": "آماده ثبت دسته"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://mobile8.ir/wp-json/wp/v2/posts/{{ $json.postId }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.body }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3180,
+        0
+      ],
+      "id": "m8-assign-category",
+      "name": "ثبت دسته‌بندی پست",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "MOBILE8_HTTP_CRED",
+          "name": "Mobile8 HTTP Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://mobile8.ir/wp-json/wp/v2/tags",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ name: $('آماده‌سازی آپدیت').item.json.keyword }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3400,
+        0
+      ],
+      "id": "m8-create-tag",
+      "name": "ساخت برچسب",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "MOBILE8_HTTP_CRED",
+          "name": "Mobile8 HTTP Auth"
+        }
+      },
+      "continueOnFail": true,
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://mobile8.ir/wp-json/wp/v2/tags?search={{ encodeURIComponent($('آماده‌سازی آپدیت').item.json.keyword) }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3620,
+        0
+      ],
+      "id": "m8-search-tag",
+      "name": "جستجوی برچسب",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "MOBILE8_HTTP_CRED",
+          "name": "Mobile8 HTTP Auth"
+        }
+      },
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const postId = $('آماده‌سازی آپدیت').item.json.postId;\nconst data = $json;\nlet tagId = null;\n\nif (data && data.id) {\n  tagId = data.id;\n} else if (Array.isArray(data) && data.length > 0) {\n  tagId = data[0].id;\n}\n\nif (!tagId) {\n  return [{ json: { postId, body: '{}' } }];\n}\n\nreturn [{ json: { postId, tagId, body: JSON.stringify({ tags: [tagId] }) } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3840,
+        0
+      ],
+      "id": "m8-prepare-tag",
+      "name": "آماده ثبت برچسب"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://mobile8.ir/wp-json/wp/v2/posts/{{ $json.postId }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.body }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        4060,
+        0
+      ],
+      "id": "m8-assign-tag",
+      "name": "ثبت برچسب پست",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "MOBILE8_HTTP_CRED",
+          "name": "Mobile8 HTTP Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.cheraghilaw.ir/telegram/bot8761185855:AAFRlbCXlqvdE1Q25gfCq37fr-s_xvzY38M/sendMessage",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ chat_id: '78421813', text: '✅ مقاله جدید موبایل ۸ منتشر شد!\\n\\n📝 عنوان: ' + $('آماده‌سازی آپدیت').item.json.title + '\\n🔗 لینک: ' + $('آماده‌سازی آپدیت').item.json.postUrl + '\\n📊 عنوان انتخاب شده: نسخه ' + $('آماده‌سازی آپدیت').item.json.abVariant + '\\n🏷 برچسب: ' + $('آماده‌سازی آپدیت').item.json.keyword + '\\n\\nعنوان A: ' + $('آماده‌سازی آپدیت').item.json.titleA + '\\nعنوان B: ' + $('آماده‌سازی آپدیت').item.json.titleB, parse_mode: 'HTML' }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        4280,
+        0
+      ],
+      "id": "m8-telegram-notify",
+      "name": "اعلان تلگرام"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking 'Execute workflow'": {
+      "main": [
+        [
+          {
+            "node": "انتخاب موضوع",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "انتخاب موضوع",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "انتخاب موضوع": {
+      "main": [
+        [
+          {
+            "node": "ساخت درخواست",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ساخت درخواست": {
+      "main": [
+        [
+          {
+            "node": "ارسال به Claude",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ارسال به Claude": {
+      "main": [
+        [
+          {
+            "node": "پردازش پاسخ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "پردازش پاسخ": {
+      "main": [
+        [
+          {
+            "node": "جستجوی تصویر Pexels",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "جستجوی تصویر Pexels": {
+      "main": [
+        [
+          {
+            "node": "انتخاب تصویر",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "انتخاب تصویر": {
+      "main": [
+        [
+          {
+            "node": "دانلود تصویر",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "دانلود تصویر": {
+      "main": [
+        [
+          {
+            "node": "آپلود تصویر",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "آپلود تصویر": {
+      "main": [
+        [
+          {
+            "node": "ثبت Alt تصویر",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ثبت Alt تصویر": {
+      "main": [
+        [
+          {
+            "node": "انتشار در وردپرس",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "انتشار در وردپرس": {
+      "main": [
+        [
+          {
+            "node": "آماده‌سازی آپدیت",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "آماده‌سازی آپدیت": {
+      "main": [
+        [
+          {
+            "node": "ثبت سئو و تصویر شاخص",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ثبت سئو و تصویر شاخص": {
+      "main": [
+        [
+          {
+            "node": "جستجوی دسته‌بندی",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "جستجوی دسته‌بندی": {
+      "main": [
+        [
+          {
+            "node": "آماده ثبت دسته",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "آماده ثبت دسته": {
+      "main": [
+        [
+          {
+            "node": "ثبت دسته‌بندی پست",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ثبت دسته‌بندی پست": {
+      "main": [
+        [
+          {
+            "node": "ساخت برچسب",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ساخت برچسب": {
+      "main": [
+        [
+          {
+            "node": "جستجوی برچسب",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "جستجوی برچسب": {
+      "main": [
+        [
+          {
+            "node": "آماده ثبت برچسب",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "آماده ثبت برچسب": {
+      "main": [
+        [
+          {
+            "node": "ثبت برچسب پست",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ثبت برچسب پست": {
+      "main": [
+        [
+          {
+            "node": "اعلان تلگرام",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Tehran"
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "nodeGroups": [],
+  "tags": []
+}
