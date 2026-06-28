@@ -11,11 +11,17 @@ function dina_child_enqueue_styles() {
 }
 add_action( 'wp_enqueue_scripts', 'dina_child_enqueue_styles', 10010 );
 
-// Override CSS variables AFTER Redux dynamic_style.php (priority 160)
+// Override ALL theme styles - inline at wp_head AND wp_footer for maximum override
 function mobile8_override_css_vars() {
-    ?>
+    echo mobile8_get_override_css();
+}
+add_action( 'wp_head', 'mobile8_override_css_vars', 99999 );
+add_action( 'wp_footer', 'mobile8_override_css_vars', 1 );
+
+function mobile8_get_override_css() {
+    return '
     <style id="mobile8-overrides">
-    :root {
+    :root, html, body {
         --dina-custom-color: #F57C00 !important;
         --woocommerce: #F57C00 !important;
         --dina-head-bg-color: #1976D2 !important;
@@ -42,115 +48,145 @@ function mobile8_override_css_vars() {
         --dina-woo-btn-bg: #E65100 !important;
         --dina-msg-bgcolor: #F57C00 !important;
         --dina-msg-fcolor: #FFFFFF !important;
-        --dina-main-font: 'IRANYekan', 'Dana', 'Tahoma', sans-serif !important;
-        --dina-md-font: 'IRANYekan', 'Dana', 'Tahoma', sans-serif !important;
-        --dina-fd-font: 'IRANYekan', 'Dana', 'Tahoma', sans-serif !important;
+        --dina-main-font: IRANYekan, Dana, Tahoma, sans-serif !important;
+        --dina-md-font: IRANYekan, Dana, Tahoma, sans-serif !important;
+        --dina-fd-font: IRANYekan, Dana, Tahoma, sans-serif !important;
     }
 
-    /* Hide promotional image banner above header */
+    /* HIDE: promotional banner above header */
     .dina-head-img-msg-con,
-    .dina-head-img-msg { display: none !important; }
+    .dina-head-img-msg,
+    aside.dina-head-img-msg-con,
+    .dina-head-msg,
+    #dinaHeadMsg { display: none !important; height: 0 !important; overflow: hidden !important; }
 
-    /* Header top bar */
-    .dina-header-top-bar { background-color: #1976D2 !important; }
-    .dina-head-contact a,
-    .dina-head-phone,
-    .dina-head-phone a,
-    .dina-head-email,
-    .dina-head-email a,
-    .dina-head-menu a { color: #FFFFFF !important; }
-
-    /* Header main */
-    .dina-header,
-    .container-fluid.dina-header,
-    .dina-site-header .dina-header { background-color: #1976D2 !important; }
-
-    /* Navbar */
-    .dina-main-nav,
-    .dina-header-navigation,
-    .dina-main-nav .navbar,
-    .dina-navbar { background-color: #1565C0 !important; }
-    .dina-main-nav a,
-    .dina-header-navigation a,
-    .dina-navbar a { color: #FFFFFF !important; }
-
-    /* Footer */
-    .dina-sfooter,
-    .container-fluid.dina-sfooter { background-color: #263238 !important; }
-    .dina-sfooter,
-    .dina-sfooter a,
-    .dina-sfooter p,
-    .dina-sfooter span,
-    .dina-sfooter h1, .dina-sfooter h2, .dina-sfooter h3,
-    .dina-sfooter h4, .dina-sfooter h5, .dina-sfooter h6,
-    .dina-sfooter li,
-    .dina-footer-widget,
-    .dina-footer-widget a { color: #FFFFFF !important; }
-
-    /* Copyright */
-    .dina-copyright { background-color: #1a1a2e !important; }
-    .dina-copyright,
-    .dina-copyright a,
-    .dina-copyright-text { color: #cccccc !important; }
-
-    /* Hide app icons in footer */
+    /* HIDE: app icons in footer */
     .dina-apps-icon { display: none !important; }
 
-    /* Buttons */
-    .dina-add-to-cart-btn,
-    .single_add_to_cart_button,
-    .btn-dina { background-color: #F57C00 !important; color: #FFFFFF !important; }
-    .dina-add-to-cart-btn:hover,
-    .single_add_to_cart_button:hover,
-    .btn-dina:hover { background-color: #E65100 !important; }
+    /* HEADER: top bar blue */
+    html body .dina-header-top-bar,
+    html body .row.dina-header-top-bar { background-color: #1976D2 !important; }
+    html body .dina-head-contact a,
+    html body .dina-head-phone,
+    html body .dina-head-phone a,
+    html body .dina-head-email,
+    html body .dina-head-email a,
+    html body .dina-head-menu a,
+    html body .dina-head-contact i { color: #FFFFFF !important; }
 
-    /* Search button */
-    .dina-search-btn,
-    .dina-search-icon { background-color: #F57C00 !important; color: #FFFFFF !important; }
-    </style>
-    <?php
+    /* HEADER: main area blue */
+    html body .dina-header,
+    html body .container-fluid.dina-header,
+    html body .container-fluid.dina-header.header,
+    html body .dina-site-header .dina-header,
+    html body header.dina-site-header .container-fluid { background-color: #1976D2 !important; }
+
+    /* NAVBAR: dark blue */
+    html body .dina-main-nav,
+    html body .dina-header-navigation,
+    html body .container-fluid.dina-main-nav,
+    html body .dina-main-nav .navbar,
+    html body .dina-navbar,
+    html body .dina-main-nav .container { background-color: #1565C0 !important; }
+    html body .dina-main-nav a,
+    html body .dina-header-navigation a,
+    html body .dina-navbar a,
+    html body .dina-main-nav .nav-link,
+    html body .dina-main-nav i { color: #FFFFFF !important; }
+
+    /* FOOTER: dark */
+    html body .dina-sfooter,
+    html body .container-fluid.dina-sfooter,
+    html body footer.dina-sfooter { background-color: #263238 !important; }
+    html body .dina-sfooter, html body .dina-sfooter *,
+    html body .dina-footer-widget, html body .dina-footer-widget * { color: #FFFFFF !important; }
+    html body .dina-sfooter a:hover { color: #FFB74D !important; }
+
+    /* COPYRIGHT: dark */
+    html body .dina-copyright,
+    html body .container-fluid.dina-copyright { background-color: #1a1a2e !important; }
+    html body .dina-copyright, html body .dina-copyright * { color: #cccccc !important; }
+
+    /* BUTTONS: orange */
+    html body .dina-add-to-cart-btn,
+    html body .single_add_to_cart_button,
+    html body .btn-dina,
+    html body .button.alt { background-color: #F57C00 !important; color: #FFFFFF !important; border-color: #F57C00 !important; }
+    html body .dina-add-to-cart-btn:hover,
+    html body .single_add_to_cart_button:hover,
+    html body .btn-dina:hover { background-color: #E65100 !important; border-color: #E65100 !important; }
+
+    /* SEARCH: orange button */
+    html body .dina-search-btn,
+    html body .dina-search-icon,
+    html body button.dina-search-btn { background-color: #F57C00 !important; color: #FFFFFF !important; }
+    </style>';
 }
-add_action( 'wp_head', 'mobile8_override_css_vars', 9999 );
 
-// Replace DinaKala branding with Mobile 8
+// Replace ALL demo text using TreeWalker (traverses ALL text nodes)
 function mobile8_replace_branding() {
     ?>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Hide promo banner via JS too
+        var banners = document.querySelectorAll('.dina-head-img-msg-con, .dina-head-msg, #dinaHeadMsg');
+        banners.forEach(function(b) { b.style.display = 'none'; });
+
+        // Text replacements using TreeWalker for ALL text nodes
         var replacements = [
             ['دیناکالا', 'موبایل ۸'],
             ['دینا کالا', 'موبایل ۸'],
             ['DinaKala', 'Mobile 8'],
             ['Dina Kala', 'Mobile 8'],
-            ['dinakala', 'mobile8'],
             ['نسخه نمایشی قالب', 'تمامی حقوق'],
             ['فروشگاه ابزار', 'فروشگاه گجت و لوازم'],
             ['ابزارآلات صنعتی، ساختمانی و خانگی', 'موبایل، گجت و لوازم جانبی'],
+            ['ابزارآلات صنعتی', 'گجت و لوازم جانبی'],
             ['ابزار برقی و شارژی', 'موبایل و تبلت'],
-            ['ابزار دستی، تجهیزات جوشکاری، ابزار نجاری و ساختمانی، و لوازم بادی', 'انواع هندزفری، ساعت هوشمند، شارژر، کابل، قاب، پاوربانک و لوازم جانبی'],
+            ['در حوزه ابزار', 'در حوزه گجت و موبایل'],
+            ['ابزار دستی، تجهیزات جوشکاری، ابزار نجاری و ساختمانی، و لوازم بادی', 'هندزفری، ساعت هوشمند، شارژر، کابل، قاب، پاوربانک و لوازم جانبی'],
+            ['ابزار دستی', 'لوازم جانبی'],
+            ['تجهیزات جوشکاری', 'شارژر و کابل'],
+            ['ابزار نجاری و ساختمانی', 'قاب و کاور'],
+            ['لوازم بادی', 'پاوربانک'],
             ['Bosch، Makita، DeWalt، Ronix، Tosan', 'Samsung، Apple، Xiaomi، Huawei، JBL'],
-            ['یک مرجع تخصصی ابزار است', 'یک مرجع تخصصی گجت و موبایل است'],
+            ['Bosch', 'Samsung'], ['Makita', 'Apple'], ['DeWalt', 'Xiaomi'], ['Ronix', 'Huawei'], ['Tosan', 'JBL'],
+            ['یک مرجع تخصصی ابزار', 'یک مرجع تخصصی گجت و موبایل'],
             ['تعمیر و تأمین قطعات یدکی', 'مشاوره و راهنمایی خرید'],
-            ['استان تهران، شهر تهران، خیابان مرکزی، ساختمان مرکزی، پلاک 7', 'فروشگاه آنلاین — ارسال به سراسر ایران']
+            ['استان تهران، شهر تهران، خیابان مرکزی، ساختمان مرکزی، پلاک 7', 'فروشگاه آنلاین — ارسال به سراسر ایران'],
+            ['استان تهران', 'ارسال به سراسر'],
+            ['شهر تهران', 'ایران'],
+            ['خیابان مرکزی', ''],
+            ['ساختمان مرکزی', ''],
+            ['پلاک 7', ''],
+            ['مجله ابزار', 'مجله موبایل ۸'],
+            ['ابزار برق', 'موبایل']
         ];
-        document.querySelectorAll('body *:not(script):not(style):not(link):not(meta)').forEach(function(el) {
-            if (el.children.length === 0 && el.textContent) {
-                var text = el.textContent;
-                var changed = false;
-                replacements.forEach(function(r) {
-                    if (text.indexOf(r[0]) !== -1) {
-                        text = text.split(r[0]).join(r[1]);
-                        changed = true;
-                    }
-                });
-                if (changed) el.textContent = text;
+
+        var walker = document.createTreeWalker(
+            document.body,
+            NodeFilter.SHOW_TEXT,
+            null,
+            false
+        );
+        var node;
+        while (node = walker.nextNode()) {
+            var text = node.nodeValue;
+            if (!text || !text.trim()) continue;
+            var changed = false;
+            for (var i = 0; i < replacements.length; i++) {
+                if (text.indexOf(replacements[i][0]) !== -1) {
+                    text = text.split(replacements[i][0]).join(replacements[i][1]);
+                    changed = true;
+                }
             }
-        });
+            if (changed) node.nodeValue = text;
+        }
     });
     </script>
     <?php
 }
-add_action( 'wp_footer', 'mobile8_replace_branding', 9999 );
+add_action( 'wp_footer', 'mobile8_replace_branding', 99999 );
 
 // Auto-create pages on theme activation
 function mobile8_create_pages() {
