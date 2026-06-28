@@ -1,9 +1,243 @@
 /*
 Theme Name:  DinaKala Child
-Description: DinaKala Child Theme
-Author:      Meysam Hosseinkhani
-Author URI:  https://i-design.ir
+Description: DinaKala Child Theme - Customized for Mobile 8 Store
+Author:      Sina Farnam
+Author URI:  https://sinafarnam.ir
 Template:    dinakala
 Version:     1.0.0
 Text Domain: dina-kala
 */
+
+/* ========================================
+   Mobile 8 - Color Scheme (Orange + Black)
+   Primary:   #F57C00
+   Dark:      #E65100
+   Light:     #FFB74D
+   Black:     #1a1a1a
+   ======================================== */
+
+:root {
+    --mobile8-primary: #F57C00;
+    --mobile8-dark: #E65100;
+    --mobile8-light: #FFB74D;
+    --mobile8-black: #1a1a1a;
+    --mobile8-white: #ffffff;
+    --mobile8-gray: #f5f5f5;
+}
+
+/* --- Header Top Bar --- */
+.dina-header-top-bar {
+    background-color: var(--mobile8-black) !important;
+}
+
+.dina-head-contact a,
+.dina-head-phone,
+.dina-head-email,
+.dina-head-menu .menu li a {
+    color: var(--mobile8-white) !important;
+}
+
+/* --- Navbar / Menu Bar --- */
+.dina-navbar {
+    background-color: var(--mobile8-black) !important;
+}
+
+.dina-navbar .nav > li > a {
+    color: var(--mobile8-white) !important;
+}
+
+.dina-navbar .nav > li > a:hover,
+.dina-navbar .nav > li.active > a,
+.dina-navbar .nav > li:hover > a {
+    color: var(--mobile8-primary) !important;
+}
+
+.dina-navbar .nav > li > a:after {
+    background-color: var(--mobile8-primary) !important;
+}
+
+/* --- Primary Color Overrides --- */
+a:hover,
+.dina-breadcrumb a:hover,
+.dina-product-title a:hover {
+    color: var(--mobile8-primary) !important;
+}
+
+.dina-btn-primary,
+.btn-primary {
+    background-color: var(--mobile8-primary) !important;
+    border-color: var(--mobile8-primary) !important;
+}
+
+.dina-btn-primary:hover,
+.btn-primary:hover {
+    background-color: var(--mobile8-dark) !important;
+    border-color: var(--mobile8-dark) !important;
+}
+
+/* --- Search Bar --- */
+.dina-search-con .dina-search-btn,
+.dina-search-con button[type="submit"] {
+    background-color: var(--mobile8-primary) !important;
+    border-color: var(--mobile8-primary) !important;
+}
+
+.dina-search-con .dina-search-cat {
+    border-color: var(--mobile8-primary) !important;
+    color: var(--mobile8-primary) !important;
+}
+
+/* --- Product Cards --- */
+.dina-discount-badge,
+.onsale {
+    background-color: #E64A19 !important;
+}
+
+.dina-product-price ins,
+.woocommerce .price ins {
+    color: var(--mobile8-primary) !important;
+}
+
+/* --- Add to Cart Button --- */
+.single_add_to_cart_button,
+.dina-add-to-cart-btn {
+    background-color: var(--mobile8-primary) !important;
+    border-color: var(--mobile8-primary) !important;
+}
+
+.single_add_to_cart_button:hover,
+.dina-add-to-cart-btn:hover {
+    background-color: var(--mobile8-dark) !important;
+    border-color: var(--mobile8-dark) !important;
+}
+
+/* --- View Product / Read More Buttons --- */
+.dina-view-product,
+.dina-read-more {
+    background-color: var(--mobile8-primary) !important;
+    border-color: var(--mobile8-primary) !important;
+}
+
+.dina-view-product:hover,
+.dina-read-more:hover {
+    background-color: var(--mobile8-dark) !important;
+    border-color: var(--mobile8-dark) !important;
+}
+
+/* --- Widgets & Tabs --- */
+.dina-widget-title,
+.dina-block-title {
+    border-color: var(--mobile8-primary) !important;
+}
+
+.dina-widget-title span,
+.dina-block-title span {
+    color: var(--mobile8-black) !important;
+}
+
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-link:hover {
+    color: var(--mobile8-primary) !important;
+    border-bottom-color: var(--mobile8-primary) !important;
+}
+
+/* --- Footer --- */
+.dina-sfooter {
+    background-color: var(--mobile8-black) !important;
+    color: var(--mobile8-white) !important;
+}
+
+.dina-sfooter a {
+    color: #cccccc !important;
+}
+
+.dina-sfooter a:hover {
+    color: var(--mobile8-primary) !important;
+}
+
+.dina-copyright {
+    background-color: #111111 !important;
+    color: #999999 !important;
+}
+
+.dina-copyright a {
+    color: var(--mobile8-primary) !important;
+}
+
+/* --- Info Bar Icons --- */
+.dina-info-bar .dina-info-icon i {
+    color: var(--mobile8-primary) !important;
+}
+
+/* --- Mobile Navigation --- */
+.dina-mobile-nav-btn,
+.dina-mobile-btns .dina-mob-btn i {
+    color: var(--mobile8-primary) !important;
+}
+
+/* --- Scrollbar --- */
+::-webkit-scrollbar-thumb {
+    background-color: var(--mobile8-primary) !important;
+}
+
+/* --- Selection Color --- */
+::selection {
+    background-color: var(--mobile8-primary);
+    color: var(--mobile8-white);
+}
+
+/* --- Category Circles/Icons --- */
+.dina-cat-circle,
+.dina-story-item {
+    border-color: var(--mobile8-primary) !important;
+}
+
+/* --- Sticky Header --- */
+.dina-sticky-nav.dina-fixed {
+    background-color: var(--mobile8-black) !important;
+}
+
+/* --- WooCommerce --- */
+.woocommerce .woocommerce-message {
+    border-top-color: var(--mobile8-primary) !important;
+}
+
+.woocommerce .woocommerce-message::before {
+    color: var(--mobile8-primary) !important;
+}
+
+.woocommerce .woocommerce-info {
+    border-top-color: var(--mobile8-primary) !important;
+}
+
+/* --- Loading & Spinners --- */
+.dina-loading-dot,
+.dina-spinner {
+    background-color: var(--mobile8-primary) !important;
+}
+
+/* --- Pagination --- */
+.woocommerce nav.woocommerce-pagination ul li a:focus,
+.woocommerce nav.woocommerce-pagination ul li a:hover,
+.woocommerce nav.woocommerce-pagination ul li span.current {
+    background: var(--mobile8-primary) !important;
+    color: var(--mobile8-white) !important;
+}
+
+/* --- Mini Cart --- */
+.dina-cart-count {
+    background-color: var(--mobile8-primary) !important;
+}
+
+/* --- Login/Register Button --- */
+.dina-register-btn,
+.dina-login-btn {
+    background-color: var(--mobile8-primary) !important;
+    border-color: var(--mobile8-primary) !important;
+}
+
+.dina-register-btn:hover,
+.dina-login-btn:hover {
+    background-color: var(--mobile8-dark) !important;
+    border-color: var(--mobile8-dark) !important;
+}
