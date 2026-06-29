@@ -17,62 +17,59 @@ function mobile8_early_hide_banner() {
 }
 add_action( 'wp_head', 'mobile8_early_hide_banner', 0 );
 
-// Override Redux options directly via global $di_data
-function mobile8_override_redux_options() {
-    global $di_data;
-    if ( ! isset( $di_data ) || ! is_array( $di_data ) ) return;
-
-    // === HEADER: White/Light ===
-    $di_data['custom_color']       = '#F57C00';
-    $di_data['head_bg_color']      = '#FFFFFF';
-    $di_data['mobile_head_bg_color'] = '#FFFFFF';
-    $di_data['head_text_color']    = '#333333';
-    $di_data['menu_bg_color']      = '#FFFFFF';
-    $di_data['menu_text_color']    = '#333333';
-    $di_data['search_bg_color']    = '#f5f5f5';
-    $di_data['search_text_color']  = '#333333';
-    $di_data['change_search_bg_color']   = true;
-    $di_data['change_search_text_color'] = true;
-    $di_data['search_btn_bg_color']      = '#F57C00';
-    $di_data['search_btn_text_color']    = '#FFFFFF';
-    $di_data['change_search_btn_bg_color']   = true;
-    $di_data['change_search_btn_text_color'] = true;
-
-    // === BUTTONS ===
-    $di_data['add_btn_color']      = '#F57C00';
-    $di_data['add_btn_text_color'] = '#FFFFFF';
-    $di_data['price_color']        = '#F57C00';
-    $di_data['dis_color']          = '#E53935';
-    $di_data['dis_text_color']     = '#FFFFFF';
-    $di_data['register_btn_color'] = '#F57C00';
-    $di_data['register_btn_text_color'] = '#FFFFFF';
-    $di_data['login_page_btn_color']    = '#F57C00';
-    $di_data['login_page_btn_text_color'] = '#FFFFFF';
-
-    // === MENU BAR BUTTON (مجله) ===
-    $di_data['menu_bar_btn_color'] = 'btn-outline-warning';
-
-    // === FOOTER ===
-    $di_data['footer_text_color']  = '#BBBBBB';
-    $di_data['copy_bg_color']      = '#1a1a2e';
-    $di_data['copy_text_color']    = '#999999';
-
-    // === DISABLE ===
-    $di_data['show_msg']           = false;
-    $di_data['show_img_msg']       = false;
-    $di_data['show_apps']          = false;
-
-    // === CONTACT ===
-    $di_data['site_tel']           = '09181717011';
-    $di_data['site_email']         = 'Sfarnam73@gmail.com';
-    $di_data['addr_text']          = 'فروشگاه آنلاین — ارسال به سراسر ایران';
-    $di_data['show_faddr']         = false;
-
-    // === COPYRIGHT ===
-    $di_data['copy_text']          = 'تمامی حقوق مادی و معنوی برای <strong>موبایل ۸</strong> محفوظ است. | طراحی: <a href="https://sinafarnam.ir" target="_blank" rel="nofollow">سینا فرنام</a>';
+// Override Redux at DATABASE level — intercept get_option('di_data')
+function mobile8_filter_redux_options( $value ) {
+    if ( ! is_array( $value ) ) return $value;
+    $value['custom_color']       = '#F57C00';
+    $value['head_bg_color']      = '#FFFFFF';
+    $value['mobile_head_bg_color'] = '#FFFFFF';
+    $value['head_text_color']    = '#333333';
+    $value['menu_bg_color']      = '#FFFFFF';
+    $value['menu_text_color']    = '#333333';
+    $value['search_bg_color']    = '#f5f5f5';
+    $value['search_text_color']  = '#333333';
+    $value['change_search_bg_color']   = true;
+    $value['change_search_text_color'] = true;
+    $value['search_btn_bg_color']      = '#F57C00';
+    $value['search_btn_text_color']    = '#FFFFFF';
+    $value['change_search_btn_bg_color']   = true;
+    $value['change_search_btn_text_color'] = true;
+    $value['add_btn_color']      = '#F57C00';
+    $value['add_btn_text_color'] = '#FFFFFF';
+    $value['price_color']        = '#F57C00';
+    $value['dis_color']          = '#E53935';
+    $value['dis_text_color']     = '#FFFFFF';
+    $value['register_btn_color'] = '#F57C00';
+    $value['register_btn_text_color'] = '#FFFFFF';
+    $value['login_page_btn_color']    = '#F57C00';
+    $value['login_page_btn_text_color'] = '#FFFFFF';
+    $value['menu_bar_btn_color'] = 'btn-outline-warning';
+    $value['footer_text_color']  = '#BBBBBB';
+    $value['copy_bg_color']      = '#1a1a2e';
+    $value['copy_text_color']    = '#999999';
+    $value['show_msg']           = false;
+    $value['show_img_msg']       = false;
+    $value['show_apps']          = false;
+    $value['site_tel']           = '09181717011';
+    $value['site_email']         = 'Sfarnam73@gmail.com';
+    $value['addr_text']          = 'فروشگاه آنلاین — ارسال به سراسر ایران';
+    $value['show_faddr']         = false;
+    $value['copy_text']          = 'تمامی حقوق مادی و معنوی برای <strong>موبایل ۸</strong> محفوظ است. | طراحی: <a href="https://sinafarnam.ir" target="_blank" rel="nofollow">سینا فرنام</a>';
+    return $value;
 }
-add_action( 'wp', 'mobile8_override_redux_options' );
-add_action( 'wp_head', 'mobile8_override_redux_options', 1 );
+add_filter( 'option_di_data', 'mobile8_filter_redux_options', 99999 );
+
+// Also override global $di_data at multiple hooks as backup
+function mobile8_override_redux_global() {
+    global $di_data;
+    if ( ! is_array( $di_data ) ) return;
+    $di_data = mobile8_filter_redux_options( $di_data );
+}
+add_action( 'wp_loaded', 'mobile8_override_redux_global' );
+add_action( 'wp', 'mobile8_override_redux_global' );
+add_action( 'get_header', 'mobile8_override_redux_global' );
+add_action( 'wp_head', 'mobile8_override_redux_global', 0 );
+add_action( 'wp_head', 'mobile8_override_redux_global', 159 );
 
 // Override ALL theme styles - inline at wp_head AND wp_footer for maximum override
 function mobile8_override_css_vars() {
