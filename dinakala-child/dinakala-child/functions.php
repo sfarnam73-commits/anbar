@@ -16,39 +16,53 @@ function mobile8_override_redux_options() {
     global $di_data;
     if ( ! isset( $di_data ) || ! is_array( $di_data ) ) return;
 
-    // Colors
+    // === HEADER: White/Light ===
     $di_data['custom_color']       = '#F57C00';
-    $di_data['head_bg_color']      = '#1976D2';
-    $di_data['mobile_head_bg_color'] = '#1976D2';
-    $di_data['head_text_color']    = '#FFFFFF';
-    $di_data['menu_bg_color']      = '#1565C0';
-    $di_data['menu_text_color']    = '#FFFFFF';
-    $di_data['footer_text_color']  = '#FFFFFF';
+    $di_data['head_bg_color']      = '#FFFFFF';
+    $di_data['mobile_head_bg_color'] = '#FFFFFF';
+    $di_data['head_text_color']    = '#333333';
+    $di_data['menu_bg_color']      = '#FFFFFF';
+    $di_data['menu_text_color']    = '#333333';
+    $di_data['search_bg_color']    = '#f5f5f5';
+    $di_data['search_text_color']  = '#333333';
+    $di_data['change_search_bg_color']   = true;
+    $di_data['change_search_text_color'] = true;
+    $di_data['search_btn_bg_color']      = '#F57C00';
+    $di_data['search_btn_text_color']    = '#FFFFFF';
+    $di_data['change_search_btn_bg_color']   = true;
+    $di_data['change_search_btn_text_color'] = true;
+
+    // === BUTTONS ===
     $di_data['add_btn_color']      = '#F57C00';
     $di_data['add_btn_text_color'] = '#FFFFFF';
     $di_data['price_color']        = '#F57C00';
     $di_data['dis_color']          = '#E53935';
     $di_data['dis_text_color']     = '#FFFFFF';
-    $di_data['register_btn_color'] = '#1976D2';
+    $di_data['register_btn_color'] = '#F57C00';
     $di_data['register_btn_text_color'] = '#FFFFFF';
-    $di_data['copy_bg_color']      = '#1a1a2e';
-    $di_data['copy_text_color']    = '#cccccc';
-    $di_data['msg_bgcolor']        = '#F57C00';
-    $di_data['msg_fcolor']         = '#FFFFFF';
+    $di_data['login_page_btn_color']    = '#F57C00';
+    $di_data['login_page_btn_text_color'] = '#FFFFFF';
 
-    // Disable promotional banner
+    // === MENU BAR BUTTON (مجله) ===
+    $di_data['menu_bar_btn_color'] = 'btn-outline-warning';
+
+    // === FOOTER ===
+    $di_data['footer_text_color']  = '#BBBBBB';
+    $di_data['copy_bg_color']      = '#1a1a2e';
+    $di_data['copy_text_color']    = '#999999';
+
+    // === DISABLE ===
     $di_data['show_msg']           = false;
     $di_data['show_img_msg']       = false;
-
-    // Disable app icons in footer
     $di_data['show_apps']          = false;
 
-    // Contact info
+    // === CONTACT ===
     $di_data['site_tel']           = '09181717011';
     $di_data['site_email']         = 'Sfarnam73@gmail.com';
     $di_data['addr_text']          = 'فروشگاه آنلاین — ارسال به سراسر ایران';
+    $di_data['show_faddr']         = false;
 
-    // Copyright text
+    // === COPYRIGHT ===
     $di_data['copy_text']          = 'تمامی حقوق مادی و معنوی برای <strong>موبایل ۸</strong> محفوظ است. | طراحی: <a href="https://sinafarnam.ir" target="_blank" rel="nofollow">سینا فرنام</a>';
 }
 add_action( 'wp', 'mobile8_override_redux_options' );
@@ -67,17 +81,17 @@ function mobile8_get_override_css() {
     :root, html, body {
         --dina-custom-color: #F57C00 !important;
         --woocommerce: #F57C00 !important;
-        --dina-head-bg-color: #1976D2 !important;
-        --dina-mobile-head-bg-color: #1976D2 !important;
-        --dina-head-text-color: #FFFFFF !important;
-        --dina-menu-bg-color: #1565C0 !important;
-        --dina-menu-text-color: #FFFFFF !important;
-        --dina-footer-text-color: #FFFFFF !important;
+        --dina-head-bg-color: #FFFFFF !important;
+        --dina-mobile-head-bg-color: #FFFFFF !important;
+        --dina-head-text-color: #333333 !important;
+        --dina-menu-bg-color: #FFFFFF !important;
+        --dina-menu-text-color: #333333 !important;
+        --dina-footer-text-color: #BBBBBB !important;
         --dina-add-btn-color: #F57C00 !important;
         --dina-add-btn-text-color: #FFFFFF !important;
-        --dina-register-btn-color: #1976D2 !important;
+        --dina-register-btn-color: #F57C00 !important;
         --dina-register-btn-text-color: #FFFFFF !important;
-        --dina-register-btn-hover-color: #1565C0 !important;
+        --dina-register-btn-hover-color: #E65100 !important;
         --dina-register-btn-hover-text-color: #FFFFFF !important;
         --dina-login-page-btn-color: #F57C00 !important;
         --dina-login-page-btn-text-color: #FFFFFF !important;
@@ -86,71 +100,88 @@ function mobile8_get_override_css() {
         --dina-price-color: #F57C00 !important;
         --dina-dis-color: #E53935 !important;
         --dina-dis-text-color: #FFFFFF !important;
-        --dina-copy-bg-color: #1a1a2e !important;
-        --dina-copy-text-color: #cccccc !important;
+        --dina-copy-bg-color: #111111 !important;
+        --dina-copy-text-color: #999999 !important;
         --dina-woo-btn-bg: #E65100 !important;
         --dina-msg-bgcolor: #F57C00 !important;
         --dina-msg-fcolor: #FFFFFF !important;
+        --dina-search-bg-color: #f5f5f5 !important;
+        --dina-search-text-color: #333333 !important;
+        --dina-search-btn-bg-color: #F57C00 !important;
+        --dina-search-btn-text-color: #FFFFFF !important;
         --dina-main-font: IRANYekan, Dana, Tahoma, sans-serif !important;
         --dina-md-font: IRANYekan, Dana, Tahoma, sans-serif !important;
         --dina-fd-font: IRANYekan, Dana, Tahoma, sans-serif !important;
     }
 
-    /* HIDE: promotional banner above header */
-    .dina-head-img-msg-con,
-    .dina-head-img-msg,
-    aside.dina-head-img-msg-con,
-    .dina-head-msg,
-    #dinaHeadMsg { display: none !important; height: 0 !important; overflow: hidden !important; }
-
-    /* HIDE: app icons in footer */
+    /* HIDE: promotional banner + app icons */
+    .dina-head-img-msg-con, .dina-head-img-msg, aside.dina-head-img-msg-con,
+    .dina-head-msg, #dinaHeadMsg { display: none !important; }
     .dina-apps-icon { display: none !important; }
 
-    /* HEADER: top bar blue */
+    /* ====== HEADER: White + Orange accent ====== */
     html body .dina-header-top-bar,
-    html body .row.dina-header-top-bar { background-color: #1976D2 !important; }
+    html body .row.dina-header-top-bar { background-color: #F57C00 !important; }
     html body .dina-head-contact a,
-    html body .dina-head-phone,
-    html body .dina-head-phone a,
-    html body .dina-head-email,
-    html body .dina-head-email a,
+    html body .dina-head-phone, html body .dina-head-phone a,
+    html body .dina-head-email, html body .dina-head-email a,
     html body .dina-head-menu a,
     html body .dina-head-contact i { color: #FFFFFF !important; }
 
-    /* HEADER: main area blue */
+    /* HEADER: main area WHITE */
     html body .dina-header,
     html body .container-fluid.dina-header,
     html body .container-fluid.dina-header.header,
     html body .dina-site-header .dina-header,
-    html body header.dina-site-header .container-fluid { background-color: #1976D2 !important; }
+    html body header.dina-site-header .container-fluid { background-color: #FFFFFF !important; }
 
-    /* NAVBAR: dark blue */
-    html body .dina-main-nav,
-    html body .dina-header-navigation,
-    html body .container-fluid.dina-main-nav,
-    html body .dina-main-nav .navbar,
+    /* Header border bottom for separation */
+    html body .dina-site-header { border-bottom: 2px solid #f0f0f0 !important; }
+
+    /* NAVBAR: white with dark text */
     html body .dina-navbar,
-    html body .dina-main-nav .container { background-color: #1565C0 !important; }
-    html body .dina-main-nav a,
-    html body .dina-header-navigation a,
-    html body .dina-navbar a,
-    html body .dina-main-nav .nav-link,
-    html body .dina-main-nav i { color: #FFFFFF !important; }
+    html body .dina-navbar .navbar,
+    html body .dina-navbar .container,
+    html body div.dina-navbar { background-color: #FFFFFF !important; border-bottom: 2px solid #F57C00 !important; }
+    html body .dina-navbar .nav-link,
+    html body .dina-navbar .navbar-nav a,
+    html body .dina-navbar i { color: #333333 !important; }
+    html body .dina-navbar .nav-link:hover,
+    html body .dina-navbar .navbar-nav a:hover { color: #F57C00 !important; }
 
-    /* FOOTER: dark */
+    /* Menu bar button (مجله) - orange outline */
+    html body .dina-menu-bar-btn { background-color: #F57C00 !important; color: #FFFFFF !important;
+        border-color: #F57C00 !important; border-radius: 20px !important; padding: 5px 15px !important; }
+    html body .dina-menu-bar-btn:hover { background-color: #E65100 !important; }
+
+    /* ====== FOOTER: Clean dark ====== */
     html body .dina-sfooter,
     html body .container-fluid.dina-sfooter,
-    html body footer.dina-sfooter { background-color: #263238 !important; }
-    html body .dina-sfooter, html body .dina-sfooter *,
-    html body .dina-footer-widget, html body .dina-footer-widget * { color: #FFFFFF !important; }
-    html body .dina-sfooter a:hover { color: #FFB74D !important; }
+    html body footer.dina-sfooter { background-color: #1a1a2e !important; }
+    html body .dina-sfooter h1, html body .dina-sfooter h2,
+    html body .dina-sfooter h3, html body .dina-sfooter h4,
+    html body .dina-sfooter h5 { color: #FFFFFF !important; }
+    html body .dina-sfooter, html body .dina-sfooter p,
+    html body .dina-sfooter span, html body .dina-sfooter li,
+    html body .dina-footer-widget, html body .dina-footer-widget * { color: #BBBBBB !important; }
+    html body .dina-sfooter a { color: #DDDDDD !important; }
+    html body .dina-sfooter a:hover { color: #F57C00 !important; }
+    html body .dina-footer-addr { border-top: 1px solid rgba(255,255,255,0.1) !important;
+        padding-top: 20px !important; margin-top: 20px !important; }
+    html body .dina-foot-tel i { color: #F57C00 !important; }
 
-    /* COPYRIGHT: dark */
+    /* COPYRIGHT: darker */
     html body .dina-copyright,
-    html body .container-fluid.dina-copyright { background-color: #1a1a2e !important; }
-    html body .dina-copyright, html body .dina-copyright * { color: #cccccc !important; }
+    html body .container-fluid.dina-copyright { background-color: #111111 !important; }
+    html body .dina-copyright, html body .dina-copyright * { color: #999999 !important; }
+    html body .dina-copyright a { color: #F57C00 !important; }
 
-    /* BUTTONS: orange */
+    /* Footer widgets titles */
+    html body .dina-footer-widget .widget-title,
+    html body .dina-sfooter .widget-title { color: #FFFFFF !important;
+        border-bottom: 2px solid #F57C00 !important; padding-bottom: 10px !important; }
+
+    /* ====== BUTTONS: Orange ====== */
     html body .dina-add-to-cart-btn,
     html body .single_add_to_cart_button,
     html body .btn-dina,
@@ -163,6 +194,15 @@ function mobile8_get_override_css() {
     html body .dina-search-btn,
     html body .dina-search-icon,
     html body button.dina-search-btn { background-color: #F57C00 !important; color: #FFFFFF !important; }
+
+    /* Header user icons dark */
+    html body .dina-user-con a,
+    html body .dina-user-con i,
+    html body .dina-user-con span { color: #333333 !important; }
+    html body .dina-user-con a:hover { color: #F57C00 !important; }
+
+    /* Logo area clean */
+    html body .dina-logo-box { padding: 15px 0 !important; }
     </style>';
 }
 
