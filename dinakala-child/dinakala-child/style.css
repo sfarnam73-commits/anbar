@@ -4,7 +4,7 @@ Description: DinaKala Child Theme - Customized for Mobile 8 Store
 Author:      Sina Farnam
 Author URI:  https://sinafarnam.ir
 Template:    dinakala
-Version:     1.1.0
+Version:     1.4.0
 Text Domain: dina-kala
 */
 
@@ -51,11 +51,12 @@ input, textarea, select, button,
 }
 
 /* ========================================
-   HEADER - Top Bar (Blue)
+   HEADER - Top Bar (Orange, compact)
    ======================================== */
 .dina-header-top-bar {
-    background-color: var(--m8-blue) !important;
-    padding: 5px 0 !important;
+    background-color: var(--m8-orange) !important;
+    padding: 3px 0 !important;
+    min-height: auto !important;
 }
 
 .dina-head-contact a,
@@ -66,7 +67,7 @@ input, textarea, select, button,
 .dina-head-menu .menu li a,
 .dina-head-social a {
     color: var(--m8-white) !important;
-    font-size: 13px !important;
+    font-size: 12px !important;
 }
 
 .dina-head-phone a:hover,
@@ -76,11 +77,22 @@ input, textarea, select, button,
 }
 
 /* ========================================
-   HEADER - Logo & Search Area
+   HEADER - Logo & Search Area (WHITE, COMPACT)
    ======================================== */
-.dina-header.header {
+.dina-header.header,
+.container-fluid.dina-header {
     background-color: var(--m8-white) !important;
-    padding: 8px 0 !important;
+    padding: 5px 0 !important;
+}
+
+.dina-logo-box {
+    padding: 5px 0 !important;
+    min-height: auto !important;
+}
+
+.dina-logo img,
+.dina-header-logo {
+    max-height: 50px !important;
 }
 
 .dina-search-con .dina-search-btn,
@@ -88,6 +100,7 @@ input, textarea, select, button,
     background-color: var(--m8-orange) !important;
     border-color: var(--m8-orange) !important;
     color: var(--m8-white) !important;
+    padding: 6px 15px !important;
 }
 
 .dina-search-con .dina-search-btn:hover,
@@ -97,9 +110,10 @@ input, textarea, select, button,
 
 .dina-search-con .dina-search-cat,
 .dina-search-con .dina-search-cat-btn {
-    border-color: var(--m8-blue) !important;
-    color: var(--m8-blue) !important;
-    background-color: var(--m8-blue-light) !important;
+    border-color: #e0e0e0 !important;
+    color: var(--m8-text) !important;
+    background-color: #f5f5f5 !important;
+    font-size: 13px !important;
 }
 
 .dina-search-bar,
@@ -111,23 +125,44 @@ input, textarea, select, button,
     flex-grow: 1 !important;
 }
 
+.dina-search-con input[type="text"],
+.dina-search-con input[type="search"] {
+    padding: 6px 12px !important;
+    font-size: 13px !important;
+}
+
+.dina-site-header {
+    border-bottom: 1px solid #eee !important;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.05) !important;
+}
+
+.dina-user-con a,
+.dina-user-con i,
+.dina-user-con span { color: var(--m8-text) !important; font-size: 14px !important; }
+.dina-user-con a:hover { color: var(--m8-orange) !important; }
+
 /* ========================================
-   NAVBAR - Menu Bar (Blue)
+   NAVBAR - Menu Bar (WHITE, COMPACT)
    ======================================== */
-.dina-navbar {
-    background-color: var(--m8-blue) !important;
+.dina-navbar,
+div.dina-navbar {
+    background-color: var(--m8-white) !important;
+    border-bottom: 2px solid var(--m8-orange) !important;
+    min-height: auto !important;
 }
 
 .dina-navbar .nav > li > a {
-    color: var(--m8-white) !important;
+    color: var(--m8-text) !important;
     font-weight: 500 !important;
+    font-size: 13px !important;
+    padding: 8px 12px !important;
 }
 
 .dina-navbar .nav > li > a:hover,
 .dina-navbar .nav > li.active > a,
 .dina-navbar .nav > li:hover > a,
 .dina-navbar .nav > li.current-menu-item > a {
-    color: var(--m8-orange-light) !important;
+    color: var(--m8-orange) !important;
 }
 
 .dina-navbar .nav > li > a:after,
@@ -137,11 +172,29 @@ input, textarea, select, button,
 }
 
 .dina-sticky-nav.dina-fixed {
-    background-color: var(--m8-blue-dark) !important;
+    background-color: var(--m8-white) !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
 }
 
 .dina-navbar .dropdown-menu {
     border-top: 3px solid var(--m8-orange) !important;
+}
+
+.dina-navbar .navbar {
+    min-height: auto !important;
+    padding: 0 !important;
+}
+
+.dina-menu-bar-btn {
+    background-color: var(--m8-orange) !important;
+    color: var(--m8-white) !important;
+    border-color: var(--m8-orange) !important;
+    border-radius: 20px !important;
+    padding: 4px 14px !important;
+    font-size: 12px !important;
+}
+.dina-menu-bar-btn:hover {
+    background-color: var(--m8-orange-dark) !important;
 }
 
 /* ========================================
@@ -294,17 +347,20 @@ a:hover {
 }
 
 /* ========================================
-   FOOTER (Dark Blue-Gray)
+   FOOTER (Dark Navy)
    ======================================== */
-.dina-sfooter {
-    background-color: #263238 !important;
-    color: #CFD8DC !important;
+.dina-sfooter,
+.container-fluid.dina-sfooter,
+footer.dina-sfooter {
+    background-color: #1a1a2e !important;
+    color: #BBBBBB !important;
     padding: 40px 0 20px !important;
 }
 
 .dina-sfooter .dina-footer-widget h4,
 .dina-sfooter .widget-title,
-.dina-sfooter .dina-footer-widget .widget-title {
+.dina-sfooter .dina-footer-widget .widget-title,
+.dina-sfooter h2, .dina-sfooter h3, .dina-sfooter h5 {
     color: var(--m8-white) !important;
     font-weight: 700 !important;
     font-size: 16px !important;
@@ -313,8 +369,13 @@ a:hover {
     margin-bottom: 15px !important;
 }
 
+.dina-sfooter p, .dina-sfooter span, .dina-sfooter li,
+.dina-sfooter div, .dina-footer-widget, .dina-footer-widget * {
+    color: #BBBBBB !important;
+}
+
 .dina-sfooter a {
-    color: #B0BEC5 !important;
+    color: #DDDDDD !important;
     font-size: 14px !important;
 }
 
@@ -322,10 +383,15 @@ a:hover {
     color: var(--m8-orange) !important;
 }
 
+.dina-sfooter .dina-foot-tel i,
+.dina-sfooter .dina-addr-text i {
+    color: var(--m8-orange) !important;
+}
+
 .dina-sfooter .dina-addr-text,
 .dina-sfooter .dina-foot-tel,
 .dina-sfooter .dina-foot-tel a {
-    color: #CFD8DC !important;
+    color: #DDDDDD !important;
 }
 
 .dina-sfooter .dina-foot-tel a:hover {
@@ -333,12 +399,11 @@ a:hover {
 }
 
 .dina-footer-addr {
-    border-top: 1px solid #37474F !important;
+    border-top: 1px solid rgba(255,255,255,0.1) !important;
     padding-top: 20px !important;
     margin-top: 20px !important;
 }
 
-/* Hide app download buttons in footer */
 .dina-apps-icon {
     display: none !important;
 }
@@ -346,11 +411,16 @@ a:hover {
 /* ========================================
    COPYRIGHT BAR
    ======================================== */
-.dina-copyright {
-    background-color: #1a2327 !important;
-    color: #78909C !important;
-    padding: 15px 0 !important;
+.dina-copyright,
+.container-fluid.dina-copyright {
+    background-color: #111111 !important;
+    color: #999999 !important;
+    padding: 12px 0 !important;
     font-size: 13px !important;
+}
+
+.dina-copyright *, .dina-copyright-text {
+    color: #999999 !important;
 }
 
 .dina-copyright a {
@@ -395,12 +465,14 @@ a:hover {
    MOBILE NAVIGATION
    ======================================== */
 .dina-mobile-nav-btn,
-.dina-mobile-btns .dina-mob-btn i {
-    color: var(--m8-blue) !important;
+.dina-mobile-btns .dina-mob-btn i,
+.dina-mobile-btns a,
+.dina-mobile-btns i {
+    color: var(--m8-text) !important;
 }
 
 .dina-mobile-nav .dina-mobile-nav-header {
-    background-color: var(--m8-blue) !important;
+    background-color: var(--m8-orange) !important;
 }
 
 /* ========================================

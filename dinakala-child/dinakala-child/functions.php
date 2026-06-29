@@ -7,7 +7,7 @@
 
 // Enqueue child theme styles
 function dina_child_enqueue_styles() {
-    wp_enqueue_style( 'child-style', get_stylesheet_directory_uri() . '/style.css', array( 'dina-style' ), '1.3.0' );
+    wp_enqueue_style( 'child-style', get_stylesheet_directory_uri() . '/style.css', array( 'dina-style' ), '1.4.0' );
 }
 add_action( 'wp_enqueue_scripts', 'dina_child_enqueue_styles', 10010 );
 
