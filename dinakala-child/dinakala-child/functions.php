@@ -7,9 +7,52 @@
 
 // Enqueue child theme styles
 function dina_child_enqueue_styles() {
-    wp_enqueue_style( 'child-style', get_stylesheet_directory_uri() . '/style.css', array( 'dina-style' ), '1.2.0' );
+    wp_enqueue_style( 'child-style', get_stylesheet_directory_uri() . '/style.css', array( 'dina-style' ), '1.3.0' );
 }
 add_action( 'wp_enqueue_scripts', 'dina_child_enqueue_styles', 10010 );
+
+// Override Redux options directly via global $di_data
+function mobile8_override_redux_options() {
+    global $di_data;
+    if ( ! isset( $di_data ) || ! is_array( $di_data ) ) return;
+
+    // Colors
+    $di_data['custom_color']       = '#F57C00';
+    $di_data['head_bg_color']      = '#1976D2';
+    $di_data['mobile_head_bg_color'] = '#1976D2';
+    $di_data['head_text_color']    = '#FFFFFF';
+    $di_data['menu_bg_color']      = '#1565C0';
+    $di_data['menu_text_color']    = '#FFFFFF';
+    $di_data['footer_text_color']  = '#FFFFFF';
+    $di_data['add_btn_color']      = '#F57C00';
+    $di_data['add_btn_text_color'] = '#FFFFFF';
+    $di_data['price_color']        = '#F57C00';
+    $di_data['dis_color']          = '#E53935';
+    $di_data['dis_text_color']     = '#FFFFFF';
+    $di_data['register_btn_color'] = '#1976D2';
+    $di_data['register_btn_text_color'] = '#FFFFFF';
+    $di_data['copy_bg_color']      = '#1a1a2e';
+    $di_data['copy_text_color']    = '#cccccc';
+    $di_data['msg_bgcolor']        = '#F57C00';
+    $di_data['msg_fcolor']         = '#FFFFFF';
+
+    // Disable promotional banner
+    $di_data['show_msg']           = false;
+    $di_data['show_img_msg']       = false;
+
+    // Disable app icons in footer
+    $di_data['show_apps']          = false;
+
+    // Contact info
+    $di_data['site_tel']           = '09181717011';
+    $di_data['site_email']         = 'Sfarnam73@gmail.com';
+    $di_data['addr_text']          = 'فروشگاه آنلاین — ارسال به سراسر ایران';
+
+    // Copyright text
+    $di_data['copy_text']          = 'تمامی حقوق مادی و معنوی برای <strong>موبایل ۸</strong> محفوظ است. | طراحی: <a href="https://sinafarnam.ir" target="_blank" rel="nofollow">سینا فرنام</a>';
+}
+add_action( 'wp', 'mobile8_override_redux_options' );
+add_action( 'wp_head', 'mobile8_override_redux_options', 1 );
 
 // Override ALL theme styles - inline at wp_head AND wp_footer for maximum override
 function mobile8_override_css_vars() {
