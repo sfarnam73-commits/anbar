@@ -1,0 +1,693 @@
+{
+  "name": "دیجی‌کرد - بررسی کوادکوپتر و پهپاد (سئو حرفه‌ای)",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -140,
+        0
+      ],
+      "id": "dk-manual",
+      "name": "When clicking 'Execute workflow'"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9,
+              "triggerAtMinute": 55
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -140,
+        200
+      ],
+      "id": "dk-schedule",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "jsCode": "const topics = [\n  { topic: 'راهنمای خرید کوادکوپتر: ۷ نکته مهم قبل از خرید', keyword: 'راهنمای خرید کوادکوپتر', category: 'کوادکوپتر', img: 'quadcopter drone aerial flying technology', word_count: 2000 },\n  { topic: 'بهترین کوادکوپتر زیر ۵ میلیون تومان ۱۴۰۵', keyword: 'بهترین کوادکوپتر زیر ۵ میلیون', category: 'کوادکوپتر', img: 'drone budget affordable quadcopter sky', word_count: 2200 },\n  { topic: 'بهترین کوادکوپتر زیر ۱۰ میلیون تومان ۱۴۰۵', keyword: 'بهترین کوادکوپتر زیر ۱۰ میلیون', category: 'کوادکوپتر', img: 'professional drone camera aerial photography', word_count: 2200 },\n  { topic: 'بهترین پهپاد برای عکاسی هوایی: ۵ مدل برتر ۱۴۰۵', keyword: 'بهترین پهپاد عکاسی هوایی', category: 'کوادکوپتر', img: 'drone camera photography landscape aerial view', word_count: 2200 },\n  { topic: 'بهترین کوادکوپتر مبتدی: ۵ مدل عالی برای شروع پرواز', keyword: 'بهترین کوادکوپتر مبتدی', category: 'کوادکوپتر', img: 'beginner drone easy flying starter quadcopter', word_count: 2000 },\n  { topic: 'کوادکوپتر چیست؟ همه چیز درباره پهپاد به زبان ساده', keyword: 'کوادکوپتر چیست', category: 'کوادکوپتر', img: 'quadcopter explanation technology parts motor', word_count: 2000 },\n  { topic: 'آموزش پرواز با کوادکوپتر: از صفر تا حرفه‌ای شدن', keyword: 'آموزش پرواز کوادکوپتر', category: 'کوادکوپتر', img: 'drone flying training pilot remote control', word_count: 2200 },\n  { topic: 'تفاوت کوادکوپتر و پهپاد: فرق دقیق این دو چیه؟', keyword: 'تفاوت کوادکوپتر و پهپاد', category: 'کوادکوپتر', img: 'drone quadcopter difference comparison types', word_count: 1800 },\n  { topic: 'قوانین پرواز پهپاد در ایران: مجوز و محدودیت‌های ۱۴۰۵', keyword: 'قوانین پرواز پهپاد ایران', category: 'کوادکوپتر', img: 'drone regulations law sky permission rules', word_count: 2000 },\n  { topic: 'آموزش فیلمبرداری هوایی با کوادکوپتر: ۸ نکته حرفه‌ای', keyword: 'فیلمبرداری هوایی کوادکوپتر', category: 'کوادکوپتر', img: 'aerial videography drone cinematic landscape film', word_count: 2000 },\n  { topic: 'تعمیر و نگهداری کوادکوپتر: ۶ کار ضروری بعد از پرواز', keyword: 'تعمیر و نگهداری کوادکوپتر', category: 'کوادکوپتر', img: 'drone repair maintenance tools propeller motor', word_count: 1800 },\n  { topic: 'عمر باتری کوادکوپتر: ۵ راه ساده افزایش زمان پرواز', keyword: 'عمر باتری کوادکوپتر', category: 'کوادکوپتر', img: 'drone battery charging lipo power energy', word_count: 1800 },\n  { topic: 'مقایسه کوادکوپتر دوربین‌دار و بدون دوربین: کدوم بخریم؟', keyword: 'کوادکوپتر دوربین دار', category: 'کوادکوپتر', img: 'drone with camera vs without comparison aerial', word_count: 2000 },\n  { topic: 'کوادکوپتر GPS دار یا بدون GPS: کدوم به‌درد شما میخوره؟', keyword: 'کوادکوپتر GPS دار', category: 'کوادکوپتر', img: 'gps drone navigation tracking satellite location', word_count: 2000 },\n  { topic: 'مقایسه کوادکوپتر ارزان و گران: آیا پول بیشتر ارزش داره؟', keyword: 'کوادکوپتر ارزان', category: 'کوادکوپتر', img: 'cheap expensive drone comparison value price', word_count: 2000 },\n  { topic: 'کوادکوپتر FPV چیست؟ راهنمای کامل پرواز اول‌شخص', keyword: 'کوادکوپتر FPV', category: 'کوادکوپتر', img: 'fpv drone racing goggles first person view', word_count: 2000 },\n  { topic: 'بهترین دوربین کوادکوپتر: ۴K یا ۱۰۸۰P؟ راهنمای انتخاب', keyword: 'دوربین کوادکوپتر', category: 'کوادکوپتر', img: 'drone camera 4k quality lens resolution photo', word_count: 1800 },\n  { topic: 'کاربردهای پهپاد: از کشاورزی تا فیلمبرداری عروسی', keyword: 'کاربرد پهپاد', category: 'کوادکوپتر', img: 'drone agriculture wedding farming industrial use', word_count: 2000 },\n  { topic: 'کوادکوپتر برای کودکان: راهنمای خرید برای والدین ۱۴۰۵', keyword: 'کوادکوپتر کودکان', category: 'کوادکوپتر', img: 'kids children toy drone mini safe colorful', word_count: 1800 },\n  { topic: 'خرید کوادکوپتر آنلاین: ۵ نکته برای خرید مطمئن و بی‌دردسر', keyword: 'خرید کوادکوپتر آنلاین', category: 'کوادکوپتر', img: 'online shopping drone ecommerce delivery package', word_count: 2000 }\n];\n\nconst counter = $getWorkflowStaticData('global');\n\n// --- Skip logic: publish 2 out of every 3 days = every 1.5 days ---\nlet dayCount = counter.dayCount || 0;\ndayCount++;\ncounter.dayCount = dayCount;\nif (dayCount % 3 === 0) {\n  return [];\n}\n\nlet index = counter.topicIndex || 0;\nif (index >= topics.length) index = 0;\n\nconst recentTopics = counter.recentTopics || [];\nlet attempts = 0;\nwhile (recentTopics.includes(index) && attempts < topics.length) {\n  index = (index + 1) % topics.length;\n  attempts++;\n}\nrecentTopics.push(index);\nif (recentTopics.length > 5) recentTopics.shift();\ncounter.recentTopics = recentTopics;\n\nconst pick = topics[index];\ncounter.topicIndex = (index + 1) % topics.length;\n\nreturn [{ json: { topic: pick.topic, keyword: pick.keyword, category: pick.category, img: pick.img, word_count: pick.word_count, current_index: index } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        100,
+        0
+      ],
+      "id": "dk-select-topic",
+      "name": "انتخاب موضوع"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================================\n// <<<< API KEY خودت رو فقط اینجا عوض کن >>>>\nconst API_KEY = 'API_KEY_INJA';\n// ============================================\n\nconst topic = $json.topic;\nconst keyword = $json.keyword;\nconst category = $json.category;\nconst word_count = $json.word_count;\n\nconst prompt = 'تو یک متخصص فناوری، بررسی محصولات دیجیتال و پهپاد و تولید محتوای سئو شده هستی. برای فروشگاه آنلاین دیجی‌کرد (digikord.com) یک مقاله بررسی و راهنمای خرید بنویس.' +\n  '\\n\\nموضوع: ' + topic +\n  '\\nکلمه کلیدی اصلی: ' + keyword +\n  '\\nدسته‌بندی: ' + category +\n  '\\nتعداد کلمات: حداقل ' + word_count + ' کلمه' +\n  '\\n\\n=== قوانین محتوا ===' +\n  '\\n- مقاله جامع، دقیق، به‌روز و کاربردی باشد' +\n  '\\n- اطلاعات فنی دقیق و قابل اتکا درباره کوادکوپتر و پهپاد' +\n  '\\n- لحن حرفه‌ای، صمیمی و قابل فهم برای همه' +\n  '\\n- حداقل ۳ مثال و نکته عملی بزن' +\n  '\\n- از کلمات انتقالی زیاد استفاده کن (همچنین، علاوه بر این، در نتیجه، از سوی دیگر، به عبارت دیگر، در واقع، به طور کلی، بنابراین)' +\n  '\\n- در صورت معرفی محصولات، مشخصات فنی را در جدول HTML بیاور (زمان پرواز، برد کنترل، وزن، دوربین، GPS)' +\n  '\\n- مزایا و معایب هر محصول یا روش را لیست کن' +\n  '\\n- در انتهای هر بخش معرفی محصول، لینک خرید بذار:' +\n  '\\n  <a href=\\\"https://digikord.com/product-category/quadcopter/\\\" style=\\\"display:inline-block;background:#e63946;color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;margin:10px 0\\\">مشاهده و خرید از فروشگاه دیجی‌کرد</a>' +\n  '\\n- نام فروشگاه «دیجی‌کرد» را حداقل ۳ بار در مقاله ذکر کن (ابتدا، وسط، انتها)' +\n  '\\n- در پایان مقاله بنویس: برای مشاهده جدیدترین مدل‌های کوادکوپتر و پهپاد با بهترین قیمت، به <a href=\\\"https://digikord.com/product-category/quadcopter/\\\">فروشگاه آنلاین دیجی‌کرد</a> سر بزنید.' +\n  '\\n\\n=== قوانین سئو (نمره Rank Math باید بالای ۹۰ باشد) ===' +\n  '\\n- کلمه کلیدی دقیقاً در عنوان باشد' +\n  '\\n- عنوان شامل عدد باشد (مثل: ۷ نکته، ۵ مدل، راهنمای کامل ۱۴۰۵)' +\n  '\\n- عنوان حداکثر ۶۰ کاراکتر و جذاب' +\n  '\\n- کلمه کلیدی دقیقاً در جمله اول پاراگراف اول باشد' +\n  '\\n- کلمه کلیدی در حداقل ۳ زیرعنوان h2 باشد' +\n  '\\n- کلمه کلیدی ۸ تا ۱۲ بار در کل متن (تراکم ۱ تا ۱.۵ درصد)' +\n  '\\n- متا دیسکریپشن بین ۱۴۰ تا ۱۵۵ کاراکتر شامل کلمه کلیدی و دعوت به اقدام' +\n  '\\n- اسلاگ URL فارسی کوتاه شامل کلمه کلیدی' +\n  '\\n- در اولین پاراگراف، کلمه کلیدی را با تگ strong بولد کن' +\n  '\\n- از کلمات کلیدی مرتبط (LSI) هم استفاده کن: خرید کوادکوپتر، پهپاد، درون، کوادکوپتر دوربین‌دار، پهپاد حرفه‌ای، قیمت کوادکوپتر، کوادکوپتر ارزان' +\n  '\\n- پاراگراف‌ها کوتاه باشند (حداکثر ۳ جمله)' +\n  '\\n- از جملات کوتاه و فعال استفاده کن' +\n  '\\n\\n=== لینک‌ها (خیلی مهم برای سئو) ===' +\n  '\\n- ۴ لینک داخلی در جاهای مختلف متن مقاله قرار بده:' +\n  '\\n  ۱. <a href=\\\"https://digikord.com/product-category/quadcopter/\\\">خرید کوادکوپتر از دیجی‌کرد</a>' +\n  '\\n  ۲. <a href=\\\"https://digikord.com\\\">فروشگاه آنلاین دیجی‌کرد</a>' +\n  '\\n  ۳. <a href=\\\"https://digikord.com/product-category/quadcopter/\\\">مشاهده همه کوادکوپترها</a>' +\n  '\\n  ۴. یک لینک داخلی دیگر با anchor text مرتبط با موضوع' +\n  '\\n- ۲ لینک خارجی به منابع معتبر (متناسب با موضوع انتخاب کن):' +\n  '\\n  <a href=\\\"https://www.dji.com\\\" target=\\\"_blank\\\" rel=\\\"noopener\\\">DJI</a>' +\n  '\\n  <a href=\\\"https://dronedj.com\\\" target=\\\"_blank\\\" rel=\\\"noopener\\\">DroneDJ</a>' +\n  '\\n  <a href=\\\"https://www.faa.gov/uas\\\" target=\\\"_blank\\\" rel=\\\"noopener\\\">FAA Drones</a>' +\n  '\\n  <a href=\\\"https://dronelife.com\\\" target=\\\"_blank\\\" rel=\\\"noopener\\\">DroneLife</a>' +\n  '\\n\\n=== ساختار محتوا ===' +\n  '\\n- ابتدا فهرست مطالب با لینک anchor:' +\n  '\\n  <div class=\\\"toc\\\"><h3>فهرست مطالب</h3><ul><li><a href=\\\"#s1\\\">عنوان</a></li>...</ul></div>' +\n  '\\n- مقدمه: ۲ پاراگراف کوتاه - کلمه کلیدی بولد در جمله اول' +\n  '\\n- حداقل ۶ بخش با h2 (هر h2 دارای id مثل id=\\\"s1\\\")' +\n  '\\n- هر بخش ۲-۳ پاراگراف کوتاه (حداکثر ۳ خط)' +\n  '\\n- از h3 برای زیربخش‌ها استفاده کن' +\n  '\\n- از تگ‌های ul، li، strong، em، blockquote استفاده کن' +\n  '\\n- در صورت معرفی محصول، جدول مشخصات:' +\n  '\\n  <table style=\\\"width:100%;border-collapse:collapse;margin:15px 0\\\"><tr style=\\\"background:#fff0f0\\\"><th style=\\\"padding:10px;border:1px solid #ddd\\\">مشخصه</th><th style=\\\"padding:10px;border:1px solid #ddd\\\">جزئیات</th></tr>...</table>' +\n  '\\n- یک جعبه نکته مهم:' +\n  '\\n  <div style=\\\"background:#fff3cd;border-right:4px solid #ffc107;padding:15px;margin:20px 0;border-radius:8px\\\"><strong>💡 نکته مهم:</strong> [نکته کلیدی]</div>' +\n  '\\n- ۵ سوال متداول (FAQ) با h3 برای هر سوال - سوالات واقعی که مردم سرچ میکنن' +\n  '\\n- نتیجه‌گیری با h2 شامل دعوت به اقدام (CTA) برای خرید از فروشگاه دیجی‌کرد' +\n  '\\n\\n=== تولید ۲ عنوان برای تست A/B ===' +\n  '\\n- عنوان اول: شامل عدد (مثلاً ۷ نکته مهم درباره...)' +\n  '\\n- عنوان دوم: سوالی (مثلاً آیا میدانید... ?)' +\n  '\\n\\n=== فرمت خروجی (حتماً با این جداکننده‌ها) ===' +\n  '\\n===TITLE_A===' +\n  '\\n(عنوان اول - شامل عدد - حداکثر ۶۰ کاراکتر)' +\n  '\\n===TITLE_B===' +\n  '\\n(عنوان دوم - سوالی - حداکثر ۶۰ کاراکتر)' +\n  '\\n===SLUG===' +\n  '\\n(اسلاگ URL فارسی کوتاه)' +\n  '\\n===CONTENT===' +\n  '\\n(متن کامل HTML با فهرست مطالب و لینک‌ها)' +\n  '\\n===FAQ_SCHEMA===' +\n  '\\n(کد JSON-LD اسکیما FAQ - فقط کد JSON بدون تگ script)' +\n  '\\n===KEYWORD===' +\n  '\\n(کلمه کلیدی)' +\n  '\\n===META===' +\n  '\\n(متا دیسکریپشن بین ۱۴۰ تا ۱۵۵ کاراکتر)';\n\nreturn [{\n  json: {\n    api_key: API_KEY,\n    model: 'claude-sonnet-4-6',\n    max_tokens: 8000,\n    messages: [{ role: 'user', content: prompt }]\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        320,
+        0
+      ],
+      "id": "dk-build-request",
+      "name": "ساخت درخواست"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.cheraghilaw.ir",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "timeout": 300000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        540,
+        0
+      ],
+      "id": "dk-claude-http",
+      "name": "ارسال به Claude"
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $('ارسال به Claude').first().json;\nlet raw = '';\n\nif (data.content && Array.isArray(data.content)) {\n  raw = data.content[0].text;\n} else if (data.text) {\n  raw = data.text;\n} else if (data.error) {\n  const errMsg = typeof data.error === 'string' ? data.error : (data.error.message || JSON.stringify(data.error));\n  throw new Error('خطای Claude: ' + errMsg);\n} else {\n  throw new Error('پاسخ نامعتبر - کلیدهای دریافتی: ' + Object.keys(data).join(', '));\n}\n\nif (!raw || raw.length < 50) {\n  throw new Error('پاسخ خیلی کوتاه یا خالی: ' + raw.substring(0, 200));\n}\n\nfunction getPart(label, next) {\n  let s = raw.indexOf('===' + label + '===');\n  if (s === -1) return '';\n  s += ('===' + label + '===').length;\n  let e = next ? raw.indexOf('===' + next + '===') : raw.length;\n  if (e === -1) e = raw.length;\n  return raw.substring(s, e).trim();\n}\n\nconst topicData = $('انتخاب موضوع').first().json;\n\nlet titleA = getPart('TITLE_A', 'TITLE_B') || topicData.topic;\nlet titleB = getPart('TITLE_B', 'SLUG') || titleA;\n\nconst useA = Math.random() > 0.5;\nlet title = useA ? titleA : titleB;\nlet abVariant = useA ? 'A' : 'B';\n\nlet slug = getPart('SLUG', 'CONTENT') || '';\nlet content = getPart('CONTENT', 'FAQ_SCHEMA');\nlet faqSchema = getPart('FAQ_SCHEMA', 'KEYWORD') || '';\nlet keyword = getPart('KEYWORD', 'META') || topicData.keyword;\nlet meta = getPart('META', null) || title;\nlet category = topicData.category || '';\n\nif (!content) {\n  content = raw;\n}\n\nif (faqSchema) {\n  try {\n    JSON.parse(faqSchema);\n    content += '\\n<script type=\"application/ld+json\">' + faqSchema + '</script>';\n  } catch(e) {}\n}\n\nreturn [{ json: { title, titleA, titleB, abVariant, slug, content, focus_keyword: keyword, meta_description: meta, category } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        760,
+        0
+      ],
+      "id": "dk-parse-response",
+      "name": "پردازش پاسخ"
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://api.cheraghilaw.ir/pexels?query={{ encodeURIComponent($('انتخاب موضوع').item.json.img) }}&per_page=15&page={{ Math.floor(Math.random() * 5) + 1 }}&api_key=PEXELS_API_KEY_INJA",
+        "sendHeaders": false,
+        "headerParameters": {
+          "parameters": []
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        980,
+        0
+      ],
+      "id": "dk-search-pexels",
+      "name": "جستجوی تصویر Pexels"
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $json;\nconst photos = data.photos || [];\nif (photos.length === 0) {\n  throw new Error('تصویری پیدا نشد');\n}\nconst seed = Date.now() + Math.random() * 10000;\nconst pick = photos[Math.floor(seed % photos.length)];\nconst imageUrl = pick.src.large2x || pick.src.large || pick.src.original;\nconst photographer = pick.photographer || '';\nreturn [{ json: { imageUrl, photographer } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        0
+      ],
+      "id": "dk-pick-image",
+      "name": "انتخاب تصویر"
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://api.cheraghilaw.ir/pexels-image?url={{ encodeURIComponent($json.imageUrl) }}",
+        "options": {
+          "redirect": {
+            "redirect": {
+              "followRedirects": true
+            }
+          },
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1420,
+        0
+      ],
+      "id": "dk-download-image",
+      "name": "دانلود تصویر"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://digikord.com/wp-json/wp/v2/media",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Disposition",
+              "value": "=attachment; filename=\"{{ $('پردازش پاسخ').item.json.slug || 'article' }}.jpg\""
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "binaryData",
+        "inputDataFieldName": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1640,
+        0
+      ],
+      "id": "dk-upload-image",
+      "name": "آپلود تصویر",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "DIGIKORD_HTTP_CRED",
+          "name": "Digikord HTTP Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://digikord.com/wp-json/wp/v2/media/{{ $json.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ alt_text: $('پردازش پاسخ').item.json.focus_keyword + ' - فروشگاه دیجی‌کرد', caption: $('پردازش پاسخ').item.json.title }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1860,
+        0
+      ],
+      "id": "dk-set-image-alt",
+      "name": "ثبت Alt تصویر",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "DIGIKORD_HTTP_CRED",
+          "name": "Digikord HTTP Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "title": "={{ $('پردازش پاسخ').item.json.title }}",
+        "additionalFields": {
+          "content": "={{ $('پردازش پاسخ').item.json.content }}",
+          "slug": "={{ $('پردازش پاسخ').item.json.slug }}",
+          "status": "publish"
+        }
+      },
+      "type": "n8n-nodes-base.wordpress",
+      "typeVersion": 1,
+      "position": [
+        2080,
+        0
+      ],
+      "id": "dk-wp-publish",
+      "name": "انتشار در وردپرس",
+      "credentials": {
+        "wordpressApi": {
+          "id": "DIGIKORD_WP_CRED",
+          "name": "Digikord WordPress"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const postId = $json.id;\nconst parsedData = $('پردازش پاسخ').item.json;\nconst imageId = $('آپلود تصویر').item.json.id;\nconst categoryName = parsedData.category;\n\nconst body = {\n  featured_media: imageId,\n  meta: {\n    rank_math_focus_keyword: parsedData.focus_keyword,\n    rank_math_description: parsedData.meta_description,\n    rank_math_title: parsedData.title\n  }\n};\n\nreturn [{ json: { postId, body: JSON.stringify(body), categoryName, postUrl: $json.link || ('https://digikord.com/?p=' + postId), title: parsedData.title, abVariant: parsedData.abVariant, titleA: parsedData.titleA, titleB: parsedData.titleB, keyword: parsedData.focus_keyword } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2300,
+        0
+      ],
+      "id": "dk-prepare-update",
+      "name": "آماده‌سازی آپدیت"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://digikord.com/wp-json/wp/v2/posts/{{ $json.postId }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.body }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2520,
+        0
+      ],
+      "id": "dk-set-seo",
+      "name": "ثبت سئو و تصویر شاخص",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "DIGIKORD_HTTP_CRED",
+          "name": "Digikord HTTP Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://digikord.com/wp-json/wp/v2/categories?search={{ encodeURIComponent($('آماده‌سازی آپدیت').item.json.categoryName) }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2740,
+        0
+      ],
+      "id": "dk-search-category",
+      "name": "جستجوی دسته‌بندی",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "DIGIKORD_HTTP_CRED",
+          "name": "Digikord HTTP Auth"
+        }
+      },
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const postId = $('آماده‌سازی آپدیت').item.json.postId;\nconst data = $json;\nlet categoryId = null;\n\nif (data && data.id) {\n  categoryId = data.id;\n} else if (Array.isArray(data) && data.length > 0) {\n  categoryId = data[0].id;\n}\n\nif (!categoryId) {\n  return [{ json: { postId, body: '{}' } }];\n}\n\nreturn [{ json: { postId, categoryId, body: JSON.stringify({ categories: [categoryId] }) } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2960,
+        0
+      ],
+      "id": "dk-prepare-cat",
+      "name": "آماده ثبت دسته"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://digikord.com/wp-json/wp/v2/posts/{{ $json.postId }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.body }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3180,
+        0
+      ],
+      "id": "dk-assign-category",
+      "name": "ثبت دسته‌بندی پست",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "DIGIKORD_HTTP_CRED",
+          "name": "Digikord HTTP Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://digikord.com/wp-json/wp/v2/tags",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ name: $('آماده‌سازی آپدیت').item.json.keyword }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3400,
+        0
+      ],
+      "id": "dk-create-tag",
+      "name": "ساخت برچسب",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "DIGIKORD_HTTP_CRED",
+          "name": "Digikord HTTP Auth"
+        }
+      },
+      "continueOnFail": true,
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://digikord.com/wp-json/wp/v2/tags?search={{ encodeURIComponent($('آماده‌سازی آپدیت').item.json.keyword) }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3620,
+        0
+      ],
+      "id": "dk-search-tag",
+      "name": "جستجوی برچسب",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "DIGIKORD_HTTP_CRED",
+          "name": "Digikord HTTP Auth"
+        }
+      },
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const postId = $('آماده‌سازی آپدیت').item.json.postId;\nconst data = $json;\nlet tagId = null;\n\nif (data && data.id) {\n  tagId = data.id;\n} else if (Array.isArray(data) && data.length > 0) {\n  tagId = data[0].id;\n}\n\nif (!tagId) {\n  return [{ json: { postId, body: '{}' } }];\n}\n\nreturn [{ json: { postId, tagId, body: JSON.stringify({ tags: [tagId] }) } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3840,
+        0
+      ],
+      "id": "dk-prepare-tag",
+      "name": "آماده ثبت برچسب"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://digikord.com/wp-json/wp/v2/posts/{{ $json.postId }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.body }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        4060,
+        0
+      ],
+      "id": "dk-assign-tag",
+      "name": "ثبت برچسب پست",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "DIGIKORD_HTTP_CRED",
+          "name": "Digikord HTTP Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.cheraghilaw.ir/telegram/bot8761185855:AAFRlbCXlqvdE1Q25gfCq37fr-s_xvzY38M/sendMessage",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ chat_id: '78421813', text: '✅ مقاله جدید دیجی‌کرد منتشر شد!\\n\\n📝 عنوان: ' + $('آماده‌سازی آپدیت').item.json.title + '\\n🔗 لینک: ' + $('آماده‌سازی آپدیت').item.json.postUrl + '\\n📊 عنوان انتخاب شده: نسخه ' + $('آماده‌سازی آپدیت').item.json.abVariant + '\\n🏷 برچسب: ' + $('آماده‌سازی آپدیت').item.json.keyword + '\\n\\nعنوان A: ' + $('آماده‌سازی آپدیت').item.json.titleA + '\\nعنوان B: ' + $('آماده‌سازی آپدیت').item.json.titleB, parse_mode: 'HTML' }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        4280,
+        0
+      ],
+      "id": "dk-telegram-notify",
+      "name": "اعلان تلگرام"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking 'Execute workflow'": {
+      "main": [
+        [
+          {
+            "node": "انتخاب موضوع",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "انتخاب موضوع",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "انتخاب موضوع": {
+      "main": [
+        [
+          {
+            "node": "ساخت درخواست",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ساخت درخواست": {
+      "main": [
+        [
+          {
+            "node": "ارسال به Claude",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ارسال به Claude": {
+      "main": [
+        [
+          {
+            "node": "پردازش پاسخ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "پردازش پاسخ": {
+      "main": [
+        [
+          {
+            "node": "جستجوی تصویر Pexels",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "جستجوی تصویر Pexels": {
+      "main": [
+        [
+          {
+            "node": "انتخاب تصویر",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "انتخاب تصویر": {
+      "main": [
+        [
+          {
+            "node": "دانلود تصویر",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "دانلود تصویر": {
+      "main": [
+        [
+          {
+            "node": "آپلود تصویر",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "آپلود تصویر": {
+      "main": [
+        [
+          {
+            "node": "ثبت Alt تصویر",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ثبت Alt تصویر": {
+      "main": [
+        [
+          {
+            "node": "انتشار در وردپرس",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "انتشار در وردپرس": {
+      "main": [
+        [
+          {
+            "node": "آماده‌سازی آپدیت",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "آماده‌سازی آپدیت": {
+      "main": [
+        [
+          {
+            "node": "ثبت سئو و تصویر شاخص",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ثبت سئو و تصویر شاخص": {
+      "main": [
+        [
+          {
+            "node": "جستجوی دسته‌بندی",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "جستجوی دسته‌بندی": {
+      "main": [
+        [
+          {
+            "node": "آماده ثبت دسته",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "آماده ثبت دسته": {
+      "main": [
+        [
+          {
+            "node": "ثبت دسته‌بندی پست",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ثبت دسته‌بندی پست": {
+      "main": [
+        [
+          {
+            "node": "ساخت برچسب",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ساخت برچسب": {
+      "main": [
+        [
+          {
+            "node": "جستجوی برچسب",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "جستجوی برچسب": {
+      "main": [
+        [
+          {
+            "node": "آماده ثبت برچسب",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "آماده ثبت برچسب": {
+      "main": [
+        [
+          {
+            "node": "ثبت برچسب پست",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ثبت برچسب پست": {
+      "main": [
+        [
+          {
+            "node": "اعلان تلگرام",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Tehran"
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "nodeGroups": [],
+  "tags": []
+}
