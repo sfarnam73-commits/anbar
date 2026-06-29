@@ -390,33 +390,12 @@ function mobile8_replace_branding() {
 }
 add_action( 'wp_footer', 'mobile8_replace_branding', 99999 );
 
-// Auto-create pages on theme activation
+// Create or update pages with SEO content
 function mobile8_create_pages() {
-    $pages = array(
-        'about-us' => array(
-            'title'   => 'درباره ما',
-            'content' => mobile8_about_content(),
-        ),
-        'faq' => array(
-            'title'   => 'سوالات متداول',
-            'content' => mobile8_faq_content(),
-        ),
-        'terms' => array(
-            'title'   => 'شرایط و قوانین',
-            'content' => mobile8_terms_content(),
-        ),
-        'contact-us' => array(
-            'title'   => 'تماس با ما',
-            'content' => mobile8_contact_content(),
-        ),
-        'order-tracking' => array(
-            'title'   => 'رهگیری سفارشات',
-            'content' => mobile8_tracking_content(),
-        ),
-    );
-
+    $pages = mobile8_get_pages_data();
     foreach ( $pages as $slug => $page ) {
-        if ( ! get_page_by_path( $slug ) ) {
+        $existing = get_page_by_path( $slug );
+        if ( ! $existing ) {
             wp_insert_post( array(
                 'post_title'   => $page['title'],
                 'post_name'    => $slug,
@@ -430,7 +409,6 @@ function mobile8_create_pages() {
 }
 add_action( 'after_switch_theme', 'mobile8_create_pages' );
 
-// Run page creation once if pages don't exist
 function mobile8_maybe_create_pages() {
     if ( ! get_page_by_path( 'about-us' ) ) {
         mobile8_create_pages();
@@ -438,292 +416,498 @@ function mobile8_maybe_create_pages() {
 }
 add_action( 'init', 'mobile8_maybe_create_pages' );
 
+// Update existing pages with new SEO content (runs once)
+function mobile8_update_pages_seo() {
+    if ( get_option( 'mobile8_seo_v3' ) ) return;
+    $pages = mobile8_get_pages_data();
+    foreach ( $pages as $slug => $page ) {
+        $existing = get_page_by_path( $slug );
+        if ( $existing ) {
+            wp_update_post( array(
+                'ID'           => $existing->ID,
+                'post_title'   => $page['title'],
+                'post_content' => $page['content'],
+            ) );
+        }
+    }
+    update_option( 'mobile8_seo_v3', true );
+}
+add_action( 'init', 'mobile8_update_pages_seo' );
+
+function mobile8_get_pages_data() {
+    return array(
+        'about-us' => array(
+            'title'   => 'درباره ما | فروشگاه اینترنتی موبایل ۸',
+            'content' => mobile8_about_content(),
+        ),
+        'faq' => array(
+            'title'   => 'سوالات متداول | خرید آنلاین موبایل و لوازم جانبی',
+            'content' => mobile8_faq_content(),
+        ),
+        'terms' => array(
+            'title'   => 'شرایط و قوانین خرید | فروشگاه موبایل ۸',
+            'content' => mobile8_terms_content(),
+        ),
+        'contact-us' => array(
+            'title'   => 'تماس با ما | فروشگاه موبایل ۸ — مشاوره خرید',
+            'content' => mobile8_contact_content(),
+        ),
+        'order-tracking' => array(
+            'title'   => 'رهگیری سفارش | پیگیری مرسوله پستی و تیپاکس',
+            'content' => mobile8_tracking_content(),
+        ),
+    );
+}
+
+// Schema.org JSON-LD for SEO
+function mobile8_schema_markup() {
+    if ( ! is_page() ) return;
+    $page_slug = get_post_field( 'post_name', get_queried_object_id() );
+
+    if ( $page_slug === 'about-us' || $page_slug === 'contact-us' ) {
+        echo '<script type="application/ld+json">' . wp_json_encode( array(
+            '@context' => 'https://schema.org',
+            '@type'    => 'OnlineStore',
+            'name'     => 'فروشگاه موبایل ۸',
+            'url'      => 'https://mobile8.ir',
+            'description' => 'فروشگاه اینترنتی موبایل ۸ — خرید آنلاین گوشی موبایل، تبلت، هندزفری، ساعت هوشمند و لوازم جانبی با ارسال به سراسر ایران',
+            'telephone'   => '+989181717011',
+            'email'       => 'Sfarnam73@gmail.com',
+            'foundingDate' => '2019',
+            'areaServed'  => array( '@type' => 'Country', 'name' => 'Iran' ),
+            'contactPoint' => array(
+                '@type'            => 'ContactPoint',
+                'telephone'        => '+989181717011',
+                'contactType'      => 'customer service',
+                'availableLanguage'=> 'Persian',
+            ),
+            'sameAs' => array(
+                'https://instagram.com/mobile_8',
+                'https://t.me/sinafarnam8',
+                'https://wa.me/989188111504',
+            ),
+        ), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . '</script>';
+    }
+
+    if ( $page_slug === 'faq' ) {
+        $faqs = array(
+            array('q' => 'روش‌های ارسال سفارش در فروشگاه موبایل ۸ چیست؟', 'a' => 'ارسال سفارشات از طریق شرکت پست و تیپاکس انجام می‌شود. همچنین امکان ارسال از طریق باربری یا اتوبوس نیز وجود دارد.'),
+            array('q' => 'مدت زمان ارسال سفارش چقدر است؟', 'a' => 'تیم ما تلاش می‌کند فردای همان روز محصول را ارسال کند. بسته به روش ارسال و مقصد، بین ۱ تا ۵ روز کاری به دست شما می‌رسد.'),
+            array('q' => 'آیا محصولات قبل از ارسال تست می‌شوند؟', 'a' => 'بله، تمامی محصولات قبل از ارسال توسط کارشناسان ما بررسی و تست می‌شوند. در صورت درخواست، ویدیوی تست محصول نیز تهیه می‌شود.'),
+            array('q' => 'شرایط مرجوعی محصول چیست؟', 'a' => 'مرجوعی فقط در صورت خرابی محصول امکان‌پذیر است. محصولات عمده و اوپن‌باکس شرایط خاص خود را دارند.'),
+            array('q' => 'آیا امکان پرداخت درب منزل وجود دارد؟', 'a' => 'بله، برای خریدهای بالای ۱,۵۰۰,۰۰۰ تومان امکان پرداخت درب منزل با پرداخت بیعانه وجود دارد.'),
+            array('q' => 'آیا ارسال رایگان دارید؟', 'a' => 'هزینه ارسال بر اساس وزن بسته و شرکت حمل‌ونقل انتخابی مشتری محاسبه می‌شود.'),
+            array('q' => 'محصولات اوپن‌باکس چیست؟', 'a' => 'محصولات اوپن‌باکس کالاهایی هستند که جعبه آن‌ها باز شده اما استفاده نشده یا کم‌استفاده هستند و با قیمت مناسب‌تر و تست کامل عرضه می‌شوند.'),
+            array('q' => 'چگونه سفارش خود را پیگیری کنم؟', 'a' => 'پس از ارسال، کد رهگیری برای شما ارسال می‌شود. از طریق صفحه رهگیری سفارشات یا تماس با ۰۹۱۸۱۷۱۷۰۱۱ وضعیت سفارش را پیگیری کنید.'),
+        );
+        $main_entity = array();
+        foreach ( $faqs as $faq ) {
+            $main_entity[] = array(
+                '@type' => 'Question',
+                'name'  => $faq['q'],
+                'acceptedAnswer' => array( '@type' => 'Answer', 'text' => $faq['a'] ),
+            );
+        }
+        echo '<script type="application/ld+json">' . wp_json_encode( array(
+            '@context'   => 'https://schema.org',
+            '@type'      => 'FAQPage',
+            'mainEntity' => $main_entity,
+        ), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . '</script>';
+    }
+}
+add_action( 'wp_head', 'mobile8_schema_markup', 5 );
+
 // ==========================================
-// PAGE CONTENTS
+// SEO-OPTIMIZED PAGE CONTENTS
 // ==========================================
 
 function mobile8_about_content() {
     return '
+<article itemscope itemtype="https://schema.org/AboutPage">
+
 <div class="m8-about-hero">
-    <h1>فروشگاه تخصصی گجت و لوازم</h1>
-    <p style="font-size: 18px; opacity: 0.9;">از سال ۱۳۹۸ در کنار شما هستیم</p>
+    <h1 itemprop="name">فروشگاه اینترنتی موبایل ۸ — خرید آنلاین گوشی، تبلت و لوازم جانبی</h1>
+    <p style="font-size: 18px; opacity: 0.9;">از سال ۱۳۹۸ در کنار شما هستیم — ارسال به سراسر ایران</p>
 </div>
 
 <div class="m8-about-stats">
-    <div class="m8-about-stat">
-        <span class="stat-number">+۶</span>
-        <span class="stat-label">سال تجربه</span>
-    </div>
-    <div class="m8-about-stat">
-        <span class="stat-number">۵</span>
-        <span class="stat-label">نفر تیم حرفه‌ای</span>
-    </div>
-    <div class="m8-about-stat">
-        <span class="stat-number">+۲۴۰</span>
-        <span class="stat-label">محصول متنوع</span>
-    </div>
-    <div class="m8-about-stat">
-        <span class="stat-number">۳۱</span>
-        <span class="stat-label">استان تحت پوشش</span>
-    </div>
+    <div class="m8-about-stat"><span class="stat-number">+۶</span><span class="stat-label">سال تجربه</span></div>
+    <div class="m8-about-stat"><span class="stat-number">۵</span><span class="stat-label">نفر تیم حرفه‌ای</span></div>
+    <div class="m8-about-stat"><span class="stat-number">+۲۴۰</span><span class="stat-label">محصول متنوع</span></div>
+    <div class="m8-about-stat"><span class="stat-number">۳۱</span><span class="stat-label">استان تحت پوشش</span></div>
 </div>
 
-<h2>داستان ما</h2>
+<div itemprop="description">
+<h2>داستان فروشگاه موبایل ۸</h2>
 <p style="line-height: 2.2; font-size: 15px;">
-فروشگاه <strong>موبایل ۸</strong> از سال ۱۳۹۸ فعالیت خود را در زمینه فروش موبایل، گجت و لوازم جانبی آغاز کرد. ما با شروع کار در استان‌های <strong>کردستان و همدان</strong>، به تدریج خدمات خود را به سراسر ایران گسترش دادیم.
+<strong>فروشگاه اینترنتی موبایل ۸</strong> (mobile8.ir) از سال ۱۳۹۸ فعالیت خود را در زمینه <strong>فروش آنلاین گوشی موبایل، تبلت، هندزفری، ساعت هوشمند و لوازم جانبی</strong> آغاز کرد. ما با شروع کار در استان‌های <strong>کردستان و همدان</strong>، به تدریج خدمات خود را به <strong>سراسر ایران</strong> گسترش دادیم.
 </p>
 <p style="line-height: 2.2; font-size: 15px;">
-تیم ۵ نفره ما متعهد است بهترین محصولات را با <strong>کیفیت تضمین‌شده</strong> و <strong>قیمت مناسب</strong> به دست شما برساند. تمامی محصولات قبل از ارسال توسط کارشناسان ما تست و بررسی می‌شوند.
+تیم ۵ نفره ما متعهد است بهترین محصولات دیجیتال و الکترونیکی را با <strong>کیفیت تضمین‌شده</strong> و <strong>قیمت مناسب</strong> به دست شما برساند. تمامی محصولات شامل <strong>گوشی سامسونگ، آیفون اپل، شیائومی، هندزفری بلوتوثی، ساعت هوشمند، شارژر، کابل، قاب و کاور، پاوربانک</strong> و سایر لوازم جانبی قبل از ارسال توسط کارشناسان ما تست و بررسی می‌شوند.
 </p>
+</div>
 
-<h2>چرا موبایل ۸؟</h2>
+<h2>چرا خرید از فروشگاه موبایل ۸؟</h2>
 <ul style="line-height: 2.5; font-size: 15px;">
-    <li>✅ تست محصول قبل از ارسال (امکان ارسال ویدیوی تست)</li>
-    <li>✅ ارسال سریع — سعی می‌کنیم فردای روز سفارش محصول را ارسال کنیم</li>
-    <li>✅ ارسال به سراسر ایران با پست و تیپاکس</li>
-    <li>✅ امکان پرداخت درب منزل برای خریدهای بالای ۱,۵۰۰,۰۰۰ تومان</li>
-    <li>✅ پشتیبانی و مشاوره قبل از خرید</li>
+    <li><strong>تست محصول قبل از ارسال</strong> — امکان ارسال ویدیوی تست برای اطمینان شما</li>
+    <li><strong>ارسال سریع</strong> — تلاش می‌کنیم فردای روز سفارش، محصول را ارسال کنیم</li>
+    <li><strong>ارسال به سراسر ایران</strong> — از طریق پست و تیپاکس به تمام ۳۱ استان</li>
+    <li><strong>پرداخت درب منزل</strong> — برای خریدهای بالای ۱,۵۰۰,۰۰۰ تومان</li>
+    <li><strong>مشاوره و پشتیبانی رایگان</strong> — قبل و بعد از خرید در کنار شماییم</li>
 </ul>
 
-<h2>ارتباط با ما</h2>
+<h2>محصولات فروشگاه موبایل ۸</h2>
 <p style="line-height: 2.2; font-size: 15px;">
-📞 تلفن: <a href="tel:09181717011">۰۹۱۸۱۷۱۷۰۱۱</a><br>
-📧 ایمیل: <a href="mailto:Sfarnam73@gmail.com">Sfarnam73@gmail.com</a><br>
-📸 اینستاگرام: <a href="https://instagram.com/mobile_8" target="_blank">mobile_8@</a><br>
-📱 تلگرام: <a href="https://t.me/sinafarnam8" target="_blank">sinafarnam8@</a><br>
-💬 واتساپ: <a href="https://wa.me/989188111504" target="_blank">۰۹۱۸۸۱۱۱۵۰۴</a>
+ما در <strong>موبایل ۸</strong> محصولات متنوعی از برندهای معتبر جهانی عرضه می‌کنیم:
+</p>
+<ul style="line-height: 2.2; font-size: 15px;">
+    <li><strong>گوشی موبایل</strong>: سامسونگ (Samsung)، اپل (Apple)، شیائومی (Xiaomi)، هوآوی (Huawei)، آنر (Honor)</li>
+    <li><strong>تبلت</strong>: سامسونگ گلکسی تب، اپل آیپد، لنوو</li>
+    <li><strong>هندزفری و هدفون</strong>: ایرپاد اپل، سامسونگ گلکسی بادز، JBL، شیائومی</li>
+    <li><strong>ساعت هوشمند</strong>: اپل واچ، سامسونگ گلکسی واچ، شیائومی</li>
+    <li><strong>لوازم جانبی</strong>: شارژر، کابل، قاب و کاور، محافظ صفحه، پاوربانک</li>
+    <li><strong>کوادکوپتر و پهپاد</strong>: مدل‌های مختلف با دوربین</li>
+</ul>
+
+<h2>راه‌های ارتباطی</h2>
+<p style="line-height: 2.2; font-size: 15px;">
+برای <strong>مشاوره خرید</strong> و سفارش محصول با ما در تماس باشید:<br>
+تلفن: <a href="tel:09181717011">۰۹۱۸۱۷۱۷۰۱۱</a> |
+ایمیل: <a href="mailto:Sfarnam73@gmail.com">Sfarnam73@gmail.com</a> |
+واتساپ: <a href="https://wa.me/989188111504" target="_blank" rel="noopener">۰۹۱۸۸۱۱۱۵۰۴</a><br>
+اینستاگرام: <a href="https://instagram.com/mobile_8" target="_blank" rel="noopener">mobile_8@</a> |
+تلگرام: <a href="https://t.me/sinafarnam8" target="_blank" rel="noopener">sinafarnam8@</a>
+</p>
+
+<p style="line-height: 2; font-size: 14px; margin-top: 20px;">
+همچنین می‌توانید <a href="/faq">سوالات متداول</a> را مطالعه کنید، <a href="/terms">شرایط و قوانین خرید</a> را بررسی کنید یا از صفحه <a href="/contact-us">تماس با ما</a> اقدام کنید.
 </p>
 
 <p style="text-align: center; margin-top: 40px; color: #999; font-size: 13px;">
-طراحی سایت: <a href="https://sinafarnam.ir" target="_blank" rel="nofollow">سینا فرنام</a>
-</p>';
+طراحی سایت: <a href="https://sinafarnam.ir" target="_blank" rel="nofollow noopener">سینا فرنام</a>
+</p>
+
+</article>';
 }
 
 function mobile8_faq_content() {
     return '
+<article itemscope itemtype="https://schema.org/FAQPage">
+
 <div class="m8-faq-section">
 
-<h2 style="text-align: center; margin-bottom: 30px;">سوالات متداول مشتریان</h2>
+<h1>سوالات متداول خرید از فروشگاه اینترنتی موبایل ۸</h1>
+<p style="text-align: center; font-size: 15px; line-height: 2; margin-bottom: 30px;">
+پاسخ سوالات رایج درباره <strong>خرید آنلاین گوشی موبایل</strong>، <strong>لوازم جانبی</strong>، روش‌های ارسال، مرجوعی و پرداخت در <strong>فروشگاه موبایل ۸</strong> (mobile8.ir) را در این صفحه بخوانید.
+</p>
 
-<div class="m8-faq-item">
-    <div class="m8-faq-question">روش‌های ارسال سفارش چیست؟</div>
-    <div class="m8-faq-answer">
-        ارسال سفارشات از طریق <strong>شرکت پست</strong> و <strong>تیپاکس</strong> انجام می‌شود. در صورتی که عجله دارید، با پرداخت هزینه پیک، امکان ارسال از طریق <strong>باربری</strong> یا <strong>اتوبوس</strong> نیز وجود دارد. روش ارسال بر اساس ترجیح مشتری انتخاب می‌شود.
+<h2>ارسال و حمل‌ونقل</h2>
+
+<div class="m8-faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+    <div class="m8-faq-question" itemprop="name">روش‌های ارسال سفارش در فروشگاه موبایل ۸ چیست؟</div>
+    <div class="m8-faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+        <div itemprop="text">
+        ارسال سفارشات <strong>گوشی موبایل، تبلت، هندزفری و لوازم جانبی</strong> از طریق <strong>شرکت پست</strong> و <strong>تیپاکس</strong> به <strong>سراسر ایران</strong> انجام می‌شود. همچنین امکان ارسال از طریق <strong>باربری</strong> یا <strong>اتوبوس</strong> نیز وجود دارد. روش ارسال بر اساس ترجیح مشتری انتخاب می‌شود.
+        </div>
     </div>
 </div>
 
-<div class="m8-faq-item">
-    <div class="m8-faq-question">مدت زمان ارسال سفارش چقدر است؟</div>
-    <div class="m8-faq-answer">
-        به محض ثبت سفارش، تیم ما تلاش می‌کند <strong>فردای همان روز</strong> محصول را ارسال کند. سپس بسته به روش ارسال (پست یا تیپاکس) و مقصد، بین ۱ تا ۵ روز کاری به دست شما می‌رسد.
+<div class="m8-faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+    <div class="m8-faq-question" itemprop="name">مدت زمان ارسال سفارش گوشی و لوازم جانبی چقدر است؟</div>
+    <div class="m8-faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+        <div itemprop="text">
+        تیم <strong>فروشگاه موبایل ۸</strong> تلاش می‌کند <strong>فردای همان روز</strong> محصول را ارسال کند. بسته به روش ارسال (پست یا تیپاکس) و مقصد، بین <strong>۱ تا ۵ روز کاری</strong> سفارش به دست شما می‌رسد.
+        </div>
     </div>
 </div>
 
-<div class="m8-faq-item">
-    <div class="m8-faq-question">آیا محصولات قبل از ارسال تست می‌شوند؟</div>
-    <div class="m8-faq-answer">
-        بله، <strong>تمامی محصولات قبل از ارسال</strong> توسط کارشناسان ما بررسی و تست می‌شوند. در صورت درخواست مشتری، <strong>ویدیوی تست محصول</strong> نیز قبل از ارسال تهیه و ارسال می‌شود.
+<div class="m8-faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+    <div class="m8-faq-question" itemprop="name">آیا فروشگاه موبایل ۸ ارسال رایگان دارد؟</div>
+    <div class="m8-faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+        <div itemprop="text">
+        هزینه ارسال بر اساس <strong>وزن بسته</strong> و <strong>شرکت حمل‌ونقل</strong> انتخابی مشتری محاسبه می‌شود. ارسال توسط پست، تیپاکس، باربری یا اتوبوس قابل انجام است.
+        </div>
     </div>
 </div>
 
-<div class="m8-faq-item">
-    <div class="m8-faq-question">شرایط مرجوعی محصول چیست؟</div>
-    <div class="m8-faq-answer">
-        مرجوعی <strong>فقط در صورت خرابی محصول</strong> امکان‌پذیر است. لازم به ذکر است:<br>
-        - محصولاتی که با <strong>قیمت عمده</strong> فروخته می‌شوند، به هیچ وجه مرجوعی ندارند.<br>
-        - محصولات <strong>اوپن‌باکس</strong> قبل از ارسال تست می‌شوند و با آگاهی مشتری ارسال می‌گردند.
+<h2>کیفیت و تست محصولات</h2>
+
+<div class="m8-faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+    <div class="m8-faq-question" itemprop="name">آیا محصولات فروشگاه موبایل ۸ قبل از ارسال تست می‌شوند؟</div>
+    <div class="m8-faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+        <div itemprop="text">
+        بله، تمامی محصولات شامل <strong>گوشی سامسونگ، آیفون، شیائومی، هندزفری، ساعت هوشمند</strong> و لوازم جانبی قبل از ارسال توسط کارشناسان ما بررسی و تست می‌شوند. در صورت درخواست مشتری، <strong>ویدیوی تست محصول</strong> نیز تهیه و ارسال می‌شود.
+        </div>
     </div>
 </div>
 
-<div class="m8-faq-item">
-    <div class="m8-faq-question">آیا امکان پرداخت درب منزل وجود دارد؟</div>
-    <div class="m8-faq-answer">
-        بله، برای خریدهای بالای <strong>۱,۵۰۰,۰۰۰ تومان</strong> امکان پرداخت درب منزل با پرداخت بیعانه وجود دارد. برای هماهنگی با شماره <a href="tel:09181717011">۰۹۱۸۱۷۱۷۰۱۱</a> تماس بگیرید.
+<div class="m8-faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+    <div class="m8-faq-question" itemprop="name">محصولات اوپن‌باکس در فروشگاه موبایل ۸ چیست؟</div>
+    <div class="m8-faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+        <div itemprop="text">
+        محصولات اوپن‌باکس کالاهایی هستند که جعبه آن‌ها باز شده اما استفاده نشده یا کم‌استفاده هستند. این محصولات با <strong>قیمت مناسب‌تر</strong> عرضه شده و قبل از ارسال توسط تیم ما <strong>تست کامل</strong> می‌شوند. خرید اوپن‌باکس گزینه مناسبی برای صرفه‌جویی در هزینه است.
+        </div>
     </div>
 </div>
 
-<div class="m8-faq-item">
-    <div class="m8-faq-question">آیا ارسال رایگان دارید؟</div>
-    <div class="m8-faq-answer">
-        خیر، هزینه ارسال بر اساس <strong>وزن بسته</strong> و <strong>شرکت حمل‌ونقل</strong> انتخابی مشتری محاسبه می‌شود. ارسال توسط پست، تیپاکس، باربری یا اتوبوس قابل انجام است.
+<h2>مرجوعی و گارانتی</h2>
+
+<div class="m8-faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+    <div class="m8-faq-question" itemprop="name">شرایط مرجوعی محصول در فروشگاه موبایل ۸ چیست؟</div>
+    <div class="m8-faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+        <div itemprop="text">
+        مرجوعی <strong>فقط در صورت خرابی محصول</strong> امکان‌پذیر است. نکات مهم:<br>
+        - محصولاتی که با <strong>قیمت عمده</strong> فروخته می‌شوند، قابل مرجوعی نیستند.<br>
+        - محصولات <strong>اوپن‌باکس</strong> قبل از ارسال تست شده و با آگاهی مشتری ارسال می‌گردند.<br>
+        - درخواست مرجوعی باید حداکثر تا <strong>۴۸ ساعت</strong> پس از دریافت ثبت شود.<br>
+        برای اطلاعات بیشتر <a href="/terms">شرایط و قوانین خرید</a> را مطالعه کنید.
+        </div>
     </div>
 </div>
 
-<div class="m8-faq-item">
-    <div class="m8-faq-question">محصولات اوپن‌باکس چیست؟</div>
-    <div class="m8-faq-answer">
-        محصولات اوپن‌باکس، کالاهایی هستند که جعبه آن‌ها باز شده اما استفاده نشده یا کم‌استفاده هستند. این محصولات با <strong>قیمت مناسب‌تر</strong> عرضه می‌شوند و قبل از ارسال توسط تیم ما <strong>تست کامل</strong> می‌شوند.
+<h2>پرداخت و خرید</h2>
+
+<div class="m8-faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+    <div class="m8-faq-question" itemprop="name">آیا امکان پرداخت درب منزل (پس‌کرایه) وجود دارد؟</div>
+    <div class="m8-faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+        <div itemprop="text">
+        بله، برای خریدهای بالای <strong>۱,۵۰۰,۰۰۰ تومان</strong> امکان پرداخت درب منزل با پرداخت بیعانه وجود دارد. برای هماهنگی با شماره <a href="tel:09181717011">۰۹۱۸۱۷۱۷۰۱۱</a> تماس بگیرید یا از طریق <a href="https://wa.me/989188111504" target="_blank" rel="noopener">واتساپ</a> پیام دهید.
+        </div>
     </div>
 </div>
 
-<div class="m8-faq-item">
-    <div class="m8-faq-question">چگونه سفارش خود را پیگیری کنم؟</div>
-    <div class="m8-faq-answer">
-        پس از ارسال سفارش، <strong>کد رهگیری</strong> برای شما ارسال می‌شود. می‌توانید از طریق صفحه <a href="/order-tracking">رهگیری سفارشات</a> یا تماس با شماره <a href="tel:09181717011">۰۹۱۸۱۷۱۷۰۱۱</a> وضعیت سفارش خود را پیگیری کنید.
+<h2>پیگیری سفارش</h2>
+
+<div class="m8-faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+    <div class="m8-faq-question" itemprop="name">چگونه سفارش خود را در فروشگاه موبایل ۸ پیگیری کنم؟</div>
+    <div class="m8-faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+        <div itemprop="text">
+        پس از ارسال سفارش، <strong>کد رهگیری پست یا تیپاکس</strong> برای شما ارسال می‌شود. از طریق صفحه <a href="/order-tracking">رهگیری سفارشات</a> وضعیت مرسوله را بررسی کنید. همچنین می‌توانید با شماره <a href="tel:09181717011">۰۹۱۸۱۷۱۷۰۱۱</a> تماس بگیرید.
+        </div>
     </div>
 </div>
 
-</div>';
+</div>
+
+<p style="text-align: center; margin-top: 30px; font-size: 14px; line-height: 2;">
+سوال دیگری دارید؟ از صفحه <a href="/contact-us">تماس با ما</a> اقدام کنید یا <a href="/about-us">درباره فروشگاه موبایل ۸</a> بیشتر بخوانید.
+</p>
+
+</article>';
 }
 
 function mobile8_terms_content() {
     return '
+<article itemscope itemtype="https://schema.org/WebPage">
+
 <div class="m8-terms-section">
 
+<h1>شرایط و قوانین خرید از فروشگاه اینترنتی موبایل ۸</h1>
 <p style="font-size: 15px; line-height: 2;">
-لطفاً قبل از خرید از فروشگاه <strong>موبایل ۸</strong>، شرایط و قوانین زیر را به دقت مطالعه فرمایید. ثبت سفارش به منزله پذیرش تمامی شرایط زیر می‌باشد.
+لطفاً قبل از <strong>خرید آنلاین گوشی موبایل و لوازم جانبی</strong> از <strong>فروشگاه موبایل ۸</strong> (mobile8.ir)، شرایط و قوانین زیر را به دقت مطالعه فرمایید. ثبت سفارش به منزله پذیرش تمامی شرایط زیر می‌باشد.
 </p>
 
-<h2>شرایط خرید</h2>
-<ul>
-    <li>تمامی قیمت‌ها به <strong>تومان</strong> و بر اساس نرخ روز محاسبه می‌شوند.</li>
-    <li>قیمت محصولات ممکن است بدون اطلاع قبلی تغییر کند.</li>
+<h2>شرایط خرید آنلاین موبایل و لوازم جانبی</h2>
+<ul style="line-height: 2.2; font-size: 15px;">
+    <li>تمامی قیمت‌های <strong>گوشی موبایل، تبلت، هندزفری، ساعت هوشمند و لوازم جانبی</strong> به <strong>تومان</strong> و بر اساس نرخ روز بازار محاسبه می‌شوند.</li>
+    <li>قیمت محصولات دیجیتال ممکن است بر اساس نوسانات بازار بدون اطلاع قبلی تغییر کند.</li>
     <li>موجودی محصولات محدود است و ثبت سفارش به منزله رزرو محصول نیست.</li>
     <li>در صورت ناموجود شدن محصول پس از ثبت سفارش، مبلغ پرداختی به طور کامل عودت داده می‌شود.</li>
 </ul>
 
-<h2>شرایط ارسال</h2>
-<ul>
-    <li>ارسال سفارشات از طریق <strong>پست</strong> و <strong>تیپاکس</strong> به سراسر ایران انجام می‌شود.</li>
+<h2>شرایط ارسال سفارش به سراسر ایران</h2>
+<ul style="line-height: 2.2; font-size: 15px;">
+    <li>ارسال سفارشات از طریق <strong>پست</strong> و <strong>تیپاکس</strong> به تمام <strong>۳۱ استان ایران</strong> انجام می‌شود.</li>
     <li>در صورت درخواست مشتری، ارسال از طریق <strong>باربری</strong> یا <strong>اتوبوس</strong> نیز امکان‌پذیر است.</li>
     <li>هزینه ارسال بر عهده خریدار است و بر اساس وزن و مقصد محاسبه می‌شود.</li>
-    <li>تلاش می‌شود سفارشات <strong>فردای روز ثبت</strong> ارسال گردند.</li>
+    <li>تیم <strong>موبایل ۸</strong> تلاش می‌کند سفارشات <strong>فردای روز ثبت</strong> ارسال گردند.</li>
     <li>مسئولیت آسیب‌های ناشی از حمل‌ونقل بر عهده شرکت حمل‌کننده می‌باشد.</li>
+    <li>پس از ارسال، <strong>کد رهگیری</strong> برای مشتری ارسال می‌شود. از صفحه <a href="/order-tracking">رهگیری سفارش</a> استفاده کنید.</li>
 </ul>
 
 <h2>شرایط پرداخت</h2>
-<ul>
-    <li>پرداخت آنلاین از طریق درگاه بانکی <strong>تومن</strong> انجام می‌شود.</li>
+<ul style="line-height: 2.2; font-size: 15px;">
+    <li>پرداخت آنلاین از طریق <strong>درگاه بانکی امن</strong> انجام می‌شود.</li>
     <li>امکان <strong>پرداخت درب منزل</strong> برای خریدهای بالای ۱,۵۰۰,۰۰۰ تومان با پرداخت بیعانه وجود دارد.</li>
-    <li>برای هماهنگی پرداخت درب منزل با شماره ۰۹۱۸۱۷۱۷۰۱۱ تماس بگیرید.</li>
+    <li>برای هماهنگی پرداخت درب منزل با شماره <a href="tel:09181717011">۰۹۱۸۱۷۱۷۰۱۱</a> تماس بگیرید.</li>
 </ul>
 
 <h2>شرایط مرجوعی و بازگشت کالا</h2>
-<ul>
+<ul style="line-height: 2.2; font-size: 15px;">
     <li>مرجوعی <strong>فقط در صورت خرابی محصول</strong> امکان‌پذیر است.</li>
-    <li>تمامی محصولات قبل از ارسال تست و بررسی می‌شوند.</li>
+    <li>تمامی محصولات (<strong>گوشی سامسونگ، آیفون اپل، شیائومی، هندزفری</strong> و ...) قبل از ارسال تست و بررسی می‌شوند.</li>
     <li>محصولاتی که با <strong>قیمت عمده</strong> فروخته می‌شوند، تحت هیچ شرایطی قابل مرجوعی نیستند.</li>
     <li>محصولات <strong>اوپن‌باکس</strong> قبل از ارسال تست شده و با اطلاع و رضایت مشتری ارسال می‌گردند.</li>
-    <li>در صورت درخواست، ویدیوی تست محصول قبل از ارسال تهیه می‌شود.</li>
+    <li>در صورت درخواست، <strong>ویدیوی تست محصول</strong> قبل از ارسال تهیه می‌شود.</li>
     <li>درخواست مرجوعی باید حداکثر تا <strong>۴۸ ساعت</strong> پس از دریافت محصول ثبت شود.</li>
     <li>هزینه ارسال مرجوعی بر عهده خریدار است مگر آن‌که خرابی از جانب فروشگاه باشد.</li>
 </ul>
 
-<h2>گارانتی</h2>
-<ul>
-    <li>گارانتی محصولات بر اساس نوع کالا و برند متفاوت است و در صفحه محصول ذکر شده است.</li>
+<h2>گارانتی محصولات دیجیتال</h2>
+<ul style="line-height: 2.2; font-size: 15px;">
+    <li>گارانتی محصولات بر اساس نوع کالا و برند (<strong>Samsung، Apple، Xiaomi، Huawei، JBL</strong>) متفاوت است و در صفحه محصول ذکر شده است.</li>
     <li>گارانتی شامل خرابی‌های ناشی از استفاده نادرست، ضربه یا آب‌خوردگی نمی‌شود.</li>
 </ul>
 
-<h2>حریم خصوصی</h2>
-<ul>
-    <li>اطلاعات شخصی مشتریان نزد فروشگاه محفوظ بوده و به هیچ شخص ثالثی ارائه نخواهد شد.</li>
+<h2>حفظ حریم خصوصی مشتریان</h2>
+<ul style="line-height: 2.2; font-size: 15px;">
+    <li>اطلاعات شخصی مشتریان نزد <strong>فروشگاه موبایل ۸</strong> محفوظ بوده و به هیچ شخص ثالثی ارائه نخواهد شد.</li>
     <li>اطلاعات تماس مشتری صرفاً برای هماهنگی ارسال و پشتیبانی استفاده می‌شود.</li>
 </ul>
 
 <p style="text-align: center; margin-top: 40px; padding: 20px; background: #FFF3E0; border-radius: 10px; border-right: 4px solid #F57C00;">
-    در صورت داشتن هرگونه سوال درباره شرایط و قوانین، با ما تماس بگیرید:<br>
-    📞 <a href="tel:09181717011">۰۹۱۸۱۷۱۷۰۱۱</a> &nbsp; | &nbsp;
-    📧 <a href="mailto:Sfarnam73@gmail.com">Sfarnam73@gmail.com</a>
+    سوالی درباره شرایط خرید دارید؟ <a href="/faq">سوالات متداول</a> را بخوانید یا با ما تماس بگیرید:<br>
+    <a href="tel:09181717011" style="font-weight:700;">۰۹۱۸۱۷۱۷۰۱۱</a> &nbsp; | &nbsp;
+    <a href="mailto:Sfarnam73@gmail.com">Sfarnam73@gmail.com</a> &nbsp; | &nbsp;
+    <a href="https://wa.me/989188111504" target="_blank" rel="noopener" style="font-weight:700;">واتساپ</a>
 </p>
 
-</div>';
+</div>
+
+</article>';
 }
 
 function mobile8_contact_content() {
     return '
+<article itemscope itemtype="https://schema.org/ContactPage">
+
 <div style="max-width: 900px; margin: 0 auto; padding: 30px 15px;">
 
+<h1>تماس با فروشگاه اینترنتی موبایل ۸ — مشاوره و خرید آنلاین</h1>
 <p style="text-align: center; font-size: 16px; line-height: 2; margin-bottom: 30px;">
-برای ارتباط با <strong>فروشگاه موبایل ۸</strong> از طریق راه‌های زیر اقدام کنید.
-تیم ما آماده پاسخگویی به سوالات و مشاوره خرید شماست.
+برای <strong>مشاوره خرید گوشی موبایل</strong>، <strong>تبلت</strong>، <strong>هندزفری</strong>، <strong>ساعت هوشمند</strong> و <strong>لوازم جانبی</strong> از طریق راه‌های زیر با <strong>فروشگاه موبایل ۸</strong> در تماس باشید. تیم ما آماده پاسخگویی و راهنمایی شماست.
 </p>
 
-<div class="m8-contact-cards">
+<h2>راه‌های ارتباط مستقیم</h2>
+
+<div class="m8-contact-cards" itemprop="mainEntity" itemscope itemtype="https://schema.org/OnlineStore">
+    <meta itemprop="name" content="فروشگاه موبایل ۸">
+    <meta itemprop="url" content="https://mobile8.ir">
 
     <div class="m8-contact-card">
         <div style="font-size: 40px; margin-bottom: 15px;">📞</div>
         <h3>تماس تلفنی</h3>
-        <a href="tel:09181717011" style="font-size: 20px; font-weight: 700; color: #F57C00 !important;">۰۹۱۸۱۷۱۷۰۱۱</a>
+        <a href="tel:09181717011" itemprop="telephone" style="font-size: 20px; font-weight: 700; color: #F57C00 !important;">۰۹۱۸۱۷۱۷۰۱۱</a>
         <p style="color: #999; margin-top: 10px; font-size: 13px;">شنبه تا پنج‌شنبه ۹ صبح تا ۹ شب</p>
     </div>
 
     <div class="m8-contact-card">
         <div style="font-size: 40px; margin-bottom: 15px;">💬</div>
-        <h3>واتساپ</h3>
-        <a href="https://wa.me/989188111504" target="_blank" style="font-size: 18px; font-weight: 700; color: #25D366 !important;">۰۹۱۸۸۱۱۱۵۰۴</a>
-        <p style="color: #999; margin-top: 10px; font-size: 13px;">پاسخگویی سریع در واتساپ</p>
+        <h3>واتساپ — پاسخ سریع</h3>
+        <a href="https://wa.me/989188111504" target="_blank" rel="noopener" style="font-size: 18px; font-weight: 700; color: #25D366 !important;">۰۹۱۸۸۱۱۱۵۰۴</a>
+        <p style="color: #999; margin-top: 10px; font-size: 13px;">مشاوره خرید و پیگیری سفارش</p>
     </div>
 
     <div class="m8-contact-card">
         <div style="font-size: 40px; margin-bottom: 15px;">📧</div>
         <h3>ایمیل</h3>
-        <a href="mailto:Sfarnam73@gmail.com" style="font-size: 16px; font-weight: 700;">Sfarnam73@gmail.com</a>
+        <a href="mailto:Sfarnam73@gmail.com" itemprop="email" style="font-size: 16px; font-weight: 700;">Sfarnam73@gmail.com</a>
         <p style="color: #999; margin-top: 10px; font-size: 13px;">پاسخگویی در کمتر از ۲۴ ساعت</p>
     </div>
 
 </div>
 
-<div style="margin-top: 30px;">
+<h2>شبکه‌های اجتماعی فروشگاه موبایل ۸</h2>
+
+<div style="margin-top: 10px;">
 <div class="m8-contact-cards">
 
     <div class="m8-contact-card">
         <div style="font-size: 40px; margin-bottom: 15px;">📸</div>
         <h3>اینستاگرام</h3>
-        <a href="https://instagram.com/mobile_8" target="_blank" style="font-weight: 700; color: #E4405F !important;">mobile_8@</a>
+        <a href="https://instagram.com/mobile_8" target="_blank" rel="noopener" itemprop="sameAs" style="font-weight: 700; color: #E4405F !important;">mobile_8@</a>
         <p style="color: #999; margin-top: 10px; font-size: 13px;">جدیدترین محصولات و تخفیف‌ها</p>
     </div>
 
     <div class="m8-contact-card">
         <div style="font-size: 40px; margin-bottom: 15px;">📱</div>
-        <h3>تلگرام</h3>
-        <a href="https://t.me/sinafarnam8" target="_blank" style="font-weight: 700; color: #0088CC !important;">sinafarnam8@</a>
-        <p style="color: #999; margin-top: 10px; font-size: 13px;">کانال تلگرام فروشگاه</p>
+        <h3>کانال تلگرام</h3>
+        <a href="https://t.me/sinafarnam8" target="_blank" rel="noopener" itemprop="sameAs" style="font-weight: 700; color: #0088CC !important;">sinafarnam8@</a>
+        <p style="color: #999; margin-top: 10px; font-size: 13px;">اطلاع‌رسانی محصولات جدید</p>
     </div>
 
     <div class="m8-contact-card">
         <div style="font-size: 40px; margin-bottom: 15px;">🏪</div>
         <h3>فروشگاه آنلاین</h3>
-        <p style="font-weight: 600;">فروشگاه اینترنتی</p>
-        <p style="color: #999; margin-top: 5px; font-size: 13px;">ارسال به سراسر ایران<br>کردستان و همدان</p>
+        <p style="font-weight: 600;"><a href="/" style="color: #F57C00 !important;">mobile8.ir</a></p>
+        <p style="color: #999; margin-top: 5px; font-size: 13px;">خرید آنلاین با ارسال به سراسر ایران<br>استان‌های کردستان و همدان</p>
     </div>
 
 </div>
 </div>
 
-</div>';
+<h2>خدمات مشتریان فروشگاه موبایل ۸</h2>
+<p style="line-height: 2.2; font-size: 15px;">
+تیم پشتیبانی <strong>فروشگاه موبایل ۸</strong> آماده ارائه خدمات زیر به شماست:
+</p>
+<ul style="line-height: 2.2; font-size: 15px;">
+    <li><strong>مشاوره خرید</strong> — راهنمایی در انتخاب بهترین گوشی سامسونگ، آیفون یا شیائومی</li>
+    <li><strong>پیگیری سفارش</strong> — بررسی وضعیت ارسال از طریق <a href="/order-tracking">صفحه رهگیری</a></li>
+    <li><strong>پشتیبانی پس از فروش</strong> — رسیدگی به مرجوعی و گارانتی</li>
+    <li><strong>خرید عمده</strong> — قیمت ویژه برای خریدهای عمده موبایل و لوازم جانبی</li>
+</ul>
+
+<p style="text-align: center; margin-top: 30px; font-size: 14px; line-height: 2;">
+<a href="/faq">سوالات متداول</a> &nbsp;|&nbsp; <a href="/terms">شرایط و قوانین خرید</a> &nbsp;|&nbsp; <a href="/about-us">درباره فروشگاه موبایل ۸</a>
+</p>
+
+<p style="text-align: center; margin-top: 20px; color: #999; font-size: 13px;">
+طراحی سایت: <a href="https://sinafarnam.ir" target="_blank" rel="nofollow noopener">سینا فرنام</a>
+</p>
+
+</div>
+
+</article>';
 }
 
 function mobile8_tracking_content() {
     return '
-<div style="max-width: 700px; margin: 0 auto; padding: 40px 15px; text-align: center;">
+<article itemscope itemtype="https://schema.org/WebPage">
 
-<div style="font-size: 60px; margin-bottom: 20px;">📦</div>
-<h2 style="margin-bottom: 15px;">رهگیری سفارش</h2>
-<p style="line-height: 2; color: #666; margin-bottom: 30px;">
-برای پیگیری وضعیت سفارش خود، از لینک‌های زیر استفاده کنید یا با ما تماس بگیرید.
+<div style="max-width: 700px; margin: 0 auto; padding: 40px 15px;">
+
+<h1 style="text-align: center;">رهگیری سفارش فروشگاه موبایل ۸ — پیگیری مرسوله پستی و تیپاکس</h1>
+<p style="text-align: center; line-height: 2; color: #666; margin-bottom: 30px; font-size: 15px;">
+پس از <strong>خرید آنلاین گوشی موبایل، تبلت، هندزفری و لوازم جانبی</strong> از <strong>فروشگاه موبایل ۸</strong>، کد رهگیری برای شما ارسال می‌شود. با استفاده از لینک‌های زیر وضعیت مرسوله خود را پیگیری کنید.
 </p>
 
-<div style="display: grid; gap: 15px; max-width: 400px; margin: 0 auto 30px;">
-    <a href="https://tracking.post.ir" target="_blank" style="display: block; padding: 15px 25px; background: #F57C00; color: #fff !important; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 16px;">
-        📮 رهگیری پست
+<h2 style="text-align: center;">رهگیری آنلاین مرسوله</h2>
+
+<div style="display: grid; gap: 15px; max-width: 400px; margin: 0 auto 30px; text-align: center;">
+    <a href="https://tracking.post.ir" target="_blank" rel="noopener" style="display: block; padding: 15px 25px; background: #F57C00; color: #fff !important; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 16px;">
+        📮 رهگیری مرسوله پستی
     </a>
-    <a href="https://tipax.ir/tracking" target="_blank" style="display: block; padding: 15px 25px; background: #1976D2; color: #fff !important; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 16px;">
-        🚚 رهگیری تیپاکس
+    <a href="https://tipax.ir/tracking" target="_blank" rel="noopener" style="display: block; padding: 15px 25px; background: #1976D2; color: #fff !important; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 16px;">
+        🚚 رهگیری سفارش تیپاکس
     </a>
 </div>
 
-<div style="background: #FFF3E0; padding: 25px; border-radius: 12px; border-right: 4px solid #F57C00;">
+<h2 style="text-align: center;">مراحل پیگیری سفارش</h2>
+<ol style="line-height: 2.5; font-size: 15px; max-width: 500px; margin: 0 auto 30px;">
+    <li><strong>ثبت سفارش</strong> — سفارش شما در سیستم ثبت می‌شود</li>
+    <li><strong>بررسی و تست محصول</strong> — کارشناسان ما محصول را تست می‌کنند</li>
+    <li><strong>بسته‌بندی و ارسال</strong> — تلاش می‌شود فردای روز سفارش ارسال شود</li>
+    <li><strong>ارسال کد رهگیری</strong> — کد رهگیری پست یا تیپاکس برای شما ارسال می‌شود</li>
+    <li><strong>تحویل مرسوله</strong> — بین ۱ تا ۵ روز کاری به دست شما می‌رسد</li>
+</ol>
+
+<div style="background: #FFF3E0; padding: 25px; border-radius: 12px; border-right: 4px solid #F57C00; text-align: center;">
+    <h3 style="margin-top: 0;">کد رهگیری ندارید؟</h3>
     <p style="margin: 0; line-height: 2;">
-        <strong>کد رهگیری ندارید؟</strong><br>
         با شماره <a href="tel:09181717011" style="font-weight: 700; color: #F57C00 !important;">۰۹۱۸۱۷۱۷۰۱۱</a> تماس بگیرید<br>
-        یا در <a href="https://wa.me/989188111504" target="_blank" style="font-weight: 700; color: #25D366 !important;">واتساپ</a> پیام دهید
+        یا در <a href="https://wa.me/989188111504" target="_blank" rel="noopener" style="font-weight: 700; color: #25D366 !important;">واتساپ</a> پیام دهید
     </p>
 </div>
 
 [woocommerce_order_tracking]
 
-</div>';
+<p style="text-align: center; margin-top: 30px; font-size: 14px; line-height: 2;">
+<a href="/faq">سوالات متداول</a> &nbsp;|&nbsp; <a href="/terms">شرایط و قوانین خرید</a> &nbsp;|&nbsp; <a href="/contact-us">تماس با ما</a>
+</p>
+
+</div>
+
+</article>';
 }
 
 // RC Products Shortcode
