@@ -5,11 +5,17 @@
  * Designer: Sina Farnam - https://sinafarnam.ir
  */
 
-// Enqueue child theme styles
+// Enqueue child theme styles with cache-busting timestamp
 function dina_child_enqueue_styles() {
-    wp_enqueue_style( 'child-style', get_stylesheet_directory_uri() . '/style.css', array( 'dina-style' ), '1.4.0' );
+    wp_enqueue_style( 'child-style', get_stylesheet_directory_uri() . '/style.css', array( 'dina-style' ), '1.5.0.' . time() );
 }
 add_action( 'wp_enqueue_scripts', 'dina_child_enqueue_styles', 10010 );
+
+// Early banner hide - before anything renders
+function mobile8_early_hide_banner() {
+    echo '<style id="m8-early-hide">.dina-head-img-msg-con,.dina-head-msg,#dinaHeadMsg,aside.dina-head-img-msg-con,.dina-apps-icon{display:none!important;height:0!important;overflow:hidden!important;}</style>';
+}
+add_action( 'wp_head', 'mobile8_early_hide_banner', 0 );
 
 // Override Redux options directly via global $di_data
 function mobile8_override_redux_options() {
@@ -78,7 +84,7 @@ add_action( 'wp_footer', 'mobile8_override_css_vars', 1 );
 function mobile8_get_override_css() {
     return '
     <style id="mobile8-overrides">
-    :root, html, body {
+    :root, html, body, html body, body.rtl, html[dir="rtl"] body {
         --dina-custom-color: #F57C00 !important;
         --woocommerce: #F57C00 !important;
         --dina-head-bg-color: #FFFFFF !important;
@@ -119,101 +125,217 @@ function mobile8_get_override_css() {
     .dina-head-msg, #dinaHeadMsg { display: none !important; }
     .dina-apps-icon { display: none !important; }
 
-    /* ====== HEADER: White + Orange accent ====== */
+    /* ====== HEADER TOP BAR: Orange ====== */
+    .dina-header-top-bar,
+    .row.dina-header-top-bar,
     html body .dina-header-top-bar,
-    html body .row.dina-header-top-bar { background-color: #F57C00 !important; }
+    html body .row.dina-header-top-bar,
+    div.dina-header-top-bar,
+    [class*="dina-header-top-bar"] { background-color: #F57C00 !important; }
+    .dina-header-top-bar *,
+    .dina-head-contact a,
+    .dina-head-phone, .dina-head-phone a,
+    .dina-head-email, .dina-head-email a,
+    .dina-head-menu a,
+    .dina-head-contact i,
     html body .dina-head-contact a,
     html body .dina-head-phone, html body .dina-head-phone a,
     html body .dina-head-email, html body .dina-head-email a,
     html body .dina-head-menu a,
     html body .dina-head-contact i { color: #FFFFFF !important; }
 
-    /* HEADER: main area WHITE */
+    /* ====== HEADER MAIN: White ====== */
+    .dina-header,
+    .container-fluid.dina-header,
+    .container-fluid.dina-header.header,
+    .dina-site-header .dina-header,
+    header.dina-site-header .container-fluid,
     html body .dina-header,
     html body .container-fluid.dina-header,
-    html body .container-fluid.dina-header.header,
-    html body .dina-site-header .dina-header,
     html body header.dina-site-header .container-fluid { background-color: #FFFFFF !important; }
-
-    /* Header border bottom for separation */
     html body .dina-site-header { border-bottom: 2px solid #f0f0f0 !important; }
 
-    /* NAVBAR: white with dark text */
+    /* ====== NAVBAR: White background ====== */
+    .navbar,
+    .dina-navbar,
+    .dina-navbar .navbar,
+    .dina-navbar .container,
+    .dina-navbar .dina-nav-con,
+    .dina-nav-boxed .navbar .dina-nav-con,
+    div.dina-navbar,
+    nav.navbar,
+    html body .navbar,
     html body .dina-navbar,
     html body .dina-navbar .navbar,
     html body .dina-navbar .container,
-    html body div.dina-navbar { background-color: #FFFFFF !important; border-bottom: 2px solid #F57C00 !important; }
+    html body .dina-navbar .dina-nav-con,
+    html body .dina-nav-boxed .navbar .dina-nav-con,
+    html body div.dina-navbar,
+    html body nav.navbar,
+    [class*="dina-navbar"],
+    [class*="dina-navbar"] .navbar,
+    [class*="dina-navbar"] nav,
+    [class*="dina-navbar"] .dina-nav-con { background: #FFFFFF !important; background-color: #FFFFFF !important; }
+    .dina-navbar { border-bottom: 2px solid #F57C00 !important; }
+
+    /* Navbar text: dark */
+    .dina-navbar .nav-link,
+    .dina-navbar .navbar-nav a,
+    .dina-navbar .navbar-nav li a,
+    .dina-navbar i,
+    .navbar-nav > li > a,
     html body .dina-navbar .nav-link,
     html body .dina-navbar .navbar-nav a,
+    html body .navbar-nav > li > a,
     html body .dina-navbar i { color: #333333 !important; }
+    .dina-navbar .nav-link:hover,
+    .dina-navbar .navbar-nav a:hover,
+    .navbar-nav > li:hover > a,
     html body .dina-navbar .nav-link:hover,
     html body .dina-navbar .navbar-nav a:hover { color: #F57C00 !important; }
 
-    /* Menu bar button (مجله) - orange outline */
-    html body .dina-menu-bar-btn { background-color: #F57C00 !important; color: #FFFFFF !important;
+    /* Menu bar button (مجله) - orange pill */
+    .dina-menu-bar-btn,
+    html body .dina-menu-bar-btn,
+    a.dina-menu-bar-btn,
+    .dina-navbar .dina-menu-bar-btn,
+    [class*="menu-bar-btn"] { background-color: #F57C00 !important; color: #FFFFFF !important;
         border-color: #F57C00 !important; border-radius: 20px !important; padding: 5px 15px !important; }
+    .dina-menu-bar-btn:hover,
     html body .dina-menu-bar-btn:hover { background-color: #E65100 !important; }
 
+    /* Navbar dropdown menus */
+    .dina-navbar .dropdown-menu,
+    .navbar .dropdown-menu,
+    .dina-mega-menu { background-color: #FFFFFF !important; }
+    .dina-navbar .dropdown-menu a,
+    .dina-mega-menu a { color: #333333 !important; }
+    .dina-navbar .dropdown-menu a:hover,
+    .dina-mega-menu a:hover { color: #F57C00 !important; background-color: #f5f5f5 !important; }
+
     /* ====== FOOTER: Clean dark ====== */
+    .dina-sfooter,
+    .container-fluid.dina-sfooter,
+    footer.dina-sfooter,
     html body .dina-sfooter,
     html body .container-fluid.dina-sfooter,
-    html body footer.dina-sfooter { background-color: #1a1a2e !important; }
-    html body .dina-sfooter h1, html body .dina-sfooter h2,
+    html body footer.dina-sfooter,
+    [class*="dina-sfooter"] { background-color: #1a1a2e !important; }
+    .dina-sfooter h1, .dina-sfooter h2,
+    .dina-sfooter h3, .dina-sfooter h4,
+    .dina-sfooter h5, html body .dina-sfooter h1, html body .dina-sfooter h2,
     html body .dina-sfooter h3, html body .dina-sfooter h4,
     html body .dina-sfooter h5 { color: #FFFFFF !important; }
+    .dina-sfooter, .dina-sfooter p,
+    .dina-sfooter span, .dina-sfooter li,
+    .dina-footer-widget, .dina-footer-widget *,
     html body .dina-sfooter, html body .dina-sfooter p,
     html body .dina-sfooter span, html body .dina-sfooter li,
     html body .dina-footer-widget, html body .dina-footer-widget * { color: #BBBBBB !important; }
-    html body .dina-sfooter a { color: #DDDDDD !important; }
-    html body .dina-sfooter a:hover { color: #F57C00 !important; }
-    html body .dina-footer-addr { border-top: 1px solid rgba(255,255,255,0.1) !important;
+    .dina-sfooter a, html body .dina-sfooter a { color: #DDDDDD !important; }
+    .dina-sfooter a:hover, html body .dina-sfooter a:hover { color: #F57C00 !important; }
+    .dina-footer-addr, html body .dina-footer-addr { border-top: 1px solid rgba(255,255,255,0.1) !important;
         padding-top: 20px !important; margin-top: 20px !important; }
-    html body .dina-foot-tel i { color: #F57C00 !important; }
+    .dina-foot-tel i, html body .dina-foot-tel i { color: #F57C00 !important; }
 
     /* COPYRIGHT: darker */
+    .dina-copyright,
+    .container-fluid.dina-copyright,
     html body .dina-copyright,
-    html body .container-fluid.dina-copyright { background-color: #111111 !important; }
+    html body .container-fluid.dina-copyright,
+    [class*="dina-copyright"] { background-color: #111111 !important; }
+    .dina-copyright, .dina-copyright *,
     html body .dina-copyright, html body .dina-copyright * { color: #999999 !important; }
-    html body .dina-copyright a { color: #F57C00 !important; }
+    .dina-copyright a, html body .dina-copyright a { color: #F57C00 !important; }
 
     /* Footer widgets titles */
+    .dina-footer-widget .widget-title,
+    .dina-sfooter .widget-title,
     html body .dina-footer-widget .widget-title,
     html body .dina-sfooter .widget-title { color: #FFFFFF !important;
         border-bottom: 2px solid #F57C00 !important; padding-bottom: 10px !important; }
 
     /* ====== BUTTONS: Orange ====== */
+    .dina-add-to-cart-btn,
+    .single_add_to_cart_button,
+    .btn-dina,
+    .button.alt,
     html body .dina-add-to-cart-btn,
     html body .single_add_to_cart_button,
     html body .btn-dina,
     html body .button.alt { background-color: #F57C00 !important; color: #FFFFFF !important; border-color: #F57C00 !important; }
+    .dina-add-to-cart-btn:hover,
+    .single_add_to_cart_button:hover,
+    .btn-dina:hover,
     html body .dina-add-to-cart-btn:hover,
     html body .single_add_to_cart_button:hover,
     html body .btn-dina:hover { background-color: #E65100 !important; border-color: #E65100 !important; }
 
     /* SEARCH: orange button */
+    .dina-search-btn,
+    .dina-search-icon,
+    button.dina-search-btn,
     html body .dina-search-btn,
-    html body .dina-search-icon,
     html body button.dina-search-btn { background-color: #F57C00 !important; color: #FFFFFF !important; }
 
     /* Header user icons dark */
+    .dina-user-con a,
+    .dina-user-con i,
+    .dina-user-con span,
     html body .dina-user-con a,
     html body .dina-user-con i,
     html body .dina-user-con span { color: #333333 !important; }
+    .dina-user-con a:hover,
     html body .dina-user-con a:hover { color: #F57C00 !important; }
 
-    /* Logo area clean */
-    html body .dina-logo-box { padding: 15px 0 !important; }
+    /* Compact header */
+    .dina-logo-box, html body .dina-logo-box { padding: 8px 0 !important; }
+    .dina-logo-box img { max-height: 50px !important; }
     </style>';
 }
 
-// Replace ALL demo text using TreeWalker (traverses ALL text nodes)
+// Replace ALL demo text AND force styles via JS
 function mobile8_replace_branding() {
     ?>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Hide promo banner via JS too
-        var banners = document.querySelectorAll('.dina-head-img-msg-con, .dina-head-msg, #dinaHeadMsg');
-        banners.forEach(function(b) { b.style.display = 'none'; });
+        // FORCE hide promo banner
+        var banners = document.querySelectorAll('.dina-head-img-msg-con, .dina-head-msg, #dinaHeadMsg, aside.dina-head-img-msg-con');
+        banners.forEach(function(b) { b.style.cssText = 'display:none!important;height:0!important;overflow:hidden!important;'; });
+
+        // FORCE navbar white background via JS
+        var navbars = document.querySelectorAll('.dina-navbar, .dina-navbar .navbar, .dina-navbar .dina-nav-con, .navbar, .dina-nav-boxed .navbar .dina-nav-con');
+        navbars.forEach(function(n) { n.style.cssText += 'background:#FFFFFF!important;background-color:#FFFFFF!important;'; });
+        // FORCE navbar text dark
+        var navLinks = document.querySelectorAll('.dina-navbar .nav-link, .dina-navbar .navbar-nav a, .navbar-nav > li > a');
+        navLinks.forEach(function(a) { a.style.cssText += 'color:#333333!important;'; });
+        // FORCE navbar border
+        var navbarEl = document.querySelector('.dina-navbar');
+        if(navbarEl) navbarEl.style.cssText += 'border-bottom:2px solid #F57C00!important;';
+
+        // FORCE top bar orange
+        var topBars = document.querySelectorAll('.dina-header-top-bar, .row.dina-header-top-bar');
+        topBars.forEach(function(t) { t.style.cssText += 'background-color:#F57C00!important;'; });
+        var topBarLinks = document.querySelectorAll('.dina-header-top-bar a, .dina-header-top-bar span, .dina-header-top-bar i, .dina-head-contact a, .dina-head-phone, .dina-head-phone a, .dina-head-email, .dina-head-email a, .dina-head-menu a');
+        topBarLinks.forEach(function(l) { l.style.cssText += 'color:#FFFFFF!important;'; });
+
+        // FORCE header white
+        var headers = document.querySelectorAll('.dina-header, .container-fluid.dina-header');
+        headers.forEach(function(h) { h.style.cssText += 'background-color:#FFFFFF!important;'; });
+
+        // FORCE footer dark
+        var footers = document.querySelectorAll('.dina-sfooter, .container-fluid.dina-sfooter');
+        footers.forEach(function(f) { f.style.cssText += 'background-color:#1a1a2e!important;'; });
+        var copyrights = document.querySelectorAll('.dina-copyright, .container-fluid.dina-copyright');
+        copyrights.forEach(function(c) { c.style.cssText += 'background-color:#111111!important;'; });
+
+        // FORCE menu bar button orange
+        var menuBtns = document.querySelectorAll('.dina-menu-bar-btn, a.dina-menu-bar-btn');
+        menuBtns.forEach(function(b) { b.style.cssText += 'background-color:#F57C00!important;color:#FFFFFF!important;border-color:#F57C00!important;border-radius:20px!important;'; });
+
+        // FORCE hide app icons
+        var appIcons = document.querySelectorAll('.dina-apps-icon');
+        appIcons.forEach(function(a) { a.style.cssText = 'display:none!important;'; });
 
         // Text replacements using TreeWalker for ALL text nodes
         var replacements = [
