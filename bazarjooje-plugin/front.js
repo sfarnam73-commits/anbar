@@ -4,22 +4,6 @@
     var frontCharts = {};
 
     // =========================================
-    // PRICE TABLE TABS
-    // =========================================
-    window.bjFrontTab = function(cat, btn) {
-        $(btn).closest('.bj-front-tabs').find('.bj-ftab').removeClass('active');
-        $(btn).addClass('active');
-
-        var $rows = $(btn).closest('.bj-front-prices').find('.bj-frow');
-        if (cat === 'all') {
-            $rows.show();
-        } else {
-            $rows.hide();
-            $rows.filter('[data-cat="' + cat + '"]').show();
-        }
-    };
-
-    // =========================================
     // CHART — LOAD
     // =========================================
     window.bjFrontChart = function(containerId, productId, days) {
@@ -146,6 +130,61 @@
             '<div class="bj-stat-card"><div class="bj-stat-label">میانگین</div><div class="bj-stat-value" style="color:#f59e0b">' + numberFormat(stats.avg) + '</div></div>'
         );
     }
+
+    // =========================================
+    // PROVINCE PRICE COMPARISON
+    // =========================================
+    window.bjLoadProvinceCompare = function() {
+        var productId = $('#bjProvCompareProduct').val();
+        if (!productId) return;
+
+        $('#bjProvCompareList').html('<div class="bj-prov-empty">⏳ در حال بارگذاری...</div>');
+
+        $.get(bjFront.ajaxurl, {
+            action: 'bj_get_province_compare',
+            nonce: bjFront.nonce,
+            product_id: productId
+        }, function(res) {
+            if (!res.success) return;
+            renderProvinceCompare(res.data);
+        });
+    };
+
+    function renderProvinceCompare(data) {
+        var $list = $('#bjProvCompareList');
+        var $date = $('#bjProvCompareDate');
+
+        if (!data.rows || !data.rows.length) {
+            $date.text('');
+            $list.html('<div class="bj-prov-empty">هنوز قیمتی برای این محصول ثبت نشده است.</div>');
+            return;
+        }
+
+        $date.text('📅 آخرین بروزرسانی: ' + data.date);
+
+        var max = data.rows[0].price;
+        var min = data.rows[data.rows.length - 1].price;
+        var range = max - min || 1;
+        var html = '';
+
+        data.rows.forEach(function(row) {
+            var pct = Math.round(((row.price - min) / range) * 100);
+            var heat = pct > 66 ? 'bj-heat-high' : (pct > 33 ? 'bj-heat-mid' : 'bj-heat-low');
+            html += '<div class="bj-prov-item">' +
+                '<span class="bj-prov-name">' + row.province + '</span>' +
+                '<div class="bj-prov-bar-track"><div class="bj-prov-bar ' + heat + '" style="width:' + Math.max(pct, 6) + '%"></div></div>' +
+                '<span class="bj-prov-val">' + numberFormat(row.price) + '</span>' +
+            '</div>';
+        });
+
+        $list.html(html);
+    }
+
+    $(document).ready(function() {
+        if ($('#bjProvCompareProduct').length) {
+            bjLoadProvinceCompare();
+        }
+    });
 
     // =========================================
     // CALCULATOR

@@ -11,6 +11,8 @@
 
 if (!defined('ABSPATH')) exit;
 
+define('BJ_PLUGIN_FILE', __FILE__);
+
 class BazarJooje_Prices {
 
     private static $instance = null;
@@ -625,60 +627,78 @@ class BazarJooje_Prices {
         $prices = $this->get_today_prices($cat ?: null);
         $today_jalali = $this->gregorian_to_jalali_str(current_time('Y-m-d'));
 
+        // Group prices by category, preserving category order
+        $grouped = [];
+        foreach ($categories as $k => $c) $grouped[$k] = [];
+        foreach ($prices as $p) {
+            $grouped[$p->category][] = $p;
+        }
+
         ob_start();
         ?>
         <div class="bj-front-prices">
             <?php if (!$cat): ?>
             <div class="bj-front-tabs">
-                <button class="bj-ftab active" onclick="bjFrontTab('all',this)">📋 همه</button>
-                <?php foreach ($categories as $k => $c): ?>
-                    <button class="bj-ftab" onclick="bjFrontTab('<?php echo esc_attr($k); ?>',this)">
+                <?php foreach ($categories as $k => $c): if (empty($grouped[$k])) continue; ?>
+                    <a href="#bj-cat-<?php echo esc_attr($k); ?>" class="bj-ftab" style="--cat-color:<?php echo esc_attr($c['color']); ?>">
                         <?php echo esc_html($c['icon'] . ' ' . $c['label']); ?>
-                    </button>
+                    </a>
                 <?php endforeach; ?>
             </div>
             <?php endif; ?>
             <div class="bj-front-update">📅 آخرین بروزرسانی: <?php echo esc_html($today_jalali); ?></div>
-            <table class="bj-front-table">
-                <thead>
-                    <tr><th>محصول</th><th>قیمت امروز</th><th>قیمت دیروز</th><th>تغییر</th><th>واحد</th><th>وضعیت</th></tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($prices as $p): ?>
-                    <tr class="bj-frow" data-cat="<?php echo esc_attr($p->category); ?>">
-                        <td class="bj-fname"><?php echo esc_html($p->name); ?></td>
-                        <td class="bj-fprice"><?php echo $p->today_price ? number_format($p->today_price) : '—'; ?></td>
-                        <td><?php echo $p->yesterday_price ? number_format($p->yesterday_price) : '—'; ?></td>
-                        <td>
-                            <?php if ($p->today_price && $p->yesterday_price):
-                                $diff = $p->price_change;
-                                if ($diff > 0): ?>
-                                    <span class="bj-fup">▲ <?php echo number_format($diff); ?></span>
-                                <?php elseif ($diff < 0): ?>
-                                    <span class="bj-fdn">▼ <?php echo number_format(abs($diff)); ?></span>
+
+            <?php foreach ($categories as $k => $c):
+                if ($cat && $cat !== $k) continue;
+                if (empty($grouped[$k])) continue;
+            ?>
+            <div class="bj-cat-section" id="bj-cat-<?php echo esc_attr($k); ?>">
+                <div class="bj-cat-head" style="--cat-color:<?php echo esc_attr($c['color']); ?>">
+                    <span class="bj-cat-icon"><?php echo esc_html($c['icon']); ?></span>
+                    <span class="bj-cat-title"><?php echo esc_html($c['label']); ?></span>
+                </div>
+                <table class="bj-front-table">
+                    <thead>
+                        <tr><th>محصول</th><th>قیمت امروز</th><th>قیمت دیروز</th><th>تغییر</th><th>واحد</th><th>وضعیت</th></tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($grouped[$k] as $p): ?>
+                        <tr class="bj-frow">
+                            <td class="bj-fname"><?php echo esc_html($p->name); ?></td>
+                            <td class="bj-fprice"><?php echo $p->today_price ? number_format($p->today_price) : '—'; ?></td>
+                            <td><?php echo $p->yesterday_price ? number_format($p->yesterday_price) : '—'; ?></td>
+                            <td>
+                                <?php if ($p->today_price && $p->yesterday_price):
+                                    $diff = $p->price_change;
+                                    if ($diff > 0): ?>
+                                        <span class="bj-fup">▲ <?php echo number_format($diff); ?></span>
+                                    <?php elseif ($diff < 0): ?>
+                                        <span class="bj-fdn">▼ <?php echo number_format(abs($diff)); ?></span>
+                                    <?php else: ?>
+                                        <span class="bj-feq">— ۰</span>
+                                    <?php endif; ?>
                                 <?php else: ?>
-                                    <span class="bj-feq">— ۰</span>
+                                    <span class="bj-feq">—</span>
                                 <?php endif; ?>
-                            <?php else: ?>
-                                <span class="bj-feq">—</span>
-                            <?php endif; ?>
-                        </td>
-                        <td><?php echo esc_html($p->unit); ?></td>
-                        <td>
-                            <?php if ($p->today_price && $p->yesterday_price):
-                                if ($p->price_change > 0): ?>
-                                    <span class="bj-badge-up">صعودی</span>
-                                <?php elseif ($p->price_change < 0): ?>
-                                    <span class="bj-badge-dn">نزولی</span>
-                                <?php else: ?>
-                                    <span class="bj-badge-eq">ثابت</span>
+                            </td>
+                            <td><?php echo esc_html($p->unit); ?></td>
+                            <td>
+                                <?php if ($p->today_price && $p->yesterday_price):
+                                    if ($p->price_change > 0): ?>
+                                        <span class="bj-badge-up">صعودی</span>
+                                    <?php elseif ($p->price_change < 0): ?>
+                                        <span class="bj-badge-dn">نزولی</span>
+                                    <?php else: ?>
+                                        <span class="bj-badge-eq">ثابت</span>
+                                    <?php endif; ?>
                                 <?php endif; ?>
-                            <?php endif; ?>
-                        </td>
-                    </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+            <?php endforeach; ?>
         </div>
         <?php
         return ob_get_clean();
@@ -830,3 +850,6 @@ class BazarJooje_Prices {
 BazarJooje_Prices::instance();
 
 require_once plugin_dir_path(__FILE__) . 'auto-news.php';
+require_once plugin_dir_path(__FILE__) . 'province-prices.php';
+require_once plugin_dir_path(__FILE__) . 'poultry-calendar.php';
+require_once plugin_dir_path(__FILE__) . 'directory.php';

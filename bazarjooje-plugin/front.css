@@ -5,14 +5,20 @@
 /* --- PRICE TABLE --- */
 .bj-front-prices{font-family:'Vazirmatn',Tahoma,sans-serif;direction:rtl;max-width:1100px;margin:0 auto}
 .bj-front-tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;justify-content:center}
-.bj-ftab{padding:10px 22px;border-radius:50px;font-size:13px;font-weight:600;cursor:pointer;border:2px solid #e2e8f0;background:#fff;color:#64748b;transition:all .2s;font-family:inherit}
-.bj-ftab.active,.bj-ftab:hover{background:#15803d;color:#fff;border-color:#15803d}
-.bj-front-update{text-align:center;color:#94a3b8;font-size:13px;margin-bottom:14px}
-.bj-front-table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.08)}
-.bj-front-table thead{background:linear-gradient(135deg,#15803d,#22c55e)}
-.bj-front-table th{padding:12px 16px;text-align:right;font-size:13px;font-weight:600;color:#fff;white-space:nowrap}
+.bj-ftab{padding:10px 22px;border-radius:50px;font-size:13px;font-weight:600;cursor:pointer;border:2px solid var(--cat-color,#e2e8f0);background:#fff;color:var(--cat-color,#64748b);transition:all .2s;font-family:inherit;text-decoration:none;display:inline-block}
+.bj-ftab:hover{background:var(--cat-color,#15803d);color:#fff}
+.bj-front-update{text-align:center;color:#94a3b8;font-size:13px;margin-bottom:20px}
+.bj-cat-section{margin-bottom:28px;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.08);scroll-margin-top:90px}
+.bj-cat-section:last-child{margin-bottom:0}
+.bj-cat-head{display:flex;align-items:center;gap:10px;padding:14px 18px;background:var(--cat-color,#15803d);color:#fff}
+.bj-cat-icon{font-size:20px}
+.bj-cat-title{font-size:15px;font-weight:800}
+.bj-front-table{width:100%;border-collapse:collapse;background:#fff}
+.bj-front-table thead{background:#f8fafc}
+.bj-front-table th{padding:12px 16px;text-align:right;font-size:13px;font-weight:600;color:#475569;white-space:nowrap}
 .bj-front-table td{padding:12px 16px;border-bottom:1px solid #f1f5f9;font-size:14px;white-space:nowrap}
-.bj-front-table tbody tr:hover{background:#f0fdf4}
+.bj-front-table tbody tr:last-child td{border-bottom:none}
+.bj-front-table tbody tr:hover{background:#f8fafc}
 .bj-fname{font-weight:700;color:#1e293b}
 .bj-fprice{font-weight:800;color:#15803d;font-size:15px}
 .bj-fup{color:#16a34a;font-weight:700;font-size:13px}
@@ -35,6 +41,20 @@
 .bj-stat-label{font-size:12px;color:#94a3b8;margin-bottom:4px}
 .bj-stat-value{font-size:18px;font-weight:800;color:#1e293b}
 
+/* --- PROVINCE PRICE COMPARISON --- */
+.bj-province-compare{font-family:'Vazirmatn',Tahoma,sans-serif;direction:rtl;max-width:900px;margin:0 auto;background:#fff;border-radius:14px;padding:24px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.bj-prov-update{text-align:center;color:#94a3b8;font-size:13px;margin:4px 0 18px}
+.bj-prov-list{display:flex;flex-direction:column;gap:10px}
+.bj-prov-item{display:grid;grid-template-columns:130px 1fr 90px;align-items:center;gap:12px}
+.bj-prov-name{font-size:13px;font-weight:600;color:#475569;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bj-prov-bar-track{background:#f1f5f9;border-radius:8px;height:22px;overflow:hidden}
+.bj-prov-bar{height:100%;border-radius:8px;transition:width .4s ease;min-width:6%}
+.bj-heat-high{background:linear-gradient(90deg,#f87171,#dc2626)}
+.bj-heat-mid{background:linear-gradient(90deg,#fbbf24,#f59e0b)}
+.bj-heat-low{background:linear-gradient(90deg,#4ade80,#16a34a)}
+.bj-prov-val{font-weight:800;color:#1e293b;font-size:13px;text-align:left}
+.bj-prov-empty{text-align:center;color:#94a3b8;font-size:14px;padding:20px}
+
 /* --- CALCULATOR --- */
 .bj-calculator{font-family:'Vazirmatn',Tahoma,sans-serif;direction:rtl;max-width:800px;margin:0 auto;background:#fff;border-radius:14px;padding:28px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 .bj-calculator h3{font-size:18px;font-weight:800;margin:0 0 20px;color:#1e293b}
@@ -54,6 +74,26 @@
 .bj-calc-detail-label{font-size:12px;color:#64748b;display:block;margin-bottom:4px}
 .bj-calc-detail-val{font-size:16px;font-weight:700;color:#1e293b}
 
+/* --- POULTRY CALENDAR --- */
+.bj-calendar{font-family:'Vazirmatn',Tahoma,sans-serif;direction:rtl;max-width:800px;margin:0 auto;background:#fff;border-radius:14px;padding:28px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.bj-calendar .bj-calc-field label{display:block;font-size:13px;font-weight:600;color:#64748b;margin-bottom:6px;text-align:center}
+.bj-calendar .bj-calc-field input{width:100%;padding:10px 14px;border:2px solid #e2e8f0;border-radius:10px;font-family:inherit;font-size:15px;font-weight:700;text-align:center;box-sizing:border-box}
+.bj-cal-legend{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+.bj-cal-legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:#64748b;font-weight:600}
+.bj-cal-dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.bj-cal-today{text-align:center;background:#f0fdf4;border:1px solid #86efac;border-radius:10px;padding:10px;margin-bottom:20px;font-size:14px;color:#15803d;min-height:1px}
+.bj-cal-today:empty{display:none}
+.bj-cal-timeline{display:flex;flex-direction:column;gap:0;position:relative;padding-right:8px}
+.bj-cal-item{display:flex;gap:16px;padding:14px 0;border-right:3px solid #e2e8f0;padding-right:20px;position:relative}
+.bj-cal-item::before{content:'';position:absolute;right:-7px;top:20px;width:11px;height:11px;border-radius:50%;background:var(--cal-color,#94a3b8);border:2px solid #fff}
+.bj-cal-day{min-width:58px;font-size:13px;font-weight:800;color:var(--cal-color,#1e293b)}
+.bj-cal-body{flex:1}
+.bj-cal-title{font-size:14px;font-weight:700;color:#1e293b}
+.bj-cal-desc{font-size:13px;color:#64748b;margin-top:4px;line-height:1.9}
+.bj-cal-item.bj-cal-past{opacity:.45}
+.bj-cal-item.bj-cal-now{background:#fffbeb;border-radius:8px;margin:0 -10px;padding:14px 30px 14px 10px}
+.bj-cal-item.bj-cal-now .bj-cal-title{color:#b45309}
+
 /* --- TICKER --- */
 .bj-ticker{overflow:hidden;background:linear-gradient(135deg,#15803d,#22c55e);padding:10px 0;direction:rtl;font-family:'Vazirmatn',Tahoma,sans-serif;border-radius:8px}
 .bj-ticker-track{display:flex;gap:32px;animation:bjTicker 40s linear infinite;white-space:nowrap;width:max-content}
@@ -66,6 +106,24 @@
 .bj-ticker-up{background:rgba(255,255,255,.2);color:#bbf7d0}
 .bj-ticker-dn{background:rgba(255,255,255,.2);color:#fca5a5}
 .bj-ticker-eq{opacity:.7}
+
+/* --- DIRECTORY --- */
+.bj-directory{font-family:'Vazirmatn',Tahoma,sans-serif;direction:rtl;max-width:1100px;margin:0 auto}
+.bj-dir-filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px;background:#fff;padding:18px;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.bj-dir-filters select,.bj-dir-filters input[type=text]{flex:1;min-width:160px}
+.bj-dir-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.bj-dir-card{background:#fff;border-radius:14px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.08);border:1px solid #f1f5f9}
+.bj-dir-card-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.bj-dir-icon{font-size:28px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;background:#f0fdf4;border-radius:12px;flex-shrink:0}
+.bj-dir-name{font-size:15px;font-weight:800;color:#1e293b}
+.bj-dir-type{display:inline-block;margin-top:4px;font-size:11px;font-weight:700;color:#15803d;background:#dcfce7;padding:2px 10px;border-radius:20px}
+.bj-dir-meta{font-size:13px;color:#64748b;line-height:2;margin-bottom:14px}
+.bj-dir-actions{display:flex;gap:8px;flex-wrap:wrap}
+.bj-dir-btn{display:inline-block;padding:8px 14px;border-radius:8px;background:#15803d;color:#fff;font-size:12px;font-weight:700;text-decoration:none}
+.bj-dir-btn-alt{background:#f1f5f9;color:#475569}
+.bj-dir-pagination{display:flex;justify-content:center;gap:6px;margin-top:24px}
+.bj-dir-pagination .page-numbers{padding:8px 14px;border-radius:8px;background:#fff;border:1px solid #e2e8f0;color:#475569;font-size:13px;text-decoration:none}
+.bj-dir-pagination .page-numbers.current{background:#15803d;color:#fff;border-color:#15803d}
 
 /* --- RESPONSIVE --- */
 @media(max-width:768px){
@@ -85,4 +143,7 @@
     .bj-chart-stats{grid-template-columns:1fr 1fr}
     .bj-chart-box{height:240px}
     .bj-ticker{font-size:12px}
+    .bj-prov-item{grid-template-columns:90px 1fr 70px;gap:8px}
+    .bj-prov-name{font-size:12px}
+    .bj-prov-val{font-size:12px}
 }
