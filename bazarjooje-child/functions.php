@@ -274,6 +274,64 @@ function bj_contact_submit() {
 }
 
 // =========================================
+// AUTO-CREATE PRICE/TOOL PAGES
+// =========================================
+add_action('admin_init', 'bj_create_default_pages');
+function bj_create_default_pages() {
+    if (get_option('bj_default_pages_created')) return;
+
+    $pages = [
+        ['title' => 'قیمت‌های روزانه بازار', 'slug' => 'prices', 'template' => 'page-prices.php', 'parent' => ''],
+        ['title' => 'جوجه یکروزه', 'slug' => 'chick', 'template' => 'page-prices-chick.php', 'parent' => 'prices'],
+        ['title' => 'مرغ زنده', 'slug' => 'chicken', 'template' => 'page-prices-chicken.php', 'parent' => 'prices'],
+        ['title' => 'تخم مرغ', 'slug' => 'egg', 'template' => 'page-prices-egg.php', 'parent' => 'prices'],
+        ['title' => 'نهاده‌های دامی', 'slug' => 'feed', 'template' => 'page-prices-feed.php', 'parent' => 'prices'],
+        ['title' => 'مقایسه قیمت استان‌ها', 'slug' => 'province-prices', 'template' => 'page-province-prices.php', 'parent' => ''],
+        ['title' => 'تقویم مرغدار', 'slug' => 'calendar', 'template' => 'page-calendar.php', 'parent' => ''],
+        ['title' => 'دایرکتوری مرغداری', 'slug' => 'directory', 'template' => 'page-directory.php', 'parent' => ''],
+    ];
+
+    $slug_to_id = [];
+    $created = [];
+
+    foreach ($pages as $p) {
+        $existing = get_page_by_path($p['slug']);
+        if ($existing) {
+            $slug_to_id[$p['slug']] = $existing->ID;
+            continue;
+        }
+
+        $parent_id = $p['parent'] ? ($slug_to_id[$p['parent']] ?? 0) : 0;
+
+        $id = wp_insert_post([
+            'post_title'  => $p['title'],
+            'post_name'   => $p['slug'],
+            'post_type'   => 'page',
+            'post_status' => 'publish',
+            'post_parent' => $parent_id,
+        ]);
+
+        if ($id && !is_wp_error($id)) {
+            update_post_meta($id, '_wp_page_template', $p['template']);
+            $slug_to_id[$p['slug']] = $id;
+            $created[] = $p['title'];
+        }
+    }
+
+    update_option('bj_default_pages_created', 1);
+    if ($created) update_option('bj_default_pages_created_list', $created);
+    flush_rewrite_rules();
+}
+
+add_action('admin_notices', 'bj_default_pages_notice');
+function bj_default_pages_notice() {
+    $created = get_option('bj_default_pages_created_list');
+    if (empty($created)) return;
+    echo '<div class="notice notice-success is-dismissible"><p>✅ صفحات بازار جوجه به‌صورت خودکار ساخته شدند: ' . esc_html(implode('، ', $created)) . '</p></div>';
+    delete_option('bj_default_pages_created_list');
+}
+
+// =========================================
 // DISABLE JANNAH STYLES ON FRONT PAGE
 // =========================================
 add_action('wp_enqueue_scripts', 'bj_manage_parent_styles', 100);
