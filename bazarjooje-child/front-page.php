@@ -20,7 +20,7 @@
         <?php if (has_post_thumbnail($main)): ?>
           <?php echo get_the_post_thumbnail($main, 'large'); ?>
         <?php else: ?>
-          <img src="https://placehold.co/800x500/15803d/ffffff?text=<?php echo urlencode(get_the_title($main)); ?>" alt="">
+          <img src="https://placehold.co/800x500/15803d/ffffff" alt="">
         <?php endif; ?>
         <div class="h-overlay">
           <span class="h-tag"><?php echo esc_html($cat_name); ?></span>
@@ -40,7 +40,7 @@
           <?php if (has_post_thumbnail($sp)): ?>
             <?php echo get_the_post_thumbnail($sp, 'medium_large'); ?>
           <?php else: ?>
-            <img src="https://placehold.co/600x250/f59e0b/ffffff?text=<?php echo urlencode(get_the_title($sp)); ?>" alt="">
+            <img src="https://placehold.co/600x250/f59e0b/ffffff" alt="">
           <?php endif; ?>
           <div class="h-overlay">
             <h3><?php echo esc_html(get_the_title($sp)); ?></h3>
@@ -50,7 +50,7 @@
       </div>
       <?php else: ?>
       <div class="hero-main">
-        <img src="https://placehold.co/800x500/15803d/ffffff?text=بازار+جوجه+ایران" alt="">
+        <img src="https://placehold.co/800x500/15803d/ffffff" alt="">
         <div class="h-overlay">
           <span class="h-tag">خبر ویژه</span>
           <h2>به سایت بازار جوجه ایران خوش آمدید — مرجع قیمت جوجه یکروزه</h2>
@@ -59,11 +59,11 @@
       </div>
       <div class="hero-side">
         <div class="hero-card">
-          <img src="https://placehold.co/600x250/f59e0b/ffffff?text=قیمت+جوجه+یکروزه" alt="">
+          <img src="https://placehold.co/600x250/f59e0b/ffffff" alt="">
           <div class="h-overlay"><h3>برای شروع، اخبار و مطالب خود را منتشر کنید</h3></div>
         </div>
         <div class="hero-card">
-          <img src="https://placehold.co/600x250/ef4444/ffffff?text=اخبار+صنعت+طیور" alt="">
+          <img src="https://placehold.co/600x250/ef4444/ffffff" alt="">
           <div class="h-overlay"><h3>قیمت‌ها را از پنل ادمین وارد کنید</h3></div>
         </div>
       </div>
@@ -128,7 +128,7 @@
             <?php if (has_post_thumbnail()): ?>
               <?php the_post_thumbnail('medium_large'); ?>
             <?php else: ?>
-              <img src="https://placehold.co/420x200/15803d/ffffff?text=<?php echo urlencode(get_the_title()); ?>" alt="">
+              <img src="https://placehold.co/420x200/15803d/ffffff" alt="">
             <?php endif; ?>
           </a>
           <div class="n-card-body">
@@ -147,7 +147,7 @@
             for ($i = 0; $i < 4; $i++):
         ?>
         <div class="n-card">
-          <div class="n-card-img"><img src="https://placehold.co/420x200/15803d/ffffff?text=خبر+نمونه" alt=""></div>
+          <div class="n-card-img"><img src="https://placehold.co/420x200/15803d/ffffff" alt=""></div>
           <div class="n-card-body">
             <h3><a href="#">نمونه خبر — مطالب خود را از پنل ادمین وردپرس منتشر کنید</a></h3>
             <p>این یک محتوای نمونه است. پس از انتشار اولین مطلب، اخبار واقعی اینجا نمایش داده می‌شوند.</p>
@@ -231,7 +231,7 @@
           <?php if (has_post_thumbnail($art)): ?>
             <?php echo get_the_post_thumbnail($art, 'medium_large'); ?>
           <?php else: ?>
-            <img src="https://placehold.co/420x200/166534/ffffff?text=<?php echo urlencode($cat_name); ?>" alt="">
+            <img src="https://placehold.co/420x200/166534/ffffff" alt="">
           <?php endif; ?>
         </a>
         <div class="art-body">

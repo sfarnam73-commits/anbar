@@ -21,7 +21,7 @@
             <?php if (has_post_thumbnail()): ?>
               <?php the_post_thumbnail('medium_large'); ?>
             <?php else: ?>
-              <img src="https://placehold.co/420x200/15803d/ffffff?text=<?php echo urlencode(get_the_title()); ?>" alt="">
+              <img src="https://placehold.co/420x200/15803d/ffffff" alt="">
             <?php endif; ?>
           </a>
           <div class="n-card-body">
