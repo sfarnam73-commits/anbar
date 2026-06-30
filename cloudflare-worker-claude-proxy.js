@@ -23,6 +23,7 @@ export default {
 
       const query = url.searchParams.get("query");
       const perPage = url.searchParams.get("per_page") || "15";
+      const page = url.searchParams.get("page") || "1";
       const apiKey = url.searchParams.get("api_key") || request.headers.get("Authorization");
 
       if (!query) {
@@ -42,7 +43,7 @@ export default {
       let pexelsResponse;
       try {
         pexelsResponse = await fetch(
-          `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=${perPage}`,
+          `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=${perPage}&page=${page}`,
           {
             headers: {
               "Authorization": apiKey,
