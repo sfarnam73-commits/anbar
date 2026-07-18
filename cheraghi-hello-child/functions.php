@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('CHERAGHI_CHILD_VERSION', '1.2.0');
+define('CHERAGHI_CHILD_VERSION', '1.3.0');
 
 require_once get_stylesheet_directory() . '/inc/homepage-hero.php';
 
@@ -19,6 +19,12 @@ add_action('after_setup_theme', function (): void {
     add_theme_support('title-tag');
     add_theme_support('post-thumbnails');
     add_theme_support('responsive-embeds');
+    add_theme_support('custom-logo', [
+        'height'      => 180,
+        'width'       => 180,
+        'flex-height' => true,
+        'flex-width'  => true,
+    ]);
     add_theme_support('html5', [
         'search-form',
         'comment-form',
