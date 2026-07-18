@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>پیش‌نمایش پیشنهادی صفحه اصلی | دفتر حقوقی چراغی</title>
+  <meta name="description" content="پیش‌نمایش پیشنهادی صفحه اصلی مدرن برای مهاجرت سایت دفتر حقوقی چراغی از Enfold به Hello Elementor.">
+  <style>
+    :root {
+      --primary: #4b1f3f;
+      --primary-dark: #251020;
+      --accent: #c9a45c;
+      --accent-light: #f7e7bd;
+      --ink: #17202a;
+      --muted: #667085;
+      --line: #eadfce;
+      --paper: #fffaf3;
+      --white: #fff;
+      --radius: 28px;
+      --shadow: 0 24px 70px rgba(37, 16, 32, .16);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Tahoma, Arial, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 15% 15%, rgba(201, 164, 92, .20), transparent 28rem),
+        linear-gradient(180deg, #fffaf3 0%, #fff 48%, #fbf7f0 100%);
+      line-height: 1.9;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container { width: min(1160px, calc(100% - 32px)); margin-inline: auto; }
+
+    .topbar {
+      color: #fff;
+      background: var(--primary-dark);
+      font-size: 13px;
+    }
+
+    .topbar__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      min-height: 40px;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(255, 250, 243, .86);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(234, 223, 206, .8);
+    }
+
+    .header__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 82px;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 230px;
+    }
+
+    .brand__mark {
+      width: 50px;
+      height: 50px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      color: var(--primary-dark);
+      background: linear-gradient(135deg, var(--accent-light), var(--accent));
+      box-shadow: 0 14px 34px rgba(201, 164, 92, .28);
+      font-weight: 800;
+      font-size: 24px;
+    }
+
+    .brand strong { display: block; font-size: 17px; color: var(--primary-dark); }
+    .brand span { display: block; color: var(--muted); font-size: 12px; margin-top: -3px; }
+
+    .nav {
+      display: flex;
+      gap: 22px;
+      align-items: center;
+      color: #3c3240;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 48px;
+      padding: 12px 22px;
+      border-radius: 999px;
+      font-weight: 800;
+      border: 1px solid transparent;
+      transition: transform .2s ease, box-shadow .2s ease;
+      white-space: nowrap;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+    .btn--primary { color: #fff; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); box-shadow: 0 18px 34px rgba(75, 31, 63, .22); }
+    .btn--gold { color: var(--primary-dark); background: linear-gradient(135deg, #ffe7a4, var(--accent)); box-shadow: 0 18px 34px rgba(201, 164, 92, .24); }
+    .btn--ghost { color: var(--primary); border-color: var(--line); background: rgba(255, 255, 255, .68); }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 76px 0 46px;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset-inline-start: -14rem;
+      top: 4rem;
+      width: 30rem;
+      height: 30rem;
+      border-radius: 50%;
+      background: rgba(75, 31, 63, .08);
+      filter: blur(4px);
+    }
+
+    .hero__grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 42px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      color: var(--primary);
+      background: rgba(201, 164, 92, .16);
+      border: 1px solid rgba(201, 164, 92, .32);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    h1 {
+      margin: 20px 0 18px;
+      color: var(--primary-dark);
+      font-size: clamp(36px, 5vw, 66px);
+      line-height: 1.25;
+      letter-spacing: -1.2px;
+    }
+
+    .lead {
+      max-width: 650px;
+      color: #4b5563;
+      font-size: 18px;
+    }
+
+    .hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+
+    .trust-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 34px;
+    }
+
+    .trust {
+      padding: 16px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, .74);
+      border: 1px solid var(--line);
+    }
+
+    .trust strong { display: block; color: var(--primary); font-size: 23px; line-height: 1.4; }
+    .trust span { color: var(--muted); font-size: 13px; }
+
+    .consult-card {
+      position: relative;
+      padding: 28px;
+      border-radius: 36px;
+      background: linear-gradient(145deg, #fff, #fff7e8);
+      border: 1px solid rgba(234, 223, 206, .9);
+      box-shadow: var(--shadow);
+    }
+
+    .consult-card::before {
+      content: "مشاوره";
+      position: absolute;
+      inset-inline-end: 24px;
+      top: 20px;
+      color: rgba(75, 31, 63, .06);
+      font-size: 70px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .consult-card h2 { position: relative; margin: 0 0 12px; color: var(--primary-dark); font-size: 28px; }
+    .consult-card p { position: relative; color: var(--muted); margin: 0 0 20px; }
+
+    .option {
+      position: relative;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 14px;
+      padding: 16px;
+      border-radius: 22px;
+      background: #fff;
+      border: 1px solid var(--line);
+      margin-top: 12px;
+    }
+
+    .option__icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: rgba(75, 31, 63, .08);
+      color: var(--primary);
+      font-size: 22px;
+    }
+
+    .option strong { display: block; color: var(--primary-dark); }
+    .option span { color: var(--muted); font-size: 13px; }
+    .option em { font-style: normal; color: var(--accent); font-weight: 900; }
+
+    .section { padding: 58px 0; }
+    .section__head { display: flex; justify-content: space-between; gap: 24px; align-items: end; margin-bottom: 24px; }
+    .section h2 { margin: 0; color: var(--primary-dark); font-size: clamp(26px, 3vw, 40px); line-height: 1.35; }
+    .section__head p { margin: 0; color: var(--muted); max-width: 530px; }
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .service {
+      min-height: 210px;
+      padding: 22px;
+      border-radius: 28px;
+      background: #fff;
+      border: 1px solid var(--line);
+      box-shadow: 0 14px 34px rgba(23, 32, 42, .06);
+    }
+
+    .service b { display: inline-grid; place-items: center; width: 46px; height: 46px; border-radius: 16px; background: var(--paper); color: var(--primary); font-size: 22px; }
+    .service h3 { margin: 18px 0 8px; color: var(--primary-dark); font-size: 18px; }
+    .service p { margin: 0; color: var(--muted); font-size: 14px; }
+
+    .payment-flow {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      counter-reset: step;
+    }
+
+    .step {
+      position: relative;
+      padding: 24px;
+      border-radius: 28px;
+      color: #fff;
+      background: linear-gradient(145deg, var(--primary), var(--primary-dark));
+      overflow: hidden;
+      min-height: 190px;
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      inset-inline-end: 18px;
+      bottom: -28px;
+      color: rgba(255, 255, 255, .08);
+      font-size: 130px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .step h3 { margin: 0 0 10px; font-size: 21px; }
+    .step p { position: relative; margin: 0; color: rgba(255, 255, 255, .78); }
+
+    .final-cta {
+      margin: 42px 0 72px;
+      padding: 34px;
+      border-radius: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      color: #fff;
+      background:
+        radial-gradient(circle at 8% 20%, rgba(201, 164, 92, .42), transparent 16rem),
+        linear-gradient(135deg, var(--primary), var(--primary-dark));
+      box-shadow: var(--shadow);
+    }
+
+    .final-cta h2 { margin: 0 0 8px; color: #fff; }
+    .final-cta p { margin: 0; color: rgba(255, 255, 255, .76); }
+
+    .mobile-sticky {
+      position: fixed;
+      inset-inline: 14px;
+      bottom: 14px;
+      z-index: 40;
+      display: none;
+      gap: 10px;
+    }
+
+    .mobile-sticky .btn { flex: 1; min-height: 46px; padding-inline: 12px; font-size: 13px; }
+
+    @media (max-width: 980px) {
+      .nav { display: none; }
+      .hero__grid, .services, .payment-flow { grid-template-columns: 1fr; }
+      .section__head { display: block; }
+      .trust-row { grid-template-columns: 1fr; }
+      .consult-card { padding: 22px; }
+      .final-cta { display: block; text-align: center; }
+      .final-cta .btn { margin-top: 18px; }
+      .mobile-sticky { display: flex; }
+      body { padding-bottom: 92px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="container topbar__inner">
+      <span>مشاوره تخصصی حقوقی، تلفنی و آنلاین</span>
+      <span>تهران | پاسخ‌گویی سریع برای رزرو مشاوره</span>
+    </div>
+  </div>
+
+  <header class="header">
+    <div class="container header__inner">
+      <a class="brand" href="#">
+        <span class="brand__mark">چ</span>
+        <span><strong>دفتر حقوقی چراغی</strong><span>وکیل پایه یک دادگستری و آکادمی حقوقی</span></span>
+      </a>
+      <nav class="nav" aria-label="منوی اصلی">
+        <a href="#services">خدمات حقوقی</a>
+        <a href="#consultation">مشاوره آنلاین</a>
+        <a href="#payment">نحوه پرداخت</a>
+        <a href="#articles">مقالات</a>
+        <a href="#contact">تماس</a>
+      </nav>
+      <a class="btn btn--primary" href="/consultation/online/">دریافت مشاوره</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero__grid">
+        <div>
+          <span class="eyebrow">مسیر سریع، شفاف و قابل پرداخت برای مشاوره</span>
+          <h1>دفتر حقوقی مدرن برای دریافت مشاوره تخصصی، بدون سردرگمی</h1>
+          <p class="lead">در طراحی پیشنهادی، کاربر از همان لحظه ورود دقیقاً می‌فهمد برای مشاوره آنلاین یا تلفنی باید کجا کلیک کند، چطور پرداخت کند و بعد از پرداخت چه مرحله‌ای در انتظار اوست.</p>
+          <div class="hero__actions">
+            <a class="btn btn--gold" href="/consultation/online/">مشاوره آنلاین و پرداخت</a>
+            <a class="btn btn--ghost" href="/consultation/phone/">رزرو مشاوره تلفنی</a>
+          </div>
+          <div class="trust-row">
+            <div class="trust"><strong>شفاف</strong><span>دکمه‌های مشخص برای اقدام اصلی</span></div>
+            <div class="trust"><strong>سریع</strong><span>قالب سبک بر پایه Hello Elementor</span></div>
+            <div class="trust"><strong>سئویی</strong><span>ساختار مناسب خدمات حقوقی و مقالات</span></div>
+          </div>
+        </div>
+
+        <aside id="consultation" class="consult-card" aria-label="باکس مشاوره">
+          <h2>انتخاب نوع مشاوره</h2>
+          <p>هر گزینه مستقیماً به صفحه مناسب خودش وصل می‌شود؛ فرم، پرداخت، پیام موفق و پیگیری بعدی هم در همین مسیر تعریف می‌شود.</p>
+          <a class="option" href="/consultation/online/">
+            <span class="option__icon">💬</span>
+            <span><strong>مشاوره آنلاین</strong><span>پرداخت آنلاین، ثبت موضوع، دریافت پاسخ</span></span>
+            <em>شروع</em>
+          </a>
+          <a class="option" href="/consultation/phone/">
+            <span class="option__icon">☎</span>
+            <span><strong>مشاوره تلفنی</strong><span>انتخاب زمان، پرداخت، تماس در زمان مقرر</span></span>
+            <em>رزرو</em>
+          </a>
+          <a class="option" href="/contact/">
+            <span class="option__icon">📍</span>
+            <span><strong>مراجعه حضوری</strong><span>اطلاعات تماس، آدرس و هماهنگی</span></span>
+            <em>تماس</em>
+          </a>
+        </aside>
+      </div>
+    </section>
+
+    <section id="services" class="section">
+      <div class="container">
+        <div class="section__head">
+          <h2>خدمات حقوقی با مسیرهای واضح</h2>
+          <p>هر خدمت صفحه اختصاصی، سوالات پرتکرار، CTA مشاوره و لینک داخلی به مقالات مرتبط خواهد داشت.</p>
+        </div>
+        <div class="services">
+          <article class="service"><b>⚖</b><h3>دعاوی خانواده</h3><p>طلاق، مهریه، حضانت، نفقه و تنظیم دادخواست تخصصی.</p></article>
+          <article class="service"><b>🏠</b><h3>دعاوی ملکی</h3><p>قرارداد، الزام به تنظیم سند، خلع ید، سرقفلی و اجاره.</p></article>
+          <article class="service"><b>🛡</b><h3>دعاوی کیفری</h3><p>مشاوره و دفاع تخصصی در پرونده‌های کیفری حساس.</p></article>
+          <article class="service"><b>📚</b><h3>آکادمی حقوقی</h3><p>آموزش، مقالات، دوره‌ها و محتوای تخصصی حقوقی.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="payment" class="section">
+      <div class="container">
+        <div class="section__head">
+          <h2>مسیر پیشنهادی پرداخت مشاوره</h2>
+          <p>برای رفع مشکل فعلی، دکمه‌ها باید کاربر را به یک فرآیند سه‌مرحله‌ای کاملاً مشخص هدایت کنند.</p>
+        </div>
+        <div class="payment-flow">
+          <article class="step"><h3>۱. انتخاب نوع مشاوره</h3><p>کاربر بین مشاوره آنلاین، تلفنی یا حضوری انتخاب می‌کند.</p></article>
+          <article class="step"><h3>۲. ثبت اطلاعات و پرداخت</h3><p>فرم کوتاه، موضوع پرونده و پرداخت امن در یک مسیر واحد قرار می‌گیرد.</p></article>
+          <article class="step"><h3>۳. صفحه تشکر و پیگیری</h3><p>بعد از پرداخت، پیام موفق، شماره پیگیری و روش ارتباط نمایش داده می‌شود.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <div id="contact" class="container final-cta">
+      <div>
+        <h2>این فقط پیش‌نمایش پیشنهادی است</h2>
+        <p>نسخه نهایی داخل Elementor Pro با محتوای واقعی، تصاویر، فونت لوکال، ریسپانسیو کامل و لینک پرداخت واقعی ساخته می‌شود.</p>
+      </div>
+      <a class="btn btn--gold" href="/consultation/online/">مشاوره آنلاین و پرداخت</a>
+    </div>
+  </main>
+
+  <div class="mobile-sticky" aria-label="دسترسی سریع موبایل">
+    <a class="btn btn--gold" href="/consultation/online/">مشاوره آنلاین</a>
+    <a class="btn btn--primary" href="/consultation/phone/">مشاوره تلفنی</a>
+  </div>
+</body>
+</html>

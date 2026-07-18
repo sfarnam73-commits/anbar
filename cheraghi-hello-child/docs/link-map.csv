@@ -1,0 +1,9 @@
+current_url,target_url,purpose,status
+/,/,صفحه اصلی,keep
+/consultation/,/consultation/,لندینگ مشاوره,create-or-keep
+/consultation-online/,/consultation/online/,مشاوره آنلاین و پرداخت,redirect-if-needed
+/online-consultation/,/consultation/online/,مشاوره آنلاین و پرداخت,redirect-if-needed
+/phone-consultation/,/consultation/phone/,مشاوره تلفنی و پرداخت,redirect-if-needed
+/contact/,/contact/,تماس,keep
+/services/,/services/,هاب خدمات حقوقی,create-or-keep
+/blog/,/blog/,مقالات,keep
