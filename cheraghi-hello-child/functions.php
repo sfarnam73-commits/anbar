@@ -9,7 +9,9 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('CHERAGHI_CHILD_VERSION', '1.1.0');
+define('CHERAGHI_CHILD_VERSION', '1.2.0');
+
+require_once get_stylesheet_directory() . '/inc/homepage-hero.php';
 
 add_action('after_setup_theme', function (): void {
     load_child_theme_textdomain('cheraghi-hello-child', get_stylesheet_directory() . '/languages');
@@ -42,6 +44,15 @@ add_action('wp_enqueue_scripts', function (): void {
         ['hello-elementor-parent'],
         CHERAGHI_CHILD_VERSION
     );
+
+    if (is_front_page()) {
+        wp_enqueue_style(
+            'cheraghi-homepage-hero',
+            get_stylesheet_directory_uri() . '/assets/css/homepage-hero.css',
+            ['cheraghi-child-style'],
+            CHERAGHI_CHILD_VERSION
+        );
+    }
 
     wp_enqueue_script(
         'cheraghi-child-main',
@@ -188,7 +199,6 @@ add_action('wp_footer', function (): void {
     </div>
     <?php
 });
-
 
 add_action('wp_head', function (): void {
     if (is_admin()) {
