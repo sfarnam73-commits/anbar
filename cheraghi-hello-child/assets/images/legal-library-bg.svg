@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1100" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#171b20"/>
+      <stop offset=".55" stop-color="#111923"/>
+      <stop offset="1" stop-color="#07111f"/>
+    </linearGradient>
+    <radialGradient id="warm" cx="50%" cy="28%" r="60%">
+      <stop offset="0" stop-color="#d3a557" stop-opacity=".34"/>
+      <stop offset=".5" stop-color="#815218" stop-opacity=".12"/>
+      <stop offset="1" stop-color="#02070d" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur"><feGaussianBlur stdDeviation="4"/></filter>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f4d98c"/>
+      <stop offset="1" stop-color="#9f641d"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="1100" fill="url(#bg)"/>
+  <rect width="900" height="1100" fill="url(#warm)"/>
+  <g opacity=".68">
+    <rect x="40" y="100" width="820" height="350" rx="18" fill="#080c12" stroke="#6b481f" stroke-width="4"/>
+    <path d="M40 238h820M40 364h820" stroke="#805729" stroke-width="6"/>
+    <g fill="#191919" stroke="#85602d" stroke-width="3">
+      <rect x="62" y="125" width="58" height="104" rx="3"/><rect x="126" y="118" width="48" height="111" rx="3"/><rect x="181" y="132" width="67" height="97" rx="3"/>
+      <rect x="260" y="110" width="48" height="119" rx="3"/><rect x="315" y="124" width="62" height="105" rx="3"/><rect x="387" y="114" width="52" height="115" rx="3"/>
+      <rect x="454" y="128" width="68" height="101" rx="3"/><rect x="531" y="116" width="50" height="113" rx="3"/><rect x="589" y="122" width="66" height="107" rx="3"/>
+      <rect x="667" y="112" width="56" height="117" rx="3"/><rect x="730" y="126" width="44" height="103" rx="3"/><rect x="783" y="118" width="56" height="111" rx="3"/>
+      <rect x="67" y="258" width="48" height="96" rx="3"/><rect x="123" y="246" width="64" height="108" rx="3"/><rect x="197" y="263" width="51" height="91" rx="3"/>
+      <rect x="262" y="251" width="60" height="103" rx="3"/><rect x="331" y="245" width="44" height="109" rx="3"/><rect x="385" y="259" width="72" height="95" rx="3"/>
+      <rect x="469" y="248" width="56" height="106" rx="3"/><rect x="536" y="257" width="48" height="97" rx="3"/><rect x="596" y="246" width="68" height="108" rx="3"/>
+      <rect x="676" y="260" width="49" height="94" rx="3"/><rect x="736" y="250" width="51" height="104" rx="3"/><rect x="797" y="257" width="40" height="97" rx="3"/>
+    </g>
+  </g>
+  <g opacity=".42" filter="url(#blur)" fill="none" stroke="url(#gold)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M160 488v160M112 530h96M94 546l-46 86h92l-46-86Zm132 0-46 86h92l-46-86ZM116 670h88M136 650h48"/>
+  </g>
+  <path d="M0 830C220 735 680 735 900 830v270H0Z" fill="#050a11" opacity=".72"/>
+  <rect x="0" y="0" width="900" height="1100" fill="none" stroke="#ca9848" stroke-opacity=".12" stroke-width="8"/>
+</svg>
