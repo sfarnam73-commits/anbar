@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-labelledby="title desc">
+  <title id="title">لوگوی دکتر فرزانه چراغی</title>
+  <desc id="desc">نشان طلایی FC با ترازوی عدالت و شاخه‌های افتخار</desc>
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff0b1"/>
+      <stop offset=".42" stop-color="#e8bd5f"/>
+      <stop offset="1" stop-color="#b97919"/>
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="2.4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <g fill="none" stroke="url(#gold)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)">
+    <path d="M58 190C24 159 19 111 42 72M48 178c-17-17-27-39-29-63M67 199C38 187 18 165 8 137M182 190c34-31 39-79 16-118M192 178c17-17 27-39 29-63M173 199c29-12 49-34 59-62"/>
+    <path d="M47 78 27 64M42 94 18 84M39 112 13 105M42 132 15 132M49 151 23 159M61 169 38 182M193 78l20-14M198 94l24-10M201 112l26-7M198 132h27M191 151l26 8M179 169l23 13"/>
+    <path d="M120 24v58M88 49h64M74 63l-25 44h50L74 63Zm92 0-25 44h50l-25-44ZM92 112h56M103 100h34M84 124h72"/>
+    <path d="M120 12 114 24h12l-6-12Z" fill="url(#gold)"/>
+  </g>
+  <text x="120" y="176" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="72" font-style="italic" font-weight="700" fill="url(#gold)">FC</text>
+  <path d="M76 204c28 15 60 15 88 0" fill="none" stroke="url(#gold)" stroke-width="4" stroke-linecap="round"/>
+</svg>
