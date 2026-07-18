@@ -9,9 +9,10 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('CHERAGHI_CHILD_VERSION', '1.3.0');
+define('CHERAGHI_CHILD_VERSION', '1.4.0');
 
 require_once get_stylesheet_directory() . '/inc/homepage-hero.php';
+require_once get_stylesheet_directory() . '/inc/homepage-approved.php';
 
 add_action('after_setup_theme', function (): void {
     load_child_theme_textdomain('cheraghi-hello-child', get_stylesheet_directory() . '/languages');
@@ -20,8 +21,8 @@ add_action('after_setup_theme', function (): void {
     add_theme_support('post-thumbnails');
     add_theme_support('responsive-embeds');
     add_theme_support('custom-logo', [
-        'height'      => 180,
-        'width'       => 180,
+        'height'      => 240,
+        'width'       => 240,
         'flex-height' => true,
         'flex-width'  => true,
     ]);
@@ -56,6 +57,13 @@ add_action('wp_enqueue_scripts', function (): void {
             'cheraghi-homepage-hero',
             get_stylesheet_directory_uri() . '/assets/css/homepage-hero.css',
             ['cheraghi-child-style'],
+            CHERAGHI_CHILD_VERSION
+        );
+
+        wp_enqueue_style(
+            'cheraghi-homepage-approved',
+            get_stylesheet_directory_uri() . '/assets/css/homepage-approved.css',
+            ['cheraghi-homepage-hero'],
             CHERAGHI_CHILD_VERSION
         );
     }
