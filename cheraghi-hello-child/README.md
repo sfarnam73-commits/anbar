@@ -11,6 +11,33 @@ A lightweight Hello Elementor child theme prepared for migrating `cheraghilaw.ir
 5. Rebuild templates in Elementor Theme Builder.
 6. Set consultation/payment URLs from **Appearance → Customize → لینک‌های مشاوره چراغی**.
 
+## Homepage Hero
+
+The approved homepage hero is available as a reusable shortcode:
+
+```text
+[cheraghi_home_hero]
+```
+
+In Elementor, add a **Shortcode** widget as the first section of the homepage and paste the shortcode above.
+
+To set Dr. Farzaneh Cheraghi's portrait:
+
+```text
+Appearance → Customize → تصویر بخش اول صفحه اصلی
+```
+
+If no custom portrait is selected, the theme uses the homepage featured image. If neither is available, an elegant FC placeholder is shown.
+
+The hero includes:
+
+- Dr. Farzaneh Cheraghi's name and credentials
+- Online consultation and legal services buttons
+- 1,300+ consultations
+- 5+ years of experience
+- Hamadan Bar membership
+- University teaching experience
+
 ## Publish To GitHub
 
 If you cannot find a download button, publish the project to GitHub and download `dist/cheraghi-hello-child.zip` from there. See `docs/publish-to-github.md`.
