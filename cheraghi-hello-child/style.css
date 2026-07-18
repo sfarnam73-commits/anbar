@@ -4,22 +4,22 @@ Theme URI: https://cheraghilaw.ir/
 Description: Lightweight child theme for Cheraghi Law, built on Hello Elementor for a faster, modern legal website.
 Author: Cheraghi Law
 Template: hello-elementor
-Version: 1.0.0
+Version: 1.2.0
 Text Domain: cheraghi-hello-child
 */
 
 :root {
-  --cl-primary: #4b1f3f;
-  --cl-primary-dark: #2a1024;
-  --cl-accent: #c9a45c;
-  --cl-accent-soft: #f4ead2;
+  --cl-primary: #102a43;
+  --cl-primary-dark: #071a2c;
+  --cl-accent: #c9a35d;
+  --cl-accent-soft: #f5ead4;
   --cl-text: #1f2933;
   --cl-muted: #667085;
   --cl-surface: #ffffff;
-  --cl-surface-soft: #f8f5f0;
+  --cl-surface-soft: #f8f6f1;
   --cl-border: #e7ded3;
   --cl-radius: 18px;
-  --cl-shadow: 0 18px 45px rgba(42, 16, 36, 0.12);
+  --cl-shadow: 0 18px 45px rgba(7, 26, 44, 0.13);
 }
 
 html {
@@ -67,7 +67,7 @@ a:focus {
   color: #fff;
   background: linear-gradient(135deg, var(--cl-primary), var(--cl-primary-dark));
   border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 12px 26px rgba(75, 31, 63, 0.22);
+  box-shadow: 0 12px 26px rgba(7, 26, 44, 0.24);
   font-weight: 700;
   text-decoration: none;
 }
@@ -84,7 +84,7 @@ a:focus {
 .cheraghi-cta--gold {
   color: var(--cl-primary-dark);
   background: linear-gradient(135deg, #f2d48a, var(--cl-accent));
-  box-shadow: 0 12px 26px rgba(201, 164, 92, 0.24);
+  box-shadow: 0 12px 26px rgba(201, 163, 93, 0.24);
 }
 
 .cheraghi-cta--gold:hover,
