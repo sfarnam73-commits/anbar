@@ -1,0 +1,114 @@
+{
+  "name": "Cheraghi Academy V4 - Exam Articles",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "manual-trigger",
+      "name": "Start / Test",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [-900, 0]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {"id":"exam","name":"exam","value":"آزمون وکالت اسکودا ۱۳۹۸","type":"string"},
+            {"id":"booklet","name":"booklet","value":"C","type":"string"},
+            {"id":"articleSize","name":"article_size","value":4,"type":"number"},
+            {"id":"publishMode","name":"publish_mode","value":"draft","type":"string"}
+          ]
+        },
+        "options": {}
+      },
+      "id": "config",
+      "name": "Project Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [-680, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "const subjects = [\n  {name:'حقوق مدنی',from:1,to:20,status:'DONE'},\n  {name:'آیین دادرسی مدنی',from:21,to:40,status:'TODO'},\n  {name:'حقوق تجارت',from:41,to:60,status:'TODO'},\n  {name:'اصول استنباط حقوق اسلامی',from:61,to:80,status:'TODO'},\n  {name:'حقوق جزای عمومی و اختصاصی',from:81,to:100,status:'TODO'},\n  {name:'آیین دادرسی کیفری',from:101,to:120,status:'TODO'}\n];\nconst target = subjects.find(s => s.status !== 'DONE');\nif (!target) return [{json:{status:'ALL_DONE'}}];\nconst batchStart = target.from;\nreturn [{json:{...$json,subject:target.name,q_from:batchStart,q_to:batchStart+3,status:'QUEUED'}}];"
+      },
+      "id": "select-batch",
+      "name": "Select Next 4 Questions",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-450, 0]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {"id":"sourceGate","name":"source_gate","value":"REQUIRED: exact official booklet text + official key + correction check","type":"string"},
+            {"id":"status","name":"status","value":"SOURCE_VERIFICATION_REQUIRED","type":"string"}
+          ]
+        },
+        "options": {}
+      },
+      "id": "source-guard",
+      "name": "SOURCE GUARD Gate",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [-210, 0]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {"id":"analysisSkill","name":"analysis_skill","value":"CHERAGHI-LEGAL-ANALYST","type":"string"},
+            {"id":"requiredSections","name":"required_sections","value":"question, options, answer, legal basis, analysis, wrong options, trap, example, Dr Cheraghi note, golden point","type":"string"}
+          ]
+        },
+        "options": {}
+      },
+      "id": "legal-analysis",
+      "name": "LEGAL ANALYSIS Contract",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [30, 0]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {"id":"seo","name":"seo_tool","value":"Semrush when available","type":"string"},
+            {"id":"qc","name":"qc_skill","value":"CHERAGHI-SEO-QC","type":"string"},
+            {"id":"failClosed","name":"fail_closed","value":true,"type":"boolean"}
+          ]
+        },
+        "options": {}
+      },
+      "id": "seo-qc",
+      "name": "SEO + QC Gate",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [270, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "const required = ['subject','q_from','q_to','source_gate','analysis_skill','qc_skill'];\nconst missing = required.filter(k => $json[k] === undefined || $json[k] === null || $json[k] === '');\nif (missing.length) return [{json:{...$json,status:'NEEDS_REVIEW',missing}}];\nreturn [{json:{...$json,status:'READY_FOR_AGENT_EXECUTION',next_action:'Run source extraction -> legal analysis -> SEO/QC -> create WordPress draft'}}];"
+      },
+      "id": "final-gate",
+      "name": "Fail-Closed Final Gate",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [510, 0]
+    }
+  ],
+  "connections": {
+    "Start / Test": {"main":[[{"node":"Project Config","type":"main","index":0}]]},
+    "Project Config": {"main":[[{"node":"Select Next 4 Questions","type":"main","index":0}]]},
+    "Select Next 4 Questions": {"main":[[{"node":"SOURCE GUARD Gate","type":"main","index":0}]]},
+    "SOURCE GUARD Gate": {"main":[[{"node":"LEGAL ANALYSIS Contract","type":"main","index":0}]]},
+    "LEGAL ANALYSIS Contract": {"main":[[{"node":"SEO + QC Gate","type":"main","index":0}]]},
+    "SEO + QC Gate": {"main":[[{"node":"Fail-Closed Final Gate","type":"main","index":0}]]}
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "active": false,
+  "versionId": "cheraghi-academy-v4-blueprint"
+}
