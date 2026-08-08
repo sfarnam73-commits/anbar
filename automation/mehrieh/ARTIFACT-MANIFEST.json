@@ -1,0 +1,34 @@
+{
+  "version": "9.0.0",
+  "bridge_version": "3.7.0",
+  "score_policy": "Rank Math actual only; no synthetic scores",
+  "article_count": 25,
+  "article_ids": [
+    "mehrieh-006", "mehrieh-007", "mehrieh-008", "mehrieh-009", "mehrieh-010",
+    "mehrieh-011", "mehrieh-012", "mehrieh-013", "mehrieh-014", "mehrieh-015",
+    "mehrieh-016", "mehrieh-017", "mehrieh-018", "mehrieh-019", "mehrieh-020",
+    "mehrieh-021", "mehrieh-022", "mehrieh-023", "mehrieh-024", "mehrieh-025",
+    "mehrieh-026", "mehrieh-027", "mehrieh-028", "mehrieh-029", "mehrieh-030"
+  ],
+  "content": {
+    "word_count_min": 1584,
+    "word_count_max": 2145,
+    "brand_keyword_all": true,
+    "toc_all": true,
+    "generic_padding_markers_present": false
+  },
+  "artifacts": {
+    "CHERAGHILAW-MEHRIEH-ARTICLES-ONLY-REAL-RANKMATH-v9.0.0.json": {
+      "sha256": "0ff8481ad9949199325607580aacf5ad87d83495d3e73b3fa29eea4313c28e7d",
+      "bytes": 803205
+    },
+    "CHERAGHI-CONTENT-BRIDGE-V3-v3.7.0-REAL-RANKMATH.zip": {
+      "sha256": "6ced2e9c1a47cb6a6f886dc8d8b54fe4640266265a5c732c0f760138bfada176",
+      "bytes": 14116
+    },
+    "CHERAGHILAW-MEHRIEH-REAL-RANKMATH-v9.0.0-PACKAGE.zip": {
+      "sha256": "ace5b0c6ba550e0be84ed69975c5d68ae6204f3cd7d4be5c7ea8590435992475",
+      "bytes": 146776
+    }
+  }
+}
