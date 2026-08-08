@@ -1,0 +1,17 @@
+{
+  "exam": "آزمون وکالت اسکودا ۱۳۹۸",
+  "booklet": "C",
+  "article_size": 4,
+  "total_questions": 120,
+  "subjects": [
+    {"name":"حقوق مدنی","from":1,"to":20,"status":"DONE","articles":["1-4","5-8","9-12","13-16","17-20"]},
+    {"name":"آیین دادرسی مدنی","from":21,"to":40,"status":"TODO","articles":["21-24","25-28","29-32","33-36","37-40"]},
+    {"name":"حقوق تجارت","from":41,"to":60,"status":"TODO","articles":["41-44","45-48","49-52","53-56","57-60"]},
+    {"name":"اصول استنباط حقوق اسلامی","from":61,"to":80,"status":"TODO","articles":["61-64","65-68","69-72","73-76","77-80"]},
+    {"name":"حقوق جزای عمومی و اختصاصی","from":81,"to":100,"status":"TODO","articles":["81-84","85-88","89-92","93-96","97-100"]},
+    {"name":"آیین دادرسی کیفری","from":101,"to":120,"status":"TODO","articles":["101-104","105-108","109-112","113-116","117-120"]}
+  ],
+  "special_review_questions": [47,100,106],
+  "default_publish_status": "draft",
+  "quality_policy": "fail_closed"
+}
