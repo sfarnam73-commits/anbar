@@ -1,0 +1,15 @@
+{
+  "exam": "آزمون وکالت اسکودا ۱۳۹۸",
+  "booklet": "C",
+  "subject": "آیین دادرسی مدنی",
+  "question_range": "21-24",
+  "status": "NEEDS_SOURCE_REVIEW",
+  "official_booklet_located": true,
+  "official_key_located": true,
+  "official_corrections_located": true,
+  "exact_question_text_extracted": false,
+  "exact_options_extracted": false,
+  "publish_allowed": false,
+  "reason": "نسخه رسمی دفترچه C و کلید در وب شناسایی شد، اما فایل PDF در محیط قابل خواندن Project/Drive موجود نیست. طبق SOURCE-GUARD، تولید مقاله با بازسازی یا حدس متن سؤال ممنوع است.",
+  "next_action": "Place official booklet C PDF in Project or Google Drive, then extract questions 21-24 exactly and run SOURCE-GUARD."
+}
