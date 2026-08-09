@@ -1,50 +1,98 @@
-# Test Report — v9.0.0 / Bridge 3.7.0
+# Test Report — Workflow v9.0.0 / Bridge 3.7.0
 
-## Static
+تاریخ بازبینی: 2026-08-09
 
-- Workflow JSON parse: PASS
-- n8n node references/connections: PASS
-- JavaScript syntax for all 10 Code nodes (`node --check`): PASS
-- PHP syntax (`php -l`): PASS
-- Malformed n8n expression scan: PASS
+## 1) Workflow
 
-## Article pack
+- JSON parse: **PASS**
+- Nodes: **22**
+- Code nodes: **13**
+- تمام connection target/sourceها موجود: **PASS**
+- JavaScript syntax تمام Code nodeها با `node --check`: **PASS**
+- Cron: `0 10 * * *`: **PASS**
+- Timezone: `Asia/Tehran`: **PASS**
+- Manual mode = `dry_run`: **PASS**
+- Schedule mode = `publish`: **PASS**
+- direct `/wp-json/wp/v2/posts` publish: **ABSENT**
+- score thresholds/gates قدیمی: **ABSENT**
 
-- IDs 006..030 exactly: 25/25 PASS
-- Unique primary focus keyword: 25/25 PASS
-- Synthetic score fields absent: 25/25 PASS
-- Generic `CHERAGHI-RANKMATH-EDITORIAL` padding absent: 25/25 PASS
-- Old `CHERAGHI-SEO-AUTO` padding absent: 25/25 PASS
-- Old theme image path dependency absent: 25/25 PASS
-- Exact phrase `دکتر فرزانه چراغی، وکیل همدان`: 25/25 PASS
-- Rank Math TOC marker: 25/25 PASS
-- Internal links: minimum 2/article PASS
-- External source links: minimum 3/article PASS
-- Visible FAQ covers package FAQ items: PASS
-- Article schema wordCount synchronized with current content: PASS
-- Word count range after removing padding: 1584..2145
+## 2) Article pack embedded in Workflow
 
-## Executed logic tests
+- IDs دقیق `mehrieh-006` تا `mehrieh-030`: **25/25 PASS**
+- Primary Focus Keyword یکتا: **25/25 PASS**
+- عبارت `دکتر فرزانه چراغی، وکیل همدان`: **25/25 PASS**
+- Rank Math focus meta آماده‌شده به صورت `primary,brand`: **25/25 PASS**
+- synthetic score fields در payload: **0**
+- `CHERAGHI-SEO-AUTO`: **0**
+- `CHERAGHI-RANKMATH-EDITORIAL`: **0**
+- dependency به `cheraghi-law-premium/assets/images`: **0**
+- Word count range: **1685 تا 2411**
+- exact primary focus density range: **0.81% تا 1.99%**
+- SEO title starts primary focus: **25/25 PASS**
+- SEO title length <= 65 chars: **25/25 PASS**
+- Meta length 115..158 chars: **25/25 PASS**
+- Rank Math TOC marker: **25/25 PASS**
+- حداقل 2 internal HTML link: **25/25 PASS**
+- حداقل 1 followed external source: **25/25 PASS**
+- FAQ visible text ↔ FAQ payload: **25/25 PASS**
+- Article schema wordCount/description synced: **25/25 PASS**
 
-- Article Preflight JS against every article: 25/25 PASS
-- Bridge status gate with Bridge 3.7 contract: PASS
-- Verify evaluator with Draft response: PASS
-- Verify evaluator with existing Published response: PASS
-- Publish result evaluator with no Rank Math score available: PASS (`PENDING_RANK_MATH_RECALCULATION`)
+## 3) Workflow logic execution
 
-## Executed PHP harness
+با اجرای واقعی JavaScript nodeها در test harness:
 
-A WordPress-like stub harness called the real Bridge methods.
+- Bridge 3.7 valid contract: **PASS**
+- contract با `synthetic_score_gate=true` رد می‌شود: **PASS**
+- انتخاب اولین unpublished از source-of-truth وردپرس: **PASS**
+- Preflight تمام 25 مقاله: **25/25 PASS**
+- Manual Dry Run حتی اگر امروز مقاله منتشر شده باشد فقط مقاله بعدی را بررسی می‌کند: **PASS**
+- Schedule با `published_today=true` انتشار را متوقف می‌کند: **PASS**
+- Queue after 24 published → article 030: **PASS**
+- Queue after 25 published → completed: **PASS**
+- Import evaluator بدون score: **PASS**
+- Verify evaluator بدون readiness score: **PASS**
+- Publish evaluator با `rank_math_seo_score=null`: **PASS**؛ هیچ عدد جایگزین ساخته نمی‌شود.
+- protected Published path terminal: **PASS**
 
-- First Draft publish: PASS
-- Synthetic score gate reported false: PASS
-- Rank Math score remains null when Rank Math has not actually calculated it: PASS
-- Second new article on same local day blocked by `cheraghi_daily_publish_lock`: PASS
-- Retry of the already-published same post is idempotent success: PASS
-- Legacy published post found by exact slug with no article-id: PASS
-- Legacy published title/content remains unchanged: PASS
-- Project article-id is attached so a duplicate is not created on the next queue run: PASS
+## 4) Bridge 3.7 PHP
 
-## Not claimed
+- `php -l`: **PASS**
+- Article slug map ↔ 25 مقاله embedded: **25/25 exact PASS**
+- `rank_math_readiness_audit`: **ABSENT**
+- `prepare_article_for_blog`: **ABSENT**
+- auto focus-summary/media padding builders: **ABSENT**
+- write به `rank_math_seo_score`: **ABSENT**
+- automatic migration/repair of Published posts on activation: **ABSENT**
 
-This is not a live production test against the user's n8n credentials and WordPress database. The final Rank Math number can only be authoritative after Rank Math itself analyzes the post on the live site.
+## 5) WordPress-like execution harness روی خود Bridge
+
+- Status reports `synthetic_score_gate=false`: **PASS**
+- Status reports `rank_math_actual_score_only=true`: **PASS**
+- First article Import → Draft: **PASS**
+- Bridge content mutation after Import: **NONE in harness**
+- Rank Math score fabricated after Import: **NO**
+- Primary + `دکتر فرزانه چراغی، وکیل همدان` stored in Rank Math focus meta: **PASS**
+- Verify Draft: **PASS**
+- First Draft Publish: **PASS**
+- Retry same Published post: **idempotent PASS**
+- Second new article same local day: **BLOCKED PASS**
+- fresh concurrent daily lock: **BLOCKED PASS**
+- stale 15-minute reservation with no published article: **SELF-RECOVERY PASS**
+- real Rank Math write to `rank_math_seo_score=91`: reported as fresh **PASS**
+- existing Rank Math score survives API update but becomes `stale_after_api_write`: **PASS**
+- legacy Published exact slug detected in queue without article meta: **PASS**
+- legacy Published Import: content/title unchanged **PASS**
+- explicit sync attempt on Published: rejected, content unchanged **PASS**
+- clean-state Import + Verify for entire pack: **25/25 PASS**
+- clean-state content equality after Bridge Import: **25/25 PASS**
+
+## 6) مواردی که عمداً ادعا نمی‌شوند
+
+- **Production n8n run:** انجام نشده؛ Credential واقعی n8n/WordPress در این محیط وجود ندارد.
+- **Final Rank Math score:** ادعا نمی‌شود. فقط Rank Math نصب‌شده روی وردپرس می‌تواند عدد نهایی معتبر را پس از تحلیل/ذخیره محاسبه کند.
+- **Focus Keyword in URL:** slugهای انگلیسی قبلی حفظ شده‌اند، بنابراین این تست Rank Math ممکن است Fail بماند.
+- **Media score:** تصویر غیرواقعی برای گرفتن نمره اضافه نشده است؛ امتیاز Media ممکن است کامل نباشد.
+
+## Verdict
+
+نسخه v9.0.0/3.7.0 از نظر تست‌های قابل اجرای خارج از Production، معماری «بدون امتیاز ساختگی + Published protection + یک انتشار روزانه + ARTICLES ONLY» را پاس می‌کند. Merge نهایی باید بعد از یک Dry Run واقعی و سپس یک اجرای Scheduled کنترل‌شده روی محیط واقعی انجام شود.
