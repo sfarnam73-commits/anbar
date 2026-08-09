@@ -48,8 +48,8 @@ Skill `CHERAGHI-LEGAL-ANALYST` را اجرا کن. برای هر سؤال:
 - هیچ نظر شخصی، حکم یا ادعای ساختگی به نام دکتر چراغی تولید نکن.
 - اگر سؤال `NEEDS_LEGAL_REVIEW` است، این بخش تولید نشود.
 
-## 6) Long-form Article
-مقاله را به یک محتوای آکادمی واقعی تبدیل کن، نه پاسخنامه کوتاه.
+## 6) Long-form Article Standard
+مقاله باید یک محتوای آکادمی واقعی و مستقل باشد، نه پاسخنامه کوتاه.
 - H1 طبیعی
 - مقدمه
 - فهرست 4 سؤال
@@ -59,23 +59,39 @@ Skill `CHERAGHI-LEGAL-ANALYST` را اجرا کن. برای هر سؤال:
 - FAQ
 - منابع/مستندات
 
-اصل: «گسترش فقط با افزودن ارزش». از کش‌دادن متن برای رسیدن به تعداد کلمه خودداری کن.
+### Word-count policy
+- هدف استاندارد هر مقاله: 2500 تا 3500 کلمه.
+- حداقل قابل قبول: 2500 کلمه، مگر اینکه افزودن متن بیشتر باعث تکرار یا افت کیفیت شود؛ در این حالت خروجی باید دلیل کوتاه ثبت کند.
+- سقف مصنوعی وجود ندارد؛ اگر تحلیل کامل چهار سؤال به بیش از 3500 کلمه نیاز داشت، گسترش مجاز است.
+- اصل حاکم: «گسترش فقط با افزودن ارزش». پرکردن مقاله با تکرار، عبارت‌های کلی یا پاراگراف‌های بی‌فایده ممنوع است.
 
-## 7) SEO Routing
-اگر Semrush در دسترس است و SEO ارزش افزوده دارد:
-- intent
-- primary keyword
-- related terms
-- content gaps
-- FAQ opportunities
-را بررسی و به شکل طبیعی اعمال کن.
+## 7) SEO Routing — کلیدواژه اختصاصی هر مقاله
+Skill `CHERAGHI-SEO-QC` را اجرا کن.
 
-سپس:
+برای هر بسته 4 سؤالی، قبل از نهایی‌سازی مقاله یک Focus Keyword مستقل انتخاب کن.
+- Focus Keyword دو مقاله در یک دفترچه نباید یکسان باشد.
+- موضوع/بازه سؤال باید در کلیدواژه Long-tail بازتاب داشته باشد.
+- از رقابت داخلی و Keyword Cannibalization جلوگیری کن.
+- اگر Semrush در دسترس است، intent، volume/KD در صورت وجود، related terms، questions و content gap را بررسی کن.
+- اگر Semrush در دسترس نیست، وضعیت `SEO_DATA_LIMITED` ثبت کن؛ هیچ داده Semrush را حدس نزن.
+
+برای مقاله سؤال‌های 21 تا 24 آیین دادرسی مدنی 1398، seed پیشنهادی:
+`تحلیل سوالات ۲۱ تا ۲۴ آیین دادرسی مدنی آزمون وکالت ۱۳۹۸`
+و عبارت گسترده‌تر قابل استفاده در عنوان:
+`تحلیل سوالات آیین دادرسی مدنی آزمون وکالت ۱۳۹۸`
+
+سپس تولید کن:
+- primary/focus keyword یکتا
+- 4 تا 10 related/secondary keywords طبیعی
+- search intent
 - SEO title
 - meta description
 - slug
+- H2/H3 map
+- FAQ opportunities
 - internal-link suggestions
-را آماده کن.
+
+Keyword stuffing ممنوع است. استفاده از کلیدواژه باید طبیعی و تابع خوانایی باشد.
 
 ## 8) Quality Gates
 برای هر سؤال چهار Gate اجرا کن:
@@ -89,12 +105,15 @@ Skill `CHERAGHI-LEGAL-ANALYST` را اجرا کن. برای هر سؤال:
 - NO_DUPLICATION
 - READABILITY
 - SEO_NATURAL
+- UNIQUE_FOCUS_KEYWORD
+- NO_KEYWORD_CANNIBALIZATION
 - DR_CHERAGHI_NOTE_PRESENT
 - ALL_4_QUESTIONS_COMPLETE
 - ARTICLE_SCHEMA_VALID
+- WORD_COUNT_POLICY_PASS
 
 خروجی ساختاری باید با `schemas/article-contract.json` سازگار باشد.
-اگر هر Gate شکست خورد: status = NEEDS_REVIEW و Publish ممنوع.
+اگر هر Gate بحرانی شکست خورد: status = NEEDS_REVIEW و Publish ممنوع.
 
 ## 9) Featured Image Brief
 بعد از قفل نهایی محتوا، Brief تصویر شاخص تولید کن:
@@ -121,5 +140,6 @@ Skill `CHERAGHI-LEGAL-ANALYST` را اجرا کن. برای هر سؤال:
 - NEEDS_SOURCE_REVIEW
 - NEEDS_LEGAL_REVIEW
 - NEEDS_SEO_REVIEW
+- SEO_DATA_LIMITED
 - READY_FOR_APPROVAL
 - PUBLISHED
