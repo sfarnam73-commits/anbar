@@ -1,15 +1,23 @@
 {
   "exam": "آزمون وکالت اسکودا ۱۳۹۸",
   "booklet": "C",
+  "booklet_code": "201 C",
   "article_size": 4,
   "total_questions": 120,
   "loop_mode": "ALL_PENDING_ARTICLES",
   "pending_article_count": 25,
   "processing_policy": "Each non-DONE 4-question range is emitted as an independent n8n item and evaluated fail-closed.",
-  "current_batch": null,
+  "source": {
+    "official_booklet_uploaded_to_project": true,
+    "page_count": 20,
+    "exact_visual_source_available": true,
+    "covers_questions": "1-120",
+    "source_note": "Uploaded C-201 booklet is available in the ChatGPT Project/conversation and visually readable page-by-page. Exact question text/options must be transcribed from this source; no reconstruction from memory is allowed."
+  },
+  "current_batch": {"subject":"آیین دادرسی مدنی","range":"21-24","status":"SOURCE_READY"},
   "subjects": [
     {"name":"حقوق مدنی","from":1,"to":20,"status":"DONE","articles":[{"range":"1-4","status":"DONE"},{"range":"5-8","status":"DONE"},{"range":"9-12","status":"DONE"},{"range":"13-16","status":"DONE"},{"range":"17-20","status":"DONE"}]},
-    {"name":"آیین دادرسی مدنی","from":21,"to":40,"status":"IN_PROGRESS","articles":[{"range":"21-24","status":"NEEDS_SOURCE_REVIEW"},{"range":"25-28","status":"TODO"},{"range":"29-32","status":"TODO"},{"range":"33-36","status":"TODO"},{"range":"37-40","status":"TODO"}]},
+    {"name":"آیین دادرسی مدنی","from":21,"to":40,"status":"IN_PROGRESS","articles":[{"range":"21-24","status":"SOURCE_READY"},{"range":"25-28","status":"TODO"},{"range":"29-32","status":"TODO"},{"range":"33-36","status":"TODO"},{"range":"37-40","status":"TODO"}]},
     {"name":"حقوق تجارت","from":41,"to":60,"status":"TODO","articles":[{"range":"41-44","status":"TODO"},{"range":"45-48","status":"TODO"},{"range":"49-52","status":"TODO"},{"range":"53-56","status":"TODO"},{"range":"57-60","status":"TODO"}]},
     {"name":"اصول استنباط حقوق اسلامی","from":61,"to":80,"status":"TODO","articles":[{"range":"61-64","status":"TODO"},{"range":"65-68","status":"TODO"},{"range":"69-72","status":"TODO"},{"range":"73-76","status":"TODO"},{"range":"77-80","status":"TODO"}]},
     {"name":"حقوق جزای عمومی و اختصاصی","from":81,"to":100,"status":"TODO","articles":[{"range":"81-84","status":"TODO"},{"range":"85-88","status":"TODO"},{"range":"89-92","status":"TODO"},{"range":"93-96","status":"TODO"},{"range":"97-100","status":"TODO"}]},
