@@ -1,18 +1,9 @@
 name: Mehrieh Automation CI
 
+# موقتاً فقط اجرای دستی؛ تا وقتی بسته‌های منبع کامل و سالم روی شاخه قرار نگرفته‌اند.
+# این کار جلوی اجرای ناقص تکراری و ایمیل‌های Fail را می‌گیرد.
 on:
-  pull_request:
-    paths:
-      - 'automation/mehrieh/**'
-      - 'wordpress-plugin/cheraghi-content-bridge-v3/**'
-      - '.github/workflows/mehrieh-automation-ci.yml'
-  push:
-    branches:
-      - 'fix/mehrieh-workflow-rankmath-real'
-    paths:
-      - 'automation/mehrieh/**'
-      - 'wordpress-plugin/cheraghi-content-bridge-v3/**'
-      - '.github/workflows/mehrieh-automation-ci.yml'
+  workflow_dispatch:
 
 jobs:
   validate:
