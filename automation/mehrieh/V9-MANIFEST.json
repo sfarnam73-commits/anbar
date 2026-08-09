@@ -1,0 +1,34 @@
+{
+  "project": "cheraghilaw-mehrieh-articles",
+  "version": "9.0.0",
+  "bridge_version": "3.7.0",
+  "branch": "fix/mehrieh-workflow-rankmath-real",
+  "workflow": {
+    "path": "automation/mehrieh/CHERAGHILAW-MEHRIEH-ARTICLES-ONLY-REAL-RANKMATH-v9.0.0.json",
+    "sha256": "0e4e423e0d04da330926a72687c93cfc4f3196aa38307f09bb61b03705ea88e7"
+  },
+  "bridge": {
+    "path": "wordpress-plugin/cheraghi-content-bridge-v3/cheraghi-content-bridge-v3.php",
+    "sha256": "bec81506529ddf7dbe60899e0d92d5d37b9ec9cdcae0b9818aadc53a21330e41"
+  },
+  "scope": {
+    "article_ids": "mehrieh-006..mehrieh-030",
+    "post_type": "post",
+    "content_hub": "articles",
+    "categories": ["legal-articles", "family-mahrieh"],
+    "academy_forbidden": true
+  },
+  "seo_policy": {
+    "synthetic_score": false,
+    "rank_math_score": "actual-stored-or-null",
+    "brand_secondary_focus_keyword": "دکتر فرزانه چراغی، وکیل همدان"
+  },
+  "publish_policy": {
+    "manual_trigger": "dry-run-no-write",
+    "schedule": "10:00 Asia/Tehran",
+    "max_new_posts_per_wordpress_local_day": 1,
+    "published_overwrite_default": false,
+    "concurrency_lock": true
+  },
+  "merge_policy": "keep PR draft until exact-source CI passes and controlled production smoke test passes"
+}

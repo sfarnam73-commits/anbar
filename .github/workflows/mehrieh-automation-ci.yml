@@ -1,0 +1,36 @@
+name: Mehrieh Automation CI
+
+# موقتاً فقط اجرای دستی؛ تا وقتی بسته‌های منبع کامل و سالم روی شاخه قرار نگرفته‌اند.
+# این کار جلوی اجرای ناقص تکراری و ایمیل‌های Fail را می‌گیرد.
+on:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reconstruct exact reviewed sources
+        run: python3 automation/mehrieh/tests/prepare_sources.py
+      - name: PHP syntax
+        run: php -l wordpress-plugin/cheraghi-content-bridge-v3/cheraghi-content-bridge-v3.php
+      - name: Static workflow/content validation
+        run: python3 automation/mehrieh/tests/validate.py
+      - name: Workflow logic tests
+        run: node automation/mehrieh/tests/workflow_logic.js
+      - name: Bridge WordPress-like harness
+        run: php automation/mehrieh/tests/bridge_harness.php
+      - name: Build production artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          cp automation/mehrieh/CHERAGHILAW-MEHRIEH-ARTICLES-ONLY-REAL-RANKMATH-v9.0.0.json dist/
+          (cd wordpress-plugin && zip -qr ../dist/CHERAGHI-CONTENT-BRIDGE-V3-v3.7.0.zip cheraghi-content-bridge-v3 -x 'cheraghi-content-bridge-v3/*.gz.b64')
+          sha256sum dist/* > dist/SHA256SUMS.txt
+      - name: Upload tested production files
+        uses: actions/upload-artifact@v4
+        with:
+          name: cheraghi-mehrieh-v9.0.0-production-files
+          path: dist/*
+          if-no-files-found: error
