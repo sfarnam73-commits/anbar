@@ -12,21 +12,25 @@ description: تولید، تحلیل، کنترل و آماده‌سازی مق�
 - فایل وضعیت آزمون را بخوان.
 - اولین بسته 4 سؤالی با وضعیت TODO یا NEEDS_REVIEW را انتخاب کن.
 - بسته‌های DONE را بدون درخواست صریح بازنویسی نکن.
+- اگر current_batch وجود دارد، همان را ادامه بده.
 
-## 2) Source Guard
+## 2) Source Guard — اجباری
+- Skill `CHERAGHI-SOURCE-GUARD` را اجرا کن.
 - متن سؤال و گزینه‌ها را فقط از فایل رسمی/اصلی استخراج کن.
 - شماره سؤال، گزینه، پاسخ یا ماده را از حافظه حدس نزن.
+- وجود منبع در وب به‌تنهایی کافی نیست؛ متن دقیق باید در دسترس pipeline باشد.
 - اگر منبع ناقص/مبهم است: STOP = NEEDS_SOURCE_REVIEW.
 
 ## 3) Answer Key Verification
 - کلید رسمی آزمون و اصلاحیه‌های رسمی را بررسی کن.
 - در صورت تعارض، اصلاحیه رسمی مقدم است.
+- اصلاحیه‌های دفترچه C سال ۱۳۹۸ از state خوانده شوند؛ دست‌نویس یا حافظه مقدم نیست.
 - اگر پاسخ رسمی محل اختلاف است، اختلاف را شفاف ثبت کن و Final نده تا بررسی شود.
 
 ## 4) Legal Analysis
-برای هر سؤال:
+Skill `CHERAGHI-LEGAL-ANALYST` را اجرا کن. برای هر سؤال:
 1. متن دقیق سؤال
-2. گزینه‌ها
+2. چهار گزینه
 3. پاسخ صحیح
 4. مبنای قانونی/اصولی
 5. تحلیل مرحله‌به‌مرحله
@@ -36,19 +40,20 @@ description: تولید، تحلیل، کنترل و آماده‌سازی مق�
 9. نکته دکتر چراغی
 10. نکته طلایی آزمون
 
-### نکته دکتر چراغی
+## 5) Dr Cheraghi Note
+پس از تأیید تحلیل، Skill `CHERAGHI-DR-NOTE` اجرا شود.
 - 2 تا 5 جمله.
 - ساده، کاربردی و آموزشی.
 - تکرار تحلیل رسمی نباشد.
 - هیچ نظر شخصی، حکم یا ادعای ساختگی به نام دکتر چراغی تولید نکن.
-- فقط از تحلیل حقوقی تأییدشده نتیجه‌گیری آموزشی کن.
+- اگر سؤال `NEEDS_LEGAL_REVIEW` است، این بخش تولید نشود.
 
-## 5) Long-form Article
+## 6) Long-form Article
 مقاله را به یک محتوای آکادمی واقعی تبدیل کن، نه پاسخنامه کوتاه.
 - H1 طبیعی
 - مقدمه
 - فهرست 4 سؤال
-- چهار بخش تحلیلی
+- چهار بخش تحلیلی کامل
 - جمع‌بندی
 - نکات مرور سریع
 - FAQ
@@ -56,7 +61,7 @@ description: تولید، تحلیل، کنترل و آماده‌سازی مق�
 
 اصل: «گسترش فقط با افزودن ارزش». از کش‌دادن متن برای رسیدن به تعداد کلمه خودداری کن.
 
-## 6) SEO Routing
+## 7) SEO Routing
 اگر Semrush در دسترس است و SEO ارزش افزوده دارد:
 - intent
 - primary keyword
@@ -72,7 +77,7 @@ description: تولید، تحلیل، کنترل و آماده‌سازی مق�
 - internal-link suggestions
 را آماده کن.
 
-## 7) Quality Gates
+## 8) Quality Gates
 برای هر سؤال چهار Gate اجرا کن:
 - SOURCE_MATCH
 - KEY_MATCH
@@ -86,28 +91,32 @@ description: تولید، تحلیل، کنترل و آماده‌سازی مق�
 - SEO_NATURAL
 - DR_CHERAGHI_NOTE_PRESENT
 - ALL_4_QUESTIONS_COMPLETE
+- ARTICLE_SCHEMA_VALID
 
+خروجی ساختاری باید با `schemas/article-contract.json` سازگار باشد.
 اگر هر Gate شکست خورد: status = NEEDS_REVIEW و Publish ممنوع.
 
-## 8) Featured Image Brief
+## 9) Featured Image Brief
 بعد از قفل نهایی محتوا، Brief تصویر شاخص تولید کن:
 - فقط عنوان مقاله روی تصویر مگر کاربر خلافش را بخواهد.
 - هویت بصری حقوقی چراغی.
 - بدون متن توضیحی اضافه.
 
-## 9) Publish Policy
+## 10) Publish Policy
 پیش‌فرض: DRAFT.
 فقط با تأیید صریح یا Rule تأییدشده پروژه به APPROVED/PUBLISHED تغییر بده.
+حداقل 5 مقاله متوالی باید تمام Gateها را پاس کنند تا پیشنهاد فعال‌سازی Publish خودکار مطرح شود.
 
-## 10) Tool Routing
+## 11) Tool Routing
 - Drive/Files = source truth
-- Web = laws, official corrections, current verification
+- Web = قوانین، اصلاحیه رسمی و verification
 - Semrush = SEO intelligence
 - Canva/Image = featured image
-- GitHub/Codex = workflow/plugin code, version control, testing
+- GitHub/Codex = workflow/plugin code, version control, tests
+- n8n = orchestration فقط؛ منبع حقیقت یا نویسنده حقوقی نیست
 
 ## Output Status
-در پایان یکی از این وضعیت‌ها را برگردان:
+در پایان فقط یکی از این وضعیت‌ها معتبر است:
 - FINAL_DRAFT
 - NEEDS_SOURCE_REVIEW
 - NEEDS_LEGAL_REVIEW
