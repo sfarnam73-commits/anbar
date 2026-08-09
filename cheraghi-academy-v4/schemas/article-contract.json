@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Cheraghi Academy Article Contract",
+  "type": "object",
+  "required": ["exam","booklet","subject","question_range","questions","seo","qc_status","publish_status"],
+  "properties": {
+    "exam": {"type":"string"},
+    "booklet": {"type":"string"},
+    "subject": {"type":"string"},
+    "question_range": {"type":"string"},
+    "questions": {
+      "type":"array",
+      "minItems":4,
+      "maxItems":4,
+      "items": {
+        "type":"object",
+        "required":["number","text","options","official_key","legal_basis","analysis","wrong_options","trap","example","dr_cheraghi_note","golden_point","source_refs"],
+        "properties": {
+          "number":{"type":"integer"},
+          "text":{"type":"string","minLength":1},
+          "options":{"type":"array","minItems":4,"maxItems":4,"items":{"type":"string"}},
+          "official_key":{"type":["integer","array"]},
+          "correction_status":{"type":"string"},
+          "legal_basis":{"type":"array","minItems":1,"items":{"type":"string"}},
+          "analysis":{"type":"string","minLength":100},
+          "wrong_options":{"type":"array","minItems":3,"maxItems":3,"items":{"type":"object","required":["option","reason"]}},
+          "trap":{"type":"string"},
+          "example":{"type":"string"},
+          "dr_cheraghi_note":{"type":"string"},
+          "golden_point":{"type":"string"},
+          "source_refs":{"type":"array","minItems":1,"items":{"type":"string"}},
+          "gates": {
+            "type":"object",
+            "required":["source_match","key_match","legal_support","logic_consistency"],
+            "properties": {
+              "source_match":{"const":true},
+              "key_match":{"const":true},
+              "legal_support":{"const":true},
+              "logic_consistency":{"const":true}
+            }
+          }
+        }
+      }
+    },
+    "seo": {
+      "type":"object",
+      "required":["title","meta_description","slug","intent","primary_keyword"],
+      "properties": {
+        "title":{"type":"string"},
+        "meta_description":{"type":"string"},
+        "slug":{"type":"string"},
+        "intent":{"type":"string"},
+        "primary_keyword":{"type":"string"},
+        "related_terms":{"type":"array","items":{"type":"string"}},
+        "internal_links":{"type":"array","items":{"type":"string"}}
+      }
+    },
+    "qc_status":{"enum":["NEEDS_SOURCE_REVIEW","NEEDS_LEGAL_REVIEW","NEEDS_SEO_REVIEW","READY_FOR_APPROVAL"]},
+    "publish_status":{"enum":["draft","approved","published"]}
+  }
+}
