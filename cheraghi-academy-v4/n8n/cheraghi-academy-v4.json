@@ -1,197 +1,59 @@
 {
   "name": "Cheraghi Academy V4 - Full Loop Exam Articles",
   "nodes": [
-    {
-      "parameters": {},
-      "id": "manual-trigger",
-      "name": "Start / Test",
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [-1200, 0]
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {"id":"exam","name":"exam","value":"آزمون وکالت اسکودا ۱۳۹۸","type":"string"},
-            {"id":"booklet","name":"booklet","value":"C","type":"string"},
-            {"id":"articleSize","name":"article_size","value":4,"type":"number"},
-            {"id":"publishMode","name":"publish_mode","value":"draft","type":"string"},
-            {"id":"loopMode","name":"loop_mode","value":"ALL_PENDING_ARTICLES","type":"string"}
-          ]
-        },
-        "options": {}
-      },
-      "id": "config",
-      "name": "Project Config",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [-1000, 0]
-    },
-    {
-      "parameters": {
-        "jsCode": "const subjects = [\n  {name:'حقوق مدنی',from:1,to:20,status:'DONE'},\n  {name:'آیین دادرسی مدنی',from:21,to:40,status:'IN_PROGRESS'},\n  {name:'حقوق تجارت',from:41,to:60,status:'TODO'},\n  {name:'اصول استنباط حقوق اسلامی',from:61,to:80,status:'TODO'},\n  {name:'حقوق جزای عمومی و اختصاصی',from:81,to:100,status:'TODO'},\n  {name:'آیین دادرسی کیفری',from:101,to:120,status:'TODO'}\n];\nconst corrections = {47:{accepted_options:[1,3]},100:{accepted_options:[1,3]},106:{accepted_options:[1]}};\nconst out = [];\nlet articleIndex = 0;\nfor (const s of subjects) {\n  if (s.status === 'DONE') continue;\n  for (let start=s.from; start<=s.to; start+=4) {\n    const end = Math.min(start+3,s.to);\n    articleIndex++;\n    const special = [];\n    for (let q=start;q<=end;q++) if (corrections[q]) special.push({question:q,...corrections[q]});\n    out.push({json:{...$json,article_index:articleIndex,subject:s.name,q_from:start,q_to:end,question_range:`${start}-${end}`,batch_id:`1398-C-${start}-${end}`,special_corrections:special,status:'QUEUED'}});\n  }\n}\nreturn out;"
-      },
-      "id": "build-all-batches",
-      "name": "Build All Pending 4-Question Batches",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [-780, 0]
-    },
-    {
-      "parameters": {},
-      "id": "source-hook",
-      "name": "Source Payload Hook - CONNECT DRIVE/PDF",
-      "type": "n8n-nodes-base.noOp",
-      "typeVersion": 1,
-      "position": [-560, 0]
-    },
-    {
-      "parameters": {
-        "jsCode": "const j=$json;\nconst questions=Array.isArray(j.questions)?j.questions:[];\nconst exact=questions.length===4 && questions.every(q=>q && Number.isInteger(q.number) && typeof q.text==='string' && q.text.trim() && Array.isArray(q.options) && q.options.length===4 && q.options.every(x=>typeof x==='string'&&x.trim()) && q.official_key!==undefined && Array.isArray(q.source_refs) && q.source_refs.length>0);\nif(!exact){\n  return [{json:{...j,source_verified:false,status:'NEEDS_SOURCE_REVIEW',publish_allowed:false,block_reason:'Exact 4 questions/options/key/source_refs not available. Connect official PDF extraction before legal analysis.'}}];\n}\nreturn [{json:{...j,source_verified:true,status:'SOURCE_VERIFIED'}}];"
-      },
-      "id": "source-guard",
-      "name": "SOURCE GUARD - Fail Closed",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [-340, 0]
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "boolean": [
-            {"value1":"={{$json.source_verified}}","operation":"isTrue"}
-          ]
-        }
-      },
-      "id": "source-if",
-      "name": "Source Verified?",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
-      "position": [-120, 0]
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {"id":"analysisSkill","name":"analysis_skill","value":"CHERAGHI-LEGAL-ANALYST","type":"string"},
-            {"id":"drNoteSkill","name":"dr_note_skill","value":"CHERAGHI-DR-NOTE","type":"string"},
-            {"id":"requiredSections","name":"required_sections","value":"question, options, answer, legal basis, analysis, wrong options, trap, example, Dr Cheraghi note, golden point","type":"string"}
-          ]
-        },
-        "options": {}
-      },
-      "id": "legal-contract",
-      "name": "LEGAL ANALYSIS + DR NOTE Contract",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [100, -100]
-    },
-    {
-      "parameters": {},
-      "id": "agent-hook",
-      "name": "Legal Agent Hook - CONNECT CHATGPT/CODEX",
-      "type": "n8n-nodes-base.noOp",
-      "typeVersion": 1,
-      "position": [320, -100]
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {"id":"seoTool","name":"seo_tool","value":"Semrush when available","type":"string"},
-            {"id":"qcSkill","name":"qc_skill","value":"CHERAGHI-SEO-QC","type":"string"},
-            {"id":"schema","name":"article_schema","value":"schemas/article-contract.json","type":"string"},
-            {"id":"failClosed","name":"fail_closed","value":true,"type":"boolean"}
-          ]
-        },
-        "options": {}
-      },
-      "id": "seo-qc-contract",
-      "name": "SEO + QC Contract",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [540, -100]
-    },
-    {
-      "parameters": {},
-      "id": "seo-hook",
-      "name": "Semrush Hook - OPTIONAL",
-      "type": "n8n-nodes-base.noOp",
-      "typeVersion": 1,
-      "position": [760, -100]
-    },
-    {
-      "parameters": {
-        "jsCode": "const j=$json;\nconst qs=Array.isArray(j.questions)?j.questions:[];\nconst qPass=qs.length===4 && qs.every(q=>q && q.analysis && q.legal_basis && q.wrong_options && q.wrong_options.length===3 && q.trap && q.example && q.dr_cheraghi_note && q.golden_point && q.gates?.source_match===true && q.gates?.key_match===true && q.gates?.legal_support===true && q.gates?.logic_consistency===true);\nconst seoPass=!!(j.seo?.title && j.seo?.meta_description && j.seo?.slug && j.seo?.intent && j.seo?.primary_keyword);\nif(!qPass || !seoPass){\n return [{json:{...j,qc_passed:false,status:'NEEDS_REVIEW',publish_allowed:false,block_reason:!qPass?'Legal/article contract failed':'SEO contract failed'}}];\n}\nreturn [{json:{...j,qc_passed:true,status:'READY_FOR_DRAFT',publish_allowed:true,source_status:'verified',qc_status:'passed'}}];"
-      },
-      "id": "qc-gate",
-      "name": "FINAL QC - Fail Closed",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [980, -100]
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "boolean": [
-            {"value1":"={{$json.publish_allowed}}","operation":"isTrue"}
-          ]
-        }
-      },
-      "id": "draft-if",
-      "name": "Ready for Draft?",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
-      "position": [1200, -100]
-    },
-    {
-      "parameters": {},
-      "id": "wordpress-hook",
-      "name": "WordPress Draft Hook - CONNECT BRIDGE V4",
-      "type": "n8n-nodes-base.noOp",
-      "typeVersion": 1,
-      "position": [1420, -200]
-    },
-    {
-      "parameters": {
-        "jsCode": "return items.map(i=>({json:{...i.json,final_status:i.json.publish_allowed?'DRAFT_READY':(i.json.status||'BLOCKED'),completed_at:new Date().toISOString()}}));"
-      },
-      "id": "result",
-      "name": "Per-Article Result",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [1640, -40]
-    },
-    {
-      "parameters": {
-        "jsCode": "const all=$input.all();\nconst counts={total:all.length,draft_ready:0,blocked:0,source_review:0,needs_review:0};\nfor(const i of all){const s=i.json.final_status||i.json.status; if(s==='DRAFT_READY')counts.draft_ready++; else counts.blocked++; if(s==='NEEDS_SOURCE_REVIEW')counts.source_review++; if(s==='NEEDS_REVIEW')counts.needs_review++;}\nreturn [{json:{workflow:'Cheraghi Academy V4 Full Loop',...counts,loop_complete:true,note:'Each pending four-question article was processed as an independent n8n item. Blocked items remain fail-closed and do not prevent other batches from being evaluated.'}}];"
-      },
-      "id": "summary",
-      "name": "Loop Summary",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [1860, -40]
-    }
+    {"parameters":{},"id":"manual-trigger","name":"Start / Test","type":"n8n-nodes-base.manualTrigger","typeVersion":1,"position":[-1200,0]},
+    {"parameters":{"assignments":{"assignments":[
+      {"id":"exam","name":"exam","value":"آزمون وکالت اسکودا ۱۳۹۸","type":"string"},
+      {"id":"booklet","name":"booklet","value":"C","type":"string"},
+      {"id":"articleSize","name":"article_size","value":4,"type":"number"},
+      {"id":"minWords","name":"min_words","value":2500,"type":"number"},
+      {"id":"targetMaxWords","name":"target_max_words","value":3500,"type":"number"},
+      {"id":"publishMode","name":"publish_mode","value":"draft","type":"string"},
+      {"id":"loopMode","name":"loop_mode","value":"ALL_PENDING_ARTICLES","type":"string"}
+    ]},"options":{}},"id":"config","name":"Project Config","type":"n8n-nodes-base.set","typeVersion":3.4,"position":[-1000,0]},
+    {"parameters":{"jsCode":"const subjects=[{name:'حقوق مدنی',from:1,to:20,status:'DONE'},{name:'آیین دادرسی مدنی',from:21,to:40,status:'IN_PROGRESS'},{name:'حقوق تجارت',from:41,to:60,status:'TODO'},{name:'اصول استنباط حقوق اسلامی',from:61,to:80,status:'TODO'},{name:'حقوق جزای عمومی و اختصاصی',from:81,to:100,status:'TODO'},{name:'آیین دادرسی کیفری',from:101,to:120,status:'TODO'}]; const corrections={47:{accepted_options:[1,3]},100:{accepted_options:[1,3]},106:{accepted_options:[1]}}; const out=[]; let articleIndex=0; for(const s of subjects){ if(s.status==='DONE')continue; for(let start=s.from;start<=s.to;start+=4){const end=Math.min(start+3,s.to);articleIndex++;const special=[];for(let q=start;q<=end;q++)if(corrections[q])special.push({question:q,...corrections[q]});const focusSeed=`تحلیل سوالات ${start} تا ${end} ${s.name} آزمون وکالت ۱۳۹۸`;out.push({json:{...$json,article_index:articleIndex,subject:s.name,q_from:start,q_to:end,question_range:`${start}-${end}`,batch_id:`1398-C-${start}-${end}`,focus_keyword_seed:focusSeed,special_corrections:special,status:'QUEUED'}});} } return out;"},"id":"build-all-batches","name":"Build All Pending 4-Question Batches","type":"n8n-nodes-base.code","typeVersion":2,"position":[-780,0]},
+    {"parameters":{},"id":"source-hook","name":"Source Payload Hook - CONNECT DRIVE/PDF","type":"n8n-nodes-base.noOp","typeVersion":1,"position":[-560,0]},
+    {"parameters":{"jsCode":"const j=$json;const questions=Array.isArray(j.questions)?j.questions:[];const exact=questions.length===4&&questions.every(q=>q&&Number.isInteger(q.number)&&typeof q.text==='string'&&q.text.trim()&&Array.isArray(q.options)&&q.options.length===4&&q.options.every(x=>typeof x==='string'&&x.trim())&&q.official_key!==undefined&&Array.isArray(q.source_refs)&&q.source_refs.length>0);if(!exact)return[{json:{...j,source_verified:false,status:'NEEDS_SOURCE_REVIEW',publish_allowed:false,block_reason:'Exact 4 questions/options/key/source_refs not available.'}}];return[{json:{...j,source_verified:true,status:'SOURCE_VERIFIED'}}];"},"id":"source-guard","name":"SOURCE GUARD - Fail Closed","type":"n8n-nodes-base.code","typeVersion":2,"position":[-340,0]},
+    {"parameters":{"conditions":{"boolean":[{"value1":"={{$json.source_verified}}","operation":"isTrue"}]}},"id":"source-if","name":"Source Verified?","type":"n8n-nodes-base.if","typeVersion":2.2,"position":[-120,0]},
+    {"parameters":{"assignments":{"assignments":[
+      {"id":"analysisSkill","name":"analysis_skill","value":"CHERAGHI-LEGAL-ANALYST","type":"string"},
+      {"id":"drNoteSkill","name":"dr_note_skill","value":"CHERAGHI-DR-NOTE","type":"string"},
+      {"id":"requiredSections","name":"required_sections","value":"question, options, answer, legal basis, analysis, wrong options, trap, example, Dr Cheraghi note, golden point","type":"string"}
+    ]},"options":{}},"id":"legal-contract","name":"LEGAL ANALYSIS + DR NOTE Contract","type":"n8n-nodes-base.set","typeVersion":3.4,"position":[100,-100]},
+    {"parameters":{},"id":"agent-hook","name":"Legal Agent Hook - CONNECT CHATGPT/CODEX","type":"n8n-nodes-base.noOp","typeVersion":1,"position":[320,-100]},
+    {"parameters":{"assignments":{"assignments":[
+      {"id":"seoTool","name":"seo_tool","value":"Semrush when available","type":"string"},
+      {"id":"qcSkill","name":"qc_skill","value":"CHERAGHI-SEO-QC","type":"string"},
+      {"id":"schema","name":"article_schema","value":"schemas/article-contract.json","type":"string"},
+      {"id":"focusUnique","name":"require_unique_focus_keyword","value":true,"type":"boolean"},
+      {"id":"noCannibal","name":"require_no_keyword_cannibalization","value":true,"type":"boolean"},
+      {"id":"failClosed","name":"fail_closed","value":true,"type":"boolean"}
+    ]},"options":{}},"id":"seo-qc-contract","name":"SEO + QC Contract","type":"n8n-nodes-base.set","typeVersion":3.4,"position":[540,-100]},
+    {"parameters":{},"id":"seo-hook","name":"Semrush Hook - OPTIONAL","type":"n8n-nodes-base.noOp","typeVersion":1,"position":[760,-100]},
+    {"parameters":{"jsCode":"const j=$json;const qs=Array.isArray(j.questions)?j.questions:[];const qPass=qs.length===4&&qs.every(q=>q&&q.analysis&&q.legal_basis&&q.wrong_options&&q.wrong_options.length===3&&q.trap&&q.example&&q.dr_cheraghi_note&&q.golden_point&&q.gates?.source_match===true&&q.gates?.key_match===true&&q.gates?.legal_support===true&&q.gates?.logic_consistency===true);const seoPass=!!(j.seo?.title&&j.seo?.meta_description&&j.seo?.slug&&j.seo?.intent&&j.seo?.primary_keyword);const wc=Number(j.word_count||0);const wordPass=wc>=Number(j.min_words||2500)||j.word_count_exception===true;const keywordPass=j.seo?.unique_focus_keyword!==false&&j.seo?.keyword_cannibalization!==true;if(!qPass||!seoPass||!wordPass||!keywordPass){let reason=!qPass?'Legal/article contract failed':!seoPass?'SEO contract failed':!wordPass?'Word-count policy failed':'Keyword uniqueness/cannibalization gate failed';return[{json:{...j,qc_passed:false,status:'NEEDS_REVIEW',publish_allowed:false,block_reason:reason}}];}return[{json:{...j,qc_passed:true,status:j.seo_data_status==='SEO_DATA_LIMITED'?'SEO_DATA_LIMITED':'READY_FOR_DRAFT',publish_allowed:j.seo_data_status!=='SEO_DATA_LIMITED',source_status:'verified',qc_status:'passed'}}];"},"id":"qc-gate","name":"FINAL QC - Fail Closed","type":"n8n-nodes-base.code","typeVersion":2,"position":[980,-100]},
+    {"parameters":{"conditions":{"boolean":[{"value1":"={{$json.publish_allowed}}","operation":"isTrue"}]}},"id":"draft-if","name":"Ready for Draft?","type":"n8n-nodes-base.if","typeVersion":2.2,"position":[1200,-100]},
+    {"parameters":{},"id":"wordpress-hook","name":"WordPress Draft Hook - CONNECT BRIDGE V4","type":"n8n-nodes-base.noOp","typeVersion":1,"position":[1420,-200]},
+    {"parameters":{"jsCode":"return items.map(i=>({json:{...i.json,final_status:i.json.publish_allowed?'DRAFT_READY':(i.json.status||'BLOCKED'),completed_at:new Date().toISOString()}}));"},"id":"result","name":"Per-Article Result","type":"n8n-nodes-base.code","typeVersion":2,"position":[1640,-40]},
+    {"parameters":{"jsCode":"const all=$input.all();const counts={total:all.length,draft_ready:0,blocked:0,source_review:0,needs_review:0,seo_data_limited:0};for(const i of all){const s=i.json.final_status||i.json.status;if(s==='DRAFT_READY')counts.draft_ready++;else counts.blocked++;if(s==='NEEDS_SOURCE_REVIEW')counts.source_review++;if(s==='NEEDS_REVIEW')counts.needs_review++;if(s==='SEO_DATA_LIMITED')counts.seo_data_limited++;}return[{json:{workflow:'Cheraghi Academy V4 Full Loop',...counts,loop_complete:true,note:'Each pending four-question article is processed independently with source, legal, word-count, unique-keyword, SEO and draft gates.'}}];"},"id":"summary","name":"Loop Summary","type":"n8n-nodes-base.code","typeVersion":2,"position":[1860,-40]}
   ],
-  "connections": {
-    "Start / Test": {"main":[[{"node":"Project Config","type":"main","index":0}]]},
-    "Project Config": {"main":[[{"node":"Build All Pending 4-Question Batches","type":"main","index":0}]]},
-    "Build All Pending 4-Question Batches": {"main":[[{"node":"Source Payload Hook - CONNECT DRIVE/PDF","type":"main","index":0}]]},
-    "Source Payload Hook - CONNECT DRIVE/PDF": {"main":[[{"node":"SOURCE GUARD - Fail Closed","type":"main","index":0}]]},
-    "SOURCE GUARD - Fail Closed": {"main":[[{"node":"Source Verified?","type":"main","index":0}]]},
-    "Source Verified?": {"main":[[{"node":"LEGAL ANALYSIS + DR NOTE Contract","type":"main","index":0}],[{"node":"Per-Article Result","type":"main","index":0}]]},
-    "LEGAL ANALYSIS + DR NOTE Contract": {"main":[[{"node":"Legal Agent Hook - CONNECT CHATGPT/CODEX","type":"main","index":0}]]},
-    "Legal Agent Hook - CONNECT CHATGPT/CODEX": {"main":[[{"node":"SEO + QC Contract","type":"main","index":0}]]},
-    "SEO + QC Contract": {"main":[[{"node":"Semrush Hook - OPTIONAL","type":"main","index":0}]]},
-    "Semrush Hook - OPTIONAL": {"main":[[{"node":"FINAL QC - Fail Closed","type":"main","index":0}]]},
-    "FINAL QC - Fail Closed": {"main":[[{"node":"Ready for Draft?","type":"main","index":0}]]},
-    "Ready for Draft?": {"main":[[{"node":"WordPress Draft Hook - CONNECT BRIDGE V4","type":"main","index":0}],[{"node":"Per-Article Result","type":"main","index":0}]]},
-    "WordPress Draft Hook - CONNECT BRIDGE V4": {"main":[[{"node":"Per-Article Result","type":"main","index":0}]]},
-    "Per-Article Result": {"main":[[{"node":"Loop Summary","type":"main","index":0}]]}
+  "connections":{
+    "Start / Test":{"main":[[{"node":"Project Config","type":"main","index":0}]]},
+    "Project Config":{"main":[[{"node":"Build All Pending 4-Question Batches","type":"main","index":0}]]},
+    "Build All Pending 4-Question Batches":{"main":[[{"node":"Source Payload Hook - CONNECT DRIVE/PDF","type":"main","index":0}]]},
+    "Source Payload Hook - CONNECT DRIVE/PDF":{"main":[[{"node":"SOURCE GUARD - Fail Closed","type":"main","index":0}]]},
+    "SOURCE GUARD - Fail Closed":{"main":[[{"node":"Source Verified?","type":"main","index":0}]]},
+    "Source Verified?":{"main":[[{"node":"LEGAL ANALYSIS + DR NOTE Contract","type":"main","index":0}],[{"node":"Per-Article Result","type":"main","index":0}]]},
+    "LEGAL ANALYSIS + DR NOTE Contract":{"main":[[{"node":"Legal Agent Hook - CONNECT CHATGPT/CODEX","type":"main","index":0}]]},
+    "Legal Agent Hook - CONNECT CHATGPT/CODEX":{"main":[[{"node":"SEO + QC Contract","type":"main","index":0}]]},
+    "SEO + QC Contract":{"main":[[{"node":"Semrush Hook - OPTIONAL","type":"main","index":0}]]},
+    "Semrush Hook - OPTIONAL":{"main":[[{"node":"FINAL QC - Fail Closed","type":"main","index":0}]]},
+    "FINAL QC - Fail Closed":{"main":[[{"node":"Ready for Draft?","type":"main","index":0}]]},
+    "Ready for Draft?":{"main":[[{"node":"WordPress Draft Hook - CONNECT BRIDGE V4","type":"main","index":0}],[{"node":"Per-Article Result","type":"main","index":0}]]},
+    "WordPress Draft Hook - CONNECT BRIDGE V4":{"main":[[{"node":"Per-Article Result","type":"main","index":0}]]},
+    "Per-Article Result":{"main":[[{"node":"Loop Summary","type":"main","index":0}]]}
   },
-  "pinData": {},
-  "settings": {"executionOrder":"v1"},
-  "active": false,
-  "versionId": "cheraghi-academy-v4-full-loop"
+  "pinData":{},
+  "settings":{"executionOrder":"v1"},
+  "active":false,
+  "versionId":"cheraghi-academy-v4-full-loop-seo-wordcount"
 }
