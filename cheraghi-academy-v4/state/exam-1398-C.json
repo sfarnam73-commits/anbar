@@ -3,13 +3,10 @@
   "booklet": "C",
   "article_size": 4,
   "total_questions": 120,
-  "current_batch": {
-    "subject": "آیین دادرسی مدنی",
-    "range": "21-24",
-    "status": "NEEDS_SOURCE_REVIEW",
-    "source_pdf_identified": true,
-    "exact_text_available_to_pipeline": false
-  },
+  "loop_mode": "ALL_PENDING_ARTICLES",
+  "pending_article_count": 25,
+  "processing_policy": "Each non-DONE 4-question range is emitted as an independent n8n item and evaluated fail-closed.",
+  "current_batch": null,
   "subjects": [
     {"name":"حقوق مدنی","from":1,"to":20,"status":"DONE","articles":[{"range":"1-4","status":"DONE"},{"range":"5-8","status":"DONE"},{"range":"9-12","status":"DONE"},{"range":"13-16","status":"DONE"},{"range":"17-20","status":"DONE"}]},
     {"name":"آیین دادرسی مدنی","from":21,"to":40,"status":"IN_PROGRESS","articles":[{"range":"21-24","status":"NEEDS_SOURCE_REVIEW"},{"range":"25-28","status":"TODO"},{"range":"29-32","status":"TODO"},{"range":"33-36","status":"TODO"},{"range":"37-40","status":"TODO"}]},
