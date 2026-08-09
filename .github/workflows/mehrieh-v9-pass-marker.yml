@@ -1,0 +1,39 @@
+name: Mehrieh v9 CI Pass Marker
+
+on:
+  workflow_run:
+    workflows: ['Mehrieh v9 Exact Source CI']
+    types: [completed]
+
+permissions:
+  contents: write
+
+jobs:
+  mark-pass:
+    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'fix/mehrieh-workflow-rankmath-real'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout verified branch
+        uses: actions/checkout@v4
+        with:
+          ref: fix/mehrieh-workflow-rankmath-real
+
+      - name: Write auditable pass marker
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ci-status
+          cat > ci-status/mehrieh-v9-exact-ci-pass.txt <<EOF
+          status=PASS
+          workflow=Mehrieh v9 Exact Source CI
+          verified_run_sha=${{ github.event.workflow_run.head_sha }}
+          workflow_sha256=0e4e423e0d04da330926a72687c93cfc4f3196aa38307f09bb61b03705ea88e7
+          bridge_php_sha256=bec81506529ddf7dbe60899e0d92d5d37b9ec9cdcae0b9818aadc53a21330e41
+          note=This marker is created only after exact checksum + lint + static + workflow logic + Bridge harness tests all pass.
+          EOF
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add ci-status/mehrieh-v9-exact-ci-pass.txt
+          git diff --cached --quiet && exit 0
+          git commit -m 'ci: mark Mehrieh v9 exact-source tests passed [skip ci]'
+          git push origin HEAD:fix/mehrieh-workflow-rankmath-real
