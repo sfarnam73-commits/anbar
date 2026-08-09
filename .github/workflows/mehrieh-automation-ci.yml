@@ -1,0 +1,29 @@
+name: Mehrieh Automation CI
+
+on:
+  pull_request:
+    paths:
+      - 'automation/mehrieh/**'
+      - 'wordpress-plugin/cheraghi-content-bridge-v3/**'
+      - '.github/workflows/mehrieh-automation-ci.yml'
+  push:
+    branches:
+      - 'fix/mehrieh-workflow-rankmath-real'
+    paths:
+      - 'automation/mehrieh/**'
+      - 'wordpress-plugin/cheraghi-content-bridge-v3/**'
+      - '.github/workflows/mehrieh-automation-ci.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: PHP syntax
+        run: php -l wordpress-plugin/cheraghi-content-bridge-v3/cheraghi-content-bridge-v3.php
+      - name: Static workflow/content validation
+        run: python3 automation/mehrieh/tests/validate.py
+      - name: Workflow logic tests
+        run: node automation/mehrieh/tests/workflow_logic.js
+      - name: Bridge WordPress-like harness
+        run: php automation/mehrieh/tests/bridge_harness.php
